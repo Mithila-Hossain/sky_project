@@ -2,15 +2,160 @@
 
 {% block content %}
 
-<div class="text-center py-5">
+<style>
+    /* Sky Gradient Quick Action Cards */
+    .quick-card {
+        background: linear-gradient(135deg, #0d6efd, #4da3ff);
+        color: white;
+        border-radius: 12px;
+        transition: 0.2s ease;
+    }
 
-    <h1 class="fw-bold text-primary mb-4">Welcome to Sky Project</h1>
+    .quick-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        cursor: pointer;
+    }
 
-    <p class="lead mb-5">
-        Select a section from the navigation bar to explore Teams, Organization, Messages, Reports, or Schedule.
-    </p>
+    .quick-card p {
+        color: rgba(255,255,255,0.9);
+    }
 
-    <a href="{% url 'team_list' %}" class="btn btn-lg btn-primary">Go to Teams</a>
+    /* Clickable Cards */
+    .clickable-card {
+        transition: 0.2s ease;
+        border-radius: 12px;
+    }
+
+    .clickable-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        cursor: pointer;
+    }
+
+    /* Recent Activities */
+    .activity-row {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 15px;
+    }
+
+    .activity-row:last-child {
+        border-bottom: none;
+    }
+
+    .activity-time {
+        font-size: 13px;
+        color: #6c757d;
+        margin-top: 2px;
+    }
+</style>
+
+<div class="container">
+
+    <!-- Welcome Header -->
+    <h2 class="fw-bold mb-3">Welcome, User!</h2>
+
+    <!-- Search Bar -->
+    <div class="mb-4">
+        <input type="text" class="form-control form-control-lg" placeholder="Search teams, departments, or managers...">
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+
+        <div class="col-md-4 mb-3">
+            <a href="/teams/" class="text-decoration-none text-white">
+                <div class="card quick-card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Find a Team</h5>
+                        <p class="card-text">Search and filter through all the teams.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a href="/organisation/" class="text-decoration-none text-white">
+                <div class="card quick-card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">View Map</h5>
+                        <p class="card-text">Explore hierarchies and dependencies.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a href="/messaging/" class="text-decoration-none text-white">
+                <div class="card quick-card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Contact Teams</h5>
+                        <p class="card-text">Quick access to team communication.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Recently Visited Teams -->
+    <h4 class="fw-bold mb-3">Recently Visited Teams</h4>
+
+    <div class="row mb-4">
+
+        <div class="col-md-4 mb-3">
+            <a href="/teams/" class="text-decoration-none text-dark">
+                <div class="card shadow-sm h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Frontend Development</h5>
+                        <p class="card-text text-muted">Manager: Alex Thompson</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a href="/teams/" class="text-decoration-none text-dark">
+                <div class="card shadow-sm h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Backend Services</h5>
+                        <p class="card-text text-muted">Manager: Emily Chen</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a href="/teams/" class="text-decoration-none text-dark">
+                <div class="card shadow-sm h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Security Team</h5>
+                        <p class="card-text text-muted">Manager: David Park</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Recent Activities -->
+    <h4 class="fw-bold mb-3">Recent Activities</h4>
+
+    <div class="activity-row">
+        <div><strong>New team created:</strong> Cloud Infrastructure</div>
+        <div class="activity-time">2 hours ago</div>
+    </div>
+
+    <div class="activity-row">
+        <div><strong>Frontend Development</strong> updated their dependencies</div>
+        <div class="activity-time">5 hours ago</div>
+    </div>
+
+    <div class="activity-row">
+        <div><strong>New member added</strong> to Backend Services</div>
+        <div class="activity-time">1 day ago</div>
+    </div>
 
 </div>
 
