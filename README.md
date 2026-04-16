@@ -31,7 +31,7 @@ This repository contains the full Django project setup, including all apps, sett
    python manage.py runserver
 
 ## Notes
-- Only work on your own assigned app/feature so we don’t overwrite each other’s code on the main branch.
+- Only work on your own assigned feature so we don’t overwrite each other’s code on the main branch.
 - Do not push `venv/` or `db.sqlite3` — they are already ignored.
 - Always run `git pull` before pushing your changes.
 - After pulling, push your updates using `git push`.
