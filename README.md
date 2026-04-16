@@ -32,4 +32,3 @@ This repository contains the full Django project setup, including all apps, sett
 
 ## Notes
 - Do not push venv or db.sqlite3
-- Work on your own branch, not on main
