@@ -15,6 +15,8 @@ class Team(models.Model):
     project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
+    skills = models.TextField(blank=True)
+    
     def __str__(self):
         return self.name
 

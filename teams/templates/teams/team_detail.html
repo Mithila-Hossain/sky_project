@@ -19,6 +19,20 @@
         </div>
     </div>
 
+    <!-- Skills -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="fw-semibold">Key Skills & Technologies</h4>
+            
+            {% if team.skills %}
+                <p>{{ team.skills }}</p>
+            {% else %}
+                <p class="text-muted">No skills listed.</p>
+            {% endif %}
+        </div>
+    </div>
+
+
     <!-- Members -->
     <div class="card shadow-sm mb-4">
         <div class="card-body">
