@@ -5,8 +5,9 @@
 
 <div class="container py-5">
 
-    <h1 class="mb-4 text-primary fw-bold">Teams Directory</h1>
+    <h1 class="mb-4 text-primary fw-bold">Team Directory</h1>
 
+    <!-- Search Bar -->
     <form method="GET" class="mb-4">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Search teams..." value="{{ search_query }}">
@@ -14,18 +15,46 @@
         </div>
     </form>
 
+    <!-- Team List -->
     <div class="card shadow-sm">
         <div class="card-body">
 
             {% if teams %}
                 <ul class="list-group">
+
                     {% for team in teams %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span class="fw-semibold">{{ team.name }}</span>
-                            <a href="{% url 'team_detail' team.id %}" class="btn btn-sm btn-outline-primary">View</a>
+
+                            <div>
+                                <div class="fw-bold">{{ team.name }}</div>
+
+                                <div class="text-muted" style="font-size: 14px;">
+                                    Leader: 
+                                    {% if team.team_leader %}
+                                        {{ team.team_leader.username }}
+                                    {% else %}
+                                        Not assigned
+                                    {% endif %}
+                                </div>
+
+                                <div class="text-muted" style="font-size: 14px;">
+                                    Department: {{ team.department.name }}
+                                </div>
+
+                                <div class="text-muted" style="font-size: 14px;">
+                                    Status: {{ team.status }}
+                                </div>
+                            </div>
+
+                            <a href="{% url 'team_detail' team.id %}" class="btn btn-outline-primary btn-sm">
+                                View
+                            </a>
+
                         </li>
                     {% endfor %}
+
                 </ul>
+
             {% else %}
                 <p class="text-muted">No teams found.</p>
             {% endif %}
