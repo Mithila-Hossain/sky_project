@@ -11,9 +11,12 @@ def team_list(request):
     search_query = request.GET.get('search', '')
 
     if search_query:
-        teams = Team.objects.filter(name__icontains=search_query)
+        teams = Team.objects.filter(
+            name__icontains=search_query,
+            is_visible=True
+        )
     else:
-        teams = Team.objects.all()
+        teams = Team.objects.filter(is_visible=True)
 
     return render(request, 'teams/team_list.html', {
         'teams': teams,
