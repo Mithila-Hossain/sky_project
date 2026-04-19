@@ -1,0 +1,15 @@
+<h2>Inbox</h2>
+
+{% if messages %}
+    <ul>
+    {% for msg in messages %}
+        <li>
+            {{ msg.timeStamp }} | 
+            From: {{ msg.sender.username }} | 
+            {{ msg.subject }} - {{ msg.body }}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No messages yet</p>
+{% endif %}
