@@ -22,7 +22,6 @@ from . import views
 urlpatterns = [
     path("", views.home, name="home"),  # Homepage
     path("admin/", admin.site.urls),
-    path('messaging/', include('messaging.urls')),
     
 
     # App URLs
