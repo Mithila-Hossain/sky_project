@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Sky Project Messaging</title>
+
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #f2f2f2;
+            height: 100vh;
+            padding: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #ddd;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* Dropdown menu for messages */
+        .menu {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .menu-content {
+            display: none;
+            position: absolute;
+            background: #fff;
+            border: 1px solid #ccc;
+            min-width: 120px;
+            z-index: 10;
+        }
+
+        .menu-content a {
+            display: block;
+            padding: 5px;
+            text-decoration: none;
+            color: rgb(114, 7, 7);
+        }
+
+        .menu-content a:hover {
+            background-color: #eee;
+        }
+
+        .menu:hover .menu-content {
+            display: block;
+        }
+    </style>
+
+
+</head>
+
+
+
+
+
+<body>
+
+    <div class="sidebar">
+        <ul>
+
+            <li>Dashboard</li>
+            <li>Team Management</li>
+            <li>Organisation</li>
+            <li>Messages</li>
+            <li>Schedule</li>
+            <li>Reports</li>
+            <li>Visualisation</li>
+
+        </ul>
+
+    </div>
+
+
+    <div class="main-content">
+
+        <div class="menu">
+
+            <button>Messages▼ </button>
+            <div class="menu-content">
+                <a href="?view=inbox"> Inbox </a>
+                <a href="?view=send"> New Message </a>
+                <a href="?view=sent"> Sent </a>
+                <a href="?view=draft"> Drafts </a>
+
+            </div>
+        </div>
+
+
+
+
+        <!-- Main content area -->
+        {% if view_type == 'inbox' %}
+        <h2>Inbox</h2>
+        {% if messages %}
+        <ul>
+            {% for msg in messages %}
+            <li>{{ msg.timeStamp }} | From: {{ msg.sender.username }} | {{ msg.subject }} - {{ msg.body }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No messages yet</p>
+        {% endif %}
+        {% elif view_type == 'send' %}
+        <h2>Send Message</h2>
+        <form method="post">{% csrf_token %}
+            <input type="text" name="subject" placeholder="Subject" required><br><br>
+            <textarea name="body" placeholder="Message" required></textarea><br><br>
+            <label>Send To:</label><br>
+            <select name="receiver" required>
+                {% for user in users %}
+                <option value="{{ user.username }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Send</button>
+        </form>
+        {% elif view_type == 'sent' %}
+        <h2>Sent Messages</h2>
+        {% if sent_messages %}
+        <ul>
+            {% for msg in sent_messages %}
+            <li>{{ msg.timeStamp }} | To: {{ msg.receiver.username }} | {{ msg.subject }} - {{ msg.body }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No sent messages</p>
+        {% endif %}
+        {% elif view_type == 'draft' %}
+        <h2>Drafts</h2>
+        <p>(Optional: Draft messages can appear here)</p>
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>
