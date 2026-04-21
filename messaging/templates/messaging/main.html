@@ -39,27 +39,52 @@
             padding: 20px;
         }
 
+        .search-box {
+            width: 100%;
+            padding: 8px;
+            border-radius: 10px;
+            height: 20px;
+            background: rgba(248, 240, 248, 0.25);
+
+        }
+
+        .search-form {
+            flex: 1;
+
+            /* THIS makes it stretch nicely */
+        }
+
+        .search-box::placeholder {
+            color: rgb(252, 252, 252);
+        }
+
+
         /* Dropdown menu for messages */
         .menu {
             display: inline-block;
             position: relative;
-            margin-bottom: 20px;
+            padding: 3%;
         }
 
         .menu-content {
             display: none;
-            position: absolute;
             background: #fff;
             border: 1px solid #ccc;
             min-width: 120px;
-            z-index: 10;
+            position: absolute;
+            top: 100%;
+            right: 0;
+
+
         }
 
         .menu-content a {
             display: block;
-            padding: 5px;
+            padding: 7px;
             text-decoration: none;
-            color: rgb(114, 7, 7);
+            color: rgb(3, 25, 74);
+            background-color: #afd2f5;
+
         }
 
         .menu-content a:hover {
@@ -68,6 +93,57 @@
 
         .menu:hover .menu-content {
             display: block;
+        }
+
+        /* Top bar */
+        .topbar {
+            background: linear-gradient(90deg, #f81d37, #1e6db2);
+            padding: 15px;
+            border-radius: 10px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+       
+        .topbar input {
+            padding: 8px;
+            border-radius: 10px;
+            border: none;
+            width: 95%;
+
+        }
+
+        /* Message cards */
+        .message-card {
+            background: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+        }
+
+        .message-card:hover {
+            background: #f9f9f9;
+        }
+
+        /* Buttons */
+        button {
+            background: #e0c8e1;
+            color: linear;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            height: 35px;
+            background: rgba(197, 215, 248, 0.25);
+
+
+        }
+
+        button:hover {
+            background: #afd2f5;
+
         }
     </style>
 
@@ -94,22 +170,31 @@
         </ul>
 
     </div>
-
-
     <div class="main-content">
 
-        <div class="menu">
+        <div class="topbar">
 
-            <button>Messages▼ </button>
-            <div class="menu-content">
-                <a href="?view=inbox"> Inbox </a>
-                <a href="?view=send"> New Message </a>
-                <a href="?view=sent"> Sent </a>
-                <a href="?view=draft"> Drafts </a>
+            <form method="GET" class="search-form">
+                <input type="hidden" name="view" value="{{ view_type }}">
+                <input type="text" name="q" placeholder=" 🔍Search..." class="search-box">
+            </form>
 
+            <a href="?view=send">
+                <button> Send </button>
+            </a>
+
+            <div class="menu">
+
+                <button>☰ </button>
+                <div class="menu-content">
+                    <a href="?view=inbox"> Inbox </a>
+                    <a href="?view=send"> New Message </a>
+                    <a href="?view=sent"> Sent </a>
+                    <a href="?view=draft"> Drafts </a>
+
+                </div>
             </div>
         </div>
-
 
 
 

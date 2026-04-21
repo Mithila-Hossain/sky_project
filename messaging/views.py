@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect #render → show HTML page/     redirect → move to another page
-from django.contrib.auth.models import User   #User → Django users
-from .models import Message   #Message → your model (database table)
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from .models import Message
 
 
 def messaging_main(request):
     view = request.GET.get('view', 'inbox')
+    query = request.GET.get('q')  # 🔥 NEW (search input)
 
     # Handle sending message
     if request.method == 'POST':
@@ -21,22 +22,37 @@ def messaging_main(request):
         )
         return redirect('/messaging/?view=inbox')
 
-    # Prepare context
     context = {
         'view_type': view,
-        'users': User.objects.all()
+        'users': User.objects.all(),
+        'query': query 
     }
 
     if view == 'inbox':
-        context['messages'] = Message.objects.filter(receiver=request.user).order_by('-timeStamp')
+        messages = Message.objects.filter(receiver=request.user)
+
+        if query:
+            messages = messages.filter(
+                subject__icontains=query
+            ) | messages.filter(
+                body__icontains=query
+            )
+
+        context['messages'] = messages.order_by('-timeStamp')
+
     elif view == 'sent':
-        context['sent_messages'] = Message.objects.filter(sender=request.user).order_by('-timeStamp')
+        sent = Message.objects.filter(sender=request.user)
+
+        if query:
+            sent = sent.filter(
+                subject__icontains=query
+            ) | sent.filter(
+                body__icontains=query
+            )
+
+        context['sent_messages'] = sent.order_by('-timeStamp')
 
     return render(request, 'messaging/main.html', context)
-
-
-
-
 
 
 # # To send a message
