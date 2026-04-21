@@ -3,9 +3,20 @@
 {% block content %}
 
 <style>
+    :root {
+    --sky-blue: #00AEEF;          /* Primary Sky Blue */
+    --deep-sky-blue: #0078D4;     /* Deep Sky Blue */
+    --navy-blue: #003B70;         /* Headings */
+    --cloud-white: #F5F9FF;       /* Soft background */
+    --soft-grey: #E6ECF5;         /* Light grey */
+    --gradient-sky: linear-gradient(135deg, #00AEEF, #0078D4);
+    }
+
+
     /* Sky Gradient Quick Action Cards */
     .quick-card {
-        background: linear-gradient(135deg, #0d6efd, #4da3ff);
+        /*background: linear-gradient(135deg, #0d6efd, #4da3ff);*/
+        background: var(--gradient-sky);
         color: white;
         border-radius: 12px;
         transition: 0.2s ease;
@@ -23,6 +34,8 @@
 
     /* Clickable Cards */
     .clickable-card {
+        background-color: var(--cloud-white);
+        border: 1px solid var(--sky-blue);
         transition: 0.2s ease;
         border-radius: 12px;
     }
@@ -40,8 +53,9 @@
         font-size: 15px;
     }
 
-    .activity-row:last-child {
-        border-bottom: none;
+    .activity-row {
+         padding: 8px 0;
+         border-bottom: 1px solid var(--soft-grey);
     }
 
     .activity-time {
@@ -49,9 +63,25 @@
         color: #6c757d;
         margin-top: 2px;
     }
+
+    h2, h4, h5 {
+    color: var(--navy-blue);
+    }
+
+    .form-control-lg {
+        border: 2px solid var(--deep-sky-blue);
+    }
+
+    .form-control-lg:focus {
+        border-color: var(--sky-blue);
+        box-shadow: 0 0 0 0.2rem rgba(0, 174, 239, 0.25);
+    }
+
+
 </style>
 
-<div class="container">
+<div class="container py-5" style="background-color: var(--cloud-white); border-radius: 12px;">
+
 
     <!-- Welcome Header -->
     <h2 class="fw-bold mb-3">Welcome, User!</h2>

@@ -9,29 +9,45 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        :root {
+            --aqua: #4DD0E1;
+            --sky-blue: #00AEEF;
+            --deep-blue: #0078D4;
+            --soft-purple: #9C6ADE;
+            --deep-purple: #6A4FBF;
+            
+            --cloud-white: #F5F9FF;
+            --soft-grey: #E6ECF5;
+    
+            --gradient-aqua-blue: linear-gradient(135deg, #4DD0E1, #00AEEF);
+            --gradient-blue-purple: linear-gradient(135deg, #00AEEF, #9C6ADE);
+            --gradient-aqua-purple: linear-gradient(135deg, #4DD0E1, #6A4FBF);
+        }
+    
         body {
             display: flex;
             min-height: 100vh;
             margin: 0;
-            background-color: #f8f9fa;
+            background-color: var(--cloud-white);
         }
-
+    
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background-color: #0d6efd;
+            background: var(--gradient-blue-purple); /* Updated */
             color: white;
             padding: 20px 15px;
             position: fixed;
             top: 0;
             bottom: 0;
         }
-
+    
         .sidebar h3 {
             font-weight: bold;
             margin-bottom: 30px;
+            color: white;
         }
-
+    
         .sidebar a {
             display: block;
             padding: 12px;
@@ -41,11 +57,11 @@
             margin-bottom: 10px;
             font-size: 16px;
         }
-
+    
         .sidebar a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background: var(--gradient-aqua-blue); /* Aqua hover */
         }
-
+    
         /* Main content */
         .content {
             margin-left: 260px;
@@ -53,6 +69,7 @@
             width: 100%;
         }
     </style>
+    
 </head>
 
 <body>
