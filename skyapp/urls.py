@@ -28,7 +28,7 @@ urlpatterns = [
     path("teams/", include("teams.urls")),
     path("organisation/", include("organisation.urls")),
     path("messaging/", include("messaging.urls")),    # Messages page
-    #path("schedule/", include("schedule.urls")),
+    path("schedule/", include("schedule.urls")),
     path("reports/", include("reports.urls")),
     path("visualisation/", include("visualisation.urls")),
 
