@@ -9,5 +9,7 @@ class Message(models.Model):
     timeStamp = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, default="Sent")
 
+    is_draft = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.subject} → {self.receiver.username}"
