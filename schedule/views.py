@@ -6,16 +6,15 @@ from teams.models import Meeting, Team
 
 def schedule_page(request):
     meetings = Meeting.objects.all().order_by("date_time")
-    upcoming_meetings = Meeting.objects.filter(
-        date_time__gte=timezone.now()
-    ).order_by("date_time")[:5]
+    upcoming_meetings = meetings[:5]
     teams = Team.objects.all()
 
     return render(request, "schedule/schedule_page.html", {
         "meetings": meetings,
         "upcoming_meetings": upcoming_meetings,
         "teams": teams,
-        "page_title": "All Meetings"
+        "page_title": "All Meetings",
+        "calendar_title": "All Schedule"
     })
 
 
@@ -27,16 +26,15 @@ def weekly_schedule(request):
         date_time__range=[today, week_later]
     ).order_by("date_time")
 
-    upcoming_meetings = Meeting.objects.filter(
-        date_time__gte=timezone.now()
-    ).order_by("date_time")[:5]
+    upcoming_meetings = meetings[:5]
     teams = Team.objects.all()
 
     return render(request, "schedule/schedule_page.html", {
         "meetings": meetings,
         "upcoming_meetings": upcoming_meetings,
         "teams": teams,
-        "page_title": "Weekly Schedule"
+        "page_title": "Weekly Schedule",
+        "calendar_title": "This Week"
     })
 
 
@@ -48,16 +46,15 @@ def monthly_schedule(request):
         date_time__range=[today, month_later]
     ).order_by("date_time")
 
-    upcoming_meetings = Meeting.objects.filter(
-        date_time__gte=timezone.now()
-    ).order_by("date_time")[:5]
+    upcoming_meetings = meetings[:5]
     teams = Team.objects.all()
 
     return render(request, "schedule/schedule_page.html", {
         "meetings": meetings,
         "upcoming_meetings": upcoming_meetings,
         "teams": teams,
-        "page_title": "Monthly Schedule"
+        "page_title": "Monthly Schedule",
+        "calendar_title": "This Month"
     })
 
 
@@ -73,7 +70,8 @@ def upcoming_schedule(request):
         "meetings": meetings,
         "upcoming_meetings": upcoming_meetings,
         "teams": teams,
-        "page_title": "Upcoming Schedule"
+        "page_title": "Upcoming Schedule",
+        "calendar_title": "Upcoming Meetings"
     })
 
 

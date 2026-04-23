@@ -95,6 +95,17 @@
         color: #6b7280;
     }
 
+    .calendar-cell strong {
+        color: #111827;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .calendar-cell small {
+        color: #374151;
+        font-size: 0.8rem;
+    }
+
     .glow-button {
         display: inline-block;
         margin-top: 20px;
@@ -230,7 +241,7 @@
         <section>
             <div class="card-box">
                 <div class="calendar-header">
-                    <h2>April 2026</h2>
+                    <h2>{{ calendar_title }}</h2>
                 </div>
 
                 <div class="calendar-grid">
@@ -242,13 +253,14 @@
                     <div class="calendar-day-name">Fri</div>
                     <div class="calendar-day-name">Sat</div>
 
-                    <div class="calendar-cell">30</div>
-                    <div class="calendar-cell"></div>
-                    <div class="calendar-cell"></div>
-                    <div class="calendar-cell"></div>
-                    <div class="calendar-cell"></div>
-                    <div class="calendar-cell"></div>
-                    <div class="calendar-cell"></div>
+                    {% for meeting in meetings|slice:":7" %}
+                        <div class="calendar-cell">
+                            <strong>{{ meeting.date_time|date:"j" }}</strong>
+                            <small>{{ meeting.team.name }}</small>
+                        </div>
+                    {% empty %}
+                        <div class="calendar-cell">No meetings</div>
+                    {% endfor %}
                 </div>
             </div>
 
