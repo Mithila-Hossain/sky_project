@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from .models import Message
 
 
@@ -11,14 +12,20 @@ def messaging_main(request):
     if request.method == 'POST':
         subject = request.POST.get('subject')
         body = request.POST.get('body')
-        receiver_username = request.POST.get('receiver')
-        receiver = User.objects.get(username=receiver_username)
+        receiver_id = request.POST.get('receiver')
+        receiver = User.objects.filter(id=receiver_id).first()
 
+        if not receiver:
+            receiver = request.user   # fallback → send to yourself
+            
+ 
+        action = request.POST.get('action', 'send')
         Message.objects.create(
             subject=subject,
             body=body,
             sender=request.user,
-            receiver=receiver
+            receiver=receiver,
+            is_draft=(action == 'draft')
         )
         return redirect('/messaging/?view=inbox')
 
@@ -28,8 +35,23 @@ def messaging_main(request):
         'query': query 
     }
 
+
+    page_templates = {
+
+        'inbox': 'messaging/inbox.html',
+        'send': 'messaging/sendMessage.html',
+        'sent': 'messaging/sent.html',
+        'draft': 'messaging/draft.html',
+
+    }
+
+    context['template_name'] = page_templates.get(view, 'messaging/inbox.html')
+
     if view == 'inbox':
-        messages = Message.objects.filter(receiver=request.user)
+        messages = Message.objects.filter(
+            receiver=request.user,
+            is_draft=False
+            )
 
         if query:
             messages = messages.filter(
@@ -41,7 +63,10 @@ def messaging_main(request):
         context['messages'] = messages.order_by('-timeStamp')
 
     elif view == 'sent':
-        sent = Message.objects.filter(sender=request.user)
+        sent = Message.objects.filter(
+            sender=request.user,
+            is_draft=False
+            )
 
         if query:
             sent = sent.filter(
@@ -52,7 +77,21 @@ def messaging_main(request):
 
         context['sent_messages'] = sent.order_by('-timeStamp')
 
+        
+    elif view == 'draft':
+        context['draft_messages'] = Message.objects.filter(
+            sender=request.user,
+            is_draft=True
+       
+        ).order_by('-timeStamp')
+
+
+
     return render(request, 'messaging/main.html', context)
+
+
+
+
 
 
 # # To send a message

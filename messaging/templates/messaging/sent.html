@@ -1,0 +1,42 @@
+{% elif view_type == 'sent' %}
+        <h2>Sent Messages</h2>
+
+        {% if sent_messages %}
+        {% for msg in sent_messages %}
+        <div class="message-card" onclick="showMessage(this)">
+
+
+            <div class="message-header">
+                <div>
+                    <strong>{{ msg.subject }}</strong><br>
+                    To: {{ msg.receiver.username }}
+                </div>
+                <div>
+                    <span class="star" onclick="starMessage(event, this)">☆</span>
+                    <span class="date">{{ msg.timeStamp }}</span>
+                </div>
+            </div>
+
+
+
+
+
+            <p class="message-preview">
+                {{ msg.body|truncatechars:50 }}
+            </p>
+
+            <p class="message-full" style="display:none;">
+                {{ msg.body }}
+            </p>
+
+
+
+
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No sent messages</p>
+        {% endif %}
+
+
+
