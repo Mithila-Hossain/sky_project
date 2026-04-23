@@ -19,6 +19,8 @@
         border: 1px solid var(--soft-grey);
         padding: 20px;
         transition: 0.2s ease;
+        position: relative;
+
     }
 
     .team-card:hover {
@@ -79,6 +81,8 @@
         border-radius: 8px;
         padding: 6px 14px;
         font-size: 14px;
+        position: relative;
+        z-index: 10;
     }
 
     .btn-contact:hover {
@@ -86,70 +90,70 @@
         color: white;
     }
     /* Modern Search Bar */
-.search-wrapper {
-    position: relative;
-}
+    .search-wrapper {
+        position: relative;
+    }
+    .search-input {
+        height: 58px;
+        padding-left: 55px;
+        font-size: 17px;
+        border-radius: 14px;
+        border: 2px solid var(--soft-grey);
+        background: white;
+        transition: 0.25s ease;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    .search-input:focus {
+        border-color: var(--sky-blue);
+        box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.18);
+        outline: none;
+    }
+    
+    /* Search Icon */
+    .search-icon {
+        position: absolute;
+        top: 50%;
+        left: 18px;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: var(--deep-sky-blue);
+        opacity: 0.8;
+    }
+    /* Filter + Sort Dropdowns */
+    .filter-select {
+        height: 58px;
+        font-size: 17px;
+        border-radius: 14px;
+        border: 2px solid var(--soft-grey);
+        background: white;
+        padding: 0 18px;
+        transition: 0.25s ease;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    .filter-select:focus {
+        border-color: var(--sky-blue);
+        box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.18);
+        outline: none;
+    }
 
-.search-input {
-    height: 58px;
-    padding-left: 55px;
-    font-size: 17px;
-    border-radius: 14px;
-    border: 2px solid var(--soft-grey);
-    background: white;
-    transition: 0.25s ease;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-}
+    /* Dropdown wrapper for icon */
 
-.search-input:focus {
-    border-color: var(--sky-blue);
-    box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.18);
-    outline: none;
-}
+    .dropdown-wrapper {
+        position: relative;
+    }
 
-/* Search Icon */
-.search-icon {
-    position: absolute;
-    top: 50%;
-    left: 18px;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: var(--deep-sky-blue);
-    opacity: 0.8;
-}
-/* Filter + Sort Dropdowns */
-.filter-select {
-    height: 58px;
-    font-size: 17px;
-    border-radius: 14px;
-    border: 2px solid var(--soft-grey);
-    background: white;
-    padding: 0 18px;
-    transition: 0.25s ease;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-}
 
-.filter-select:focus {
-    border-color: var(--sky-blue);
-    box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.18);
-    outline: none;
-}
-/* Dropdown wrapper for icon */
-.dropdown-wrapper {
-    position: relative;
-}
-
-/* Dropdown icon */
-.dropdown-icon {
-    position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: var(--deep-sky-blue);
-    pointer-events: none;
-    opacity: 0.7;
-}
+    /* Dropdown icon */
+    .dropdown-icon {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: var(--deep-sky-blue);
+        pointer-events: none;
+        opacity: 0.7;
+    }
 
 
 </style>

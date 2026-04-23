@@ -9,10 +9,14 @@ from organisation.models import Department
 
 @login_required
 def team_list(request):
-    teams = Team.objects.all()
+    teams = Team.objects.filter(
+        upstream_dependencies__isnull=False,
+        downstream_dependencies__isnull=False
+    ).distinct()
+
     departments = Department.objects.all()
 
-    search = request.GET.get("search")
+    search = request.GET.get("search", "")
     department = request.GET.get("department")
     sort = request.GET.get("sort")
 
