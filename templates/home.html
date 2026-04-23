@@ -84,7 +84,15 @@
 
 
     <!-- Welcome Header -->
-    <h2 class="fw-bold mb-3">Welcome, User!</h2>
+    <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 24px; border-bottom: none !important;">
+        <h2 class="fw-bold mb-0" style="color: var(--navy-blue);">Welcome, {{ user.first_name|default:user.username }}!</h2>
+    
+        <a href="/profile/" class="btn btn-outline-primary btn-sm" style="border-radius: 20px;">
+            My Profile
+        </a>
+    </div>
+    
+    
 
     <!-- Search Bar -->
     <div class="mb-4">

@@ -4,23 +4,35 @@ from django.contrib import messages
 from .models import Team, TeamMember, Dependency, ContactChannel, Meeting
 from messaging.models import Message
 from django.utils import timezone
+from organisation.models import Department 
 
 
 @login_required
 def team_list(request):
-    search_query = request.GET.get('search', '')
+    teams = Team.objects.all()
+    departments = Department.objects.all()
 
-    if search_query:
-        teams = Team.objects.filter(
-            name__icontains=search_query,
-            is_visible=True
-        )
-    else:
-        teams = Team.objects.filter(is_visible=True)
+    search = request.GET.get("search")
+    department = request.GET.get("department")
+    sort = request.GET.get("sort")
 
-    return render(request, 'teams/team_list.html', {
-        'teams': teams,
-        'search_query': search_query,
+    if search:
+        teams = teams.filter(name__icontains=search)
+
+    if department:
+        teams = teams.filter(department_id=department)
+
+    if sort == "name_asc":
+        teams = teams.order_by("name")
+    elif sort == "name_desc":
+        teams = teams.order_by("-name")
+
+    return render(request, "teams/team_list.html", {
+        "teams": teams,
+        "departments": departments,
+        "search_query": search,
+        "selected_department_id": department,  # 👈 add this
+        "selected_sort": sort,                 # 👈 and this (optional)
     })
 
 

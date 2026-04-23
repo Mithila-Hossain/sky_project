@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        text-align: center;
+        transition: 0.2s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .stat-number {
+        font-size: 32px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #00AEEF, #6A4FBF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+        font-size: 15px;
+        color: #666;
+    }
+
+    .section-title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 40px;
+        margin-bottom: 15px;
+    }
+
+    .activity-box {
+        background: white;
+        padding: 18px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        margin-bottom: 12px;
+    }
+
+    .table-card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+</style>
+
+<h2 class="fw-bold mb-4">Welcome, {{ user.first_name }}!</h2>
+
+<!-- STAT CARDS -->
+<div class="row g-4">
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ total_teams }}</div>
+            <div class="stat-label">Total Teams</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ active_projects }}</div>
+            <div class="stat-label">Active Projects</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ pending_issues }}</div>
+            <div class="stat-label">Pending Issues</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ updates_today }}</div>
+            <div class="stat-label">Updates Today</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- RECENT ACTIVITIES -->
+<div class="section-title">Recent Activities</div>
+
+{% for activity in recent_activities %}
+<div class="activity-box">
+    <strong>{{ activity.title }}</strong><br>
+    <span class="text-muted">{{ activity.time }}</span>
+</div>
+{% empty %}
+<p class="text-muted">No recent activities.</p>
+{% endfor %}
+
+<!-- TEAM MANAGEMENT TABLE -->
+<div class="section-title">Team Management</div>
+
+<div class="table-card">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Team Name</th>
+                <th>Department</th>
+                <th>Lead</th>
+                <th>Members</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for team in teams %}
+            <tr>
+                <td>{{ team.name }}</td>
+                <td>{{ team.department.name }}</td>
+                <td>{{ team.team_leader.username }}</td>
+                <td>{{ team.member_count }}</td>
+                <td>{{ team.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
