@@ -6,8 +6,15 @@ from teams.models import Meeting, Team
 
 def schedule_page(request):
     meetings = Meeting.objects.all().order_by("date_time")
+    upcoming_meetings = Meeting.objects.filter(
+        date_time__gte=timezone.now()
+    ).order_by("date_time")[:5]
+    teams = Team.objects.all()
+
     return render(request, "schedule/schedule_page.html", {
         "meetings": meetings,
+        "upcoming_meetings": upcoming_meetings,
+        "teams": teams,
         "page_title": "All Meetings"
     })
 
@@ -20,8 +27,15 @@ def weekly_schedule(request):
         date_time__range=[today, week_later]
     ).order_by("date_time")
 
+    upcoming_meetings = Meeting.objects.filter(
+        date_time__gte=timezone.now()
+    ).order_by("date_time")[:5]
+    teams = Team.objects.all()
+
     return render(request, "schedule/schedule_page.html", {
         "meetings": meetings,
+        "upcoming_meetings": upcoming_meetings,
+        "teams": teams,
         "page_title": "Weekly Schedule"
     })
 
@@ -34,8 +48,15 @@ def monthly_schedule(request):
         date_time__range=[today, month_later]
     ).order_by("date_time")
 
+    upcoming_meetings = Meeting.objects.filter(
+        date_time__gte=timezone.now()
+    ).order_by("date_time")[:5]
+    teams = Team.objects.all()
+
     return render(request, "schedule/schedule_page.html", {
         "meetings": meetings,
+        "upcoming_meetings": upcoming_meetings,
+        "teams": teams,
         "page_title": "Monthly Schedule"
     })
 
@@ -45,8 +66,13 @@ def upcoming_schedule(request):
         date_time__gte=timezone.now()
     ).order_by("date_time")
 
+    upcoming_meetings = meetings[:5]
+    teams = Team.objects.all()
+
     return render(request, "schedule/schedule_page.html", {
         "meetings": meetings,
+        "upcoming_meetings": upcoming_meetings,
+        "teams": teams,
         "page_title": "Upcoming Schedule"
     })
 
@@ -70,7 +96,4 @@ def create_meeting(request):
                 agenda=agenda
             )
 
-            return redirect("schedule:schedule_page")
-
-    teams = Team.objects.all()
-    return render(request, "schedule/create_meeting.html", {"teams": teams})
+    return redirect("schedule:schedule_page")

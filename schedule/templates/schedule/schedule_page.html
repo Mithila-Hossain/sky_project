@@ -106,6 +106,8 @@
         border-radius: 14px;
         background: linear-gradient(135deg, #00AEEF, #0078D4, #9C6ADE);
         box-shadow: 0 12px 20px rgba(106, 79, 191, 0.2);
+        border: none;
+        cursor: pointer;
     }
 
     .glow-button:hover {
@@ -114,36 +116,11 @@
         color: white;
     }
 
-    .meeting-list-title,
     .upcoming-title {
         font-size: 1.25rem;
         font-weight: 800;
         margin-bottom: 16px;
         color: #111827;
-    }
-
-    .meeting-item {
-        border: 1px solid #e5e7eb;
-        border-radius: 18px;
-        padding: 18px;
-        margin-bottom: 14px;
-        background: rgba(255, 255, 255, 0.88);
-        transition: 0.2s ease;
-    }
-
-    .meeting-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 18px rgba(0,0,0,0.08);
-    }
-
-    .meeting-item h4 {
-        margin: 0 0 10px 0;
-        font-size: 1.2rem;
-        color: #111827;
-    }
-
-    .meeting-item p {
-        margin: 4px 0;
     }
 
     .upcoming-card {
@@ -173,6 +150,63 @@
     .quick-time {
         color: #6b7280;
         margin-bottom: 8px;
+    }
+
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.35);
+        z-index: 999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-overlay.active {
+        display: flex;
+    }
+
+    .meeting-modal {
+        width: 100%;
+        max-width: 680px;
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+        padding: 28px;
+        position: relative;
+    }
+
+    .modal-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 22px;
+        color: #111827;
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        line-height: 1;
+        color: #9ca3af;
+        cursor: pointer;
+    }
+
+    .modal-close:hover {
+        color: #374151;
+    }
+
+    .schedule-submit {
+        background: linear-gradient(135deg, #00AEEF, #0078D4, #9C6ADE);
+        color: white;
+        border: none;
+        padding: 12px 22px;
+        border-radius: 12px;
+        font-weight: 700;
     }
 
     @media (max-width: 992px) {
@@ -218,32 +252,14 @@
                 </div>
             </div>
 
-            <a href="/schedule/create/" class="glow-button">+ Schedule Meeting</a>
-
-            <div class="card-box">
-                <div class="meeting-list-title">{{ page_title }}</div>
-
-                {% for meeting in meetings %}
-                    <div class="meeting-item">
-                        <h4>{{ meeting.team.name }}</h4>
-                        <p><strong>Date & Time:</strong> {{ meeting.date_time|date:"F j, Y, g:i a" }}</p>
-                        <p><strong>Platform:</strong> {{ meeting.platform }}</p>
-                        <p><strong>Type:</strong> {{ meeting.schedule_type }}</p>
-                        {% if meeting.agenda %}
-                            <p><strong>Agenda:</strong> {{ meeting.agenda }}</p>
-                        {% endif %}
-                    </div>
-                {% empty %}
-                    <div class="alert alert-info mb-0">No meetings scheduled.</div>
-                {% endfor %}
-            </div>
+            <button type="button" class="glow-button" onclick="openScheduleModal()">+ Schedule Meeting</button>
         </section>
 
         <aside>
             <div class="card-box">
                 <div class="upcoming-title">Upcoming Schedule</div>
 
-                {% for meeting in meetings|slice:":5" %}
+                {% for meeting in upcoming_meetings %}
                     <div class="upcoming-card">
                         <h4>{{ meeting.team.name }}</h4>
                         <div class="quick-time">{{ meeting.date_time|date:"g:i A" }}</div>
@@ -257,5 +273,75 @@
         </aside>
     </div>
 </div>
+
+<div id="scheduleModal" class="modal-overlay">
+    <div class="meeting-modal">
+        <button type="button" class="modal-close" onclick="closeScheduleModal()">&times;</button>
+        <div class="modal-title">Schedule Meeting</div>
+
+        <form method="POST" action="{% url 'schedule:create_meeting' %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Team</label>
+                <select name="team" class="form-select" required>
+                    <option value="">Select a team</option>
+                    {% for team in teams %}
+                        <option value="{{ team.id }}">{{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Date & Time</label>
+                <input type="datetime-local" name="date_time" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Platform</label>
+                <select name="platform" class="form-select" required>
+                    <option value="">Select platform</option>
+                    <option value="Zoom">Zoom</option>
+                    <option value="Teams">Teams</option>
+                    <option value="Google Meet">Google Meet</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Schedule Type</label>
+                <select name="schedule_type" class="form-select" required>
+                    <option value="">Select type</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Upcoming">Upcoming</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Agenda</label>
+                <textarea name="agenda" class="form-control" rows="4" placeholder="Add meeting agenda or notes..."></textarea>
+            </div>
+
+            <button type="submit" class="schedule-submit">Schedule</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openScheduleModal() {
+        document.getElementById("scheduleModal").classList.add("active");
+    }
+
+    function closeScheduleModal() {
+        document.getElementById("scheduleModal").classList.remove("active");
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById("scheduleModal");
+        if (event.target === modal) {
+            closeScheduleModal();
+        }
+    }
+</script>
 
 {% endblock %}
