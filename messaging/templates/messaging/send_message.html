@@ -1,0 +1,44 @@
+<h2>Send Message</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>Subject:</label>
+    <br>
+    <input type="text" name="subject" required>
+    <br><br>
+
+    
+    <label>Message: </label>
+    <br>
+    <textarea name="body" required></textarea>
+    <br><br>
+
+
+    <label>Send to:</label>
+    <br>
+    <select  name="receiver">
+        {% for user in users %}
+            <option value="{{ user.username }}">{{ user.username }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+
+    <button type="submit">Send</button>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+<div>
+    <a href="/messaging/inbox/">Inbox</a> |
+    <a href="/messaging/send/">Send Message</a>
+</div>
+<hr>

@@ -1,45 +1,278 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Teams</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+{% block content %}
 
-<body class="bg-light">
+<style>
+    :root {
+        --sky-blue: #00AEEF;
+        --deep-sky-blue: #0078D4;
+        --navy-blue: #003B70;
+        --soft-grey: #E6ECF5;
+        --cloud-white: #F5F9FF;
+        --gradient-sky: linear-gradient(135deg, #00AEEF, #0078D4);
+    }
 
-<div class="container py-5">
+    .team-card {
+        background: white;
+        border-radius: 14px;
+        border: 1px solid var(--soft-grey);
+        padding: 20px;
+        transition: 0.2s ease;
+        position: relative;
 
-    <h1 class="mb-4 text-primary fw-bold">Teams Directory</h1>
+    }
 
-    <form method="GET" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Search teams..." value="{{ search_query }}">
-            <button class="btn btn-primary">Search</button>
+    .team-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        cursor: pointer;
+    }
+
+    .team-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--gradient-sky);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .team-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--navy-blue);
+    }
+
+    .team-info {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 4px;
+    }
+
+    .status-badge {
+        background: #d1f7d6;
+        color: #1b8c2f;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    .member-images img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid white;
+        margin-left: -8px;
+    }
+
+    .btn-contact {
+        background: var(--gradient-sky);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 6px 14px;
+        font-size: 14px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .btn-contact:hover {
+        opacity: 0.9;
+        color: white;
+    }
+    /* Modern Search Bar */
+    .search-wrapper {
+        position: relative;
+    }
+    .search-input {
+        height: 58px;
+        padding-left: 55px;
+        font-size: 17px;
+        border-radius: 14px;
+        border: 2px solid var(--soft-grey);
+        background: white;
+        transition: 0.25s ease;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    .search-input:focus {
+        border-color: var(--sky-blue);
+        box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.18);
+        outline: none;
+    }
+    
+    /* Search Icon */
+    .search-icon {
+        position: absolute;
+        top: 50%;
+        left: 18px;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: var(--deep-sky-blue);
+        opacity: 0.8;
+    }
+    /* Filter + Sort Dropdowns */
+    .filter-select {
+        height: 58px;
+        font-size: 17px;
+        border-radius: 14px;
+        border: 2px solid var(--soft-grey);
+        background: white;
+        padding: 0 18px;
+        transition: 0.25s ease;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    .filter-select:focus {
+        border-color: var(--sky-blue);
+        box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.18);
+        outline: none;
+    }
+
+    /* Dropdown wrapper for icon */
+
+    .dropdown-wrapper {
+        position: relative;
+    }
+
+
+    /* Dropdown icon */
+    .dropdown-icon {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: var(--deep-sky-blue);
+        pointer-events: none;
+        opacity: 0.7;
+    }
+
+
+</style>
+
+<div class="container py-4">
+
+    <h2 class="fw-bold mb-4" style="color: var(--navy-blue);">Team Directory</h2>
+
+
+    <!-- Search + Filters -->
+<form method="GET" class="mb-4">
+
+    <div class="row g-3">
+
+        <!-- Search Bar -->
+        <div class="col-md-6">
+            <div class="search-wrapper">
+                <i class="search-icon bi bi-search"></i>
+                <input type="text" name="search"
+                       class="form-control search-input"
+                       placeholder="Search teams"
+                       value="{{ search_query }}">
+            </div>
         </div>
-    </form>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
+        <!-- Department Filter -->
 
-            {% if teams %}
-                <ul class="list-group">
-                    {% for team in teams %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span class="fw-semibold">{{ team.name }}</span>
-                            <a href="{% url 'team_detail' team.id %}" class="btn btn-sm btn-outline-primary">View</a>
-                        </li>
+        <div class="col-md-3">
+            <div class="dropdown-wrapper">
+                <select name="department" class="form-select filter-select">
+                    <option value="">All Departments</option>
+        
+                    {% for dept in departments %}
+                        <option value="{{ dept.id }}"
+                            {% if request.GET.department == dept.id|stringformat:'s' %}selected{% endif %}>
+                            {{ dept.name }}
+                        </option>
                     {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-muted">No teams found.</p>
-            {% endif %}
-
+                </select>
+        
+                <i class="dropdown-icon bi bi-chevron-down"></i>
+            </div>
         </div>
+        
+
+        <!-- Sort By -->
+        <div class="col-md-3">
+            <select name="sort" class="form-select filter-select">
+                <option value="">Sort by</option>
+                <option value="name_asc"  {% if request.GET.sort == "name_asc" %}selected{% endif %}>Name (A → Z)</option>
+                <option value="name_desc" {% if request.GET.sort == "name_desc" %}selected{% endif %}>Name (Z → A)</option>
+            </select>
+        </div>
+
+    </div>
+
+</form>
+
+
+    <!-- Team Grid -->
+    <div class="row">
+
+        {% for team in teams %}
+        <div class="col-md-4 mb-4">
+            <div class="team-card">
+
+                <!-- Status -->
+                <div class="status-badge">
+                    {{ team.status }}
+                </div>
+
+                <!-- Avatar 
+                <div class="team-avatar">
+                    {{ team.name|first|upper }}
+                </div>
+                -->
+
+                <!-- Title -->
+                <div class="team-title">{{ team.name }}</div>
+
+                <!-- Leader -->
+                <div class="team-info">
+                    <strong>Team Lead:</strong>
+                    {{ team.team_leader.username|default:"Not assigned" }}
+                </div>
+
+                <!-- Department -->
+                <div class="team-info">
+                    <strong>Department:</strong> {{ team.department.name }}
+                </div>
+
+                <!-- Member Count -->
+                <div class="team-info">
+                    <strong>Members:</strong> {{ team.members.count }}
+                </div>
+
+                <!-- Repo Count (placeholder) -->
+                <div class="team-info">
+                    <strong>Repositories:</strong> 4
+                </div>
+
+                <!-- Member Images -->
+                <div class="member-images mt-2 mb-3">
+                    {% for member in team.members.all|slice:":4" %}
+                        <img src="{% static 'images/default_user.png' %}">
+                    {% endfor %}
+                </div>
+
+                <!-- Contact Button -->
+                <a href="{% url 'team_detail' team.id %}" class="btn-contact">
+                    Contact
+                </a>
+
+            </div>
+        </div>
+        {% endfor %}
+
     </div>
 
 </div>
 
-</body>
-</html>
+{% endblock %}

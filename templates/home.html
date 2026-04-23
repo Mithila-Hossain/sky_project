@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    :root {
+    --sky-blue: #00AEEF;          /* Primary Sky Blue */
+    --deep-sky-blue: #0078D4;     /* Deep Sky Blue */
+    --navy-blue: #003B70;         /* Headings */
+    --cloud-white: #F5F9FF;       /* Soft background */
+    --soft-grey: #E6ECF5;         /* Light grey */
+    --gradient-sky: linear-gradient(135deg, #00AEEF, #0078D4);
+    }
+
+
+    /* Sky Gradient Quick Action Cards */
+    .quick-card {
+        /*background: linear-gradient(135deg, #0d6efd, #4da3ff);*/
+        background: var(--gradient-sky);
+        color: white;
+        border-radius: 12px;
+        transition: 0.2s ease;
+    }
+
+    .quick-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        cursor: pointer;
+    }
+
+    .quick-card p {
+        color: rgba(255,255,255,0.9);
+    }
+
+    /* Clickable Cards */
+    .clickable-card {
+        background-color: var(--cloud-white);
+        border: 1px solid var(--sky-blue);
+        transition: 0.2s ease;
+        border-radius: 12px;
+    }
+
+    .clickable-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        cursor: pointer;
+    }
+
+    /* Recent Activities */
+    .activity-row {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 15px;
+    }
+
+    .activity-row {
+         padding: 8px 0;
+         border-bottom: 1px solid var(--soft-grey);
+    }
+
+    .activity-time {
+        font-size: 13px;
+        color: #6c757d;
+        margin-top: 2px;
+    }
+
+    h2, h4, h5 {
+    color: var(--navy-blue);
+    }
+
+    .form-control-lg {
+        border: 2px solid var(--deep-sky-blue);
+    }
+
+    .form-control-lg:focus {
+        border-color: var(--sky-blue);
+        box-shadow: 0 0 0 0.2rem rgba(0, 174, 239, 0.25);
+    }
+
+
+</style>
+
+<div class="container py-5" style="background-color: var(--cloud-white); border-radius: 12px;">
+
+
+    <!-- Welcome Header -->
+    <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 24px; border-bottom: none !important;">
+        <h2 class="fw-bold mb-0" style="color: var(--navy-blue);">Welcome, {{ user.first_name|default:user.username }}!</h2>
+    
+        <a href="/profile/" class="btn btn-outline-primary btn-sm" style="border-radius: 20px;">
+            My Profile
+        </a>
+    </div>
+    
+    
+
+    <!-- Search Bar -->
+    <div class="mb-4">
+        <input type="text" class="form-control form-control-lg" placeholder="Search teams, departments, or managers...">
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+
+        <div class="col-md-4 mb-3">
+            <a href="/teams/" class="text-decoration-none text-white">
+                <div class="card quick-card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Find a Team</h5>
+                        <p class="card-text">Search and filter through all the teams.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a href="/organisation/" class="text-decoration-none text-white">
+                <div class="card quick-card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">View Map</h5>
+                        <p class="card-text">Explore hierarchies and dependencies.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a href="/messaging/" class="text-decoration-none text-white">
+                <div class="card quick-card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Contact Teams</h5>
+                        <p class="card-text">Quick access to team communication.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Recently Visited Teams -->
+    <h4 class="fw-bold mb-3">Recently Visited Teams</h4>
+
+    <div class="row mb-4">
+
+        <div class="col-md-4 mb-3">
+            <a href="/teams/" class="text-decoration-none text-dark">
+                <div class="card shadow-sm h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Frontend Development</h5>
+                        <p class="card-text text-muted">Manager: Alex Thompson</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a href="/teams/" class="text-decoration-none text-dark">
+                <div class="card shadow-sm h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Backend Services</h5>
+                        <p class="card-text text-muted">Manager: Emily Chen</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a href="/teams/" class="text-decoration-none text-dark">
+                <div class="card shadow-sm h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Security Team</h5>
+                        <p class="card-text text-muted">Manager: David Park</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Recent Activities -->
+    <h4 class="fw-bold mb-3">Recent Activities</h4>
+
+    <div class="activity-row">
+        <div><strong>New team created:</strong> Cloud Infrastructure</div>
+        <div class="activity-time">2 hours ago</div>
+    </div>
+
+    <div class="activity-row">
+        <div><strong>Frontend Development</strong> updated their dependencies</div>
+        <div class="activity-time">5 hours ago</div>
+    </div>
+
+    <div class="activity-row">
+        <div><strong>New member added</strong> to Backend Services</div>
+        <div class="activity-time">1 day ago</div>
+    </div>
+
+</div>
+
+{% endblock %}

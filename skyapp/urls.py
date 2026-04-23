@@ -14,10 +14,34 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
+from . import views
+from django.contrib.auth import views as auth_views
+
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('teams/', include('teams.urls')),
+    path("", views.home, name="home"),  # Homepage
+    path("admin/", admin.site.urls),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/',auth_views.LogoutView.as_view(template_name='logged_out.html',next_page=None),name='logout'),
+    path('password-reset/', auth_views.PasswordResetView.as_view(template_name='password_reset.html'),name='password_reset'),
+    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),name='password_reset_done'),
+    path('admin-login/',auth_views.LoginView.as_view(template_name='admin_login.html'),name='admin_login'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path("profile/", views.profile_view, name="profile"),
+
+
+
+
+    # App URLs
+    path("teams/", include("teams.urls")),
+    path("organisation/", include("organisation.urls")),
+    path("messaging/", include("messaging.urls")),    # Messages page
+    path("schedule/", include("schedule.urls")),
+    path("reports/", include("reports.urls")),
+    path("visualisation/", include("visualisation.urls")),
+
 ]
