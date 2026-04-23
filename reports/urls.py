@@ -2,5 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("", views.reports_home, name="reports_home"),
+    # This makes the page available at /reports/
+    path('', views.report_home_view, name='report_page'),
 ]

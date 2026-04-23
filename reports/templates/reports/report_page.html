@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+            <h2>{{ title }}</h2>
+        </div>
+        <div class="card-body">
+            <p class="lead">{{ description }}</p>
+            <hr>
+            <h4>Current Statistics</h4>
+            <div class="alert alert-info">
+                This section will soon display team data and registry summaries.
+            </div>
+            
+            <button class="btn btn-primary" onclick="window.print()">Download Report (PDF)</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
