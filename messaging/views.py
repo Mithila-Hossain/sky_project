@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from .models import Message
 from organisation.models import Department
 
-
 def messaging_main(request):
     view = request.GET.get('view', 'inbox')
     query = request.GET.get('q')  # 🔥 NEW (search input)
