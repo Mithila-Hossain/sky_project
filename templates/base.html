@@ -110,6 +110,27 @@
         <a href="/schedule/">Schedule</a>
         <a href="/reports/">Reports</a>
         <a href="/visualisation/">Visualisation</a>
+
+        <!-- LOGOUT BUTTON (POST method required by Django 5) -->
+    <form action="{% url 'logout' %}" method="post" style="margin-top:20px;">
+        {% csrf_token %}
+        <button type="submit"
+                style="
+                    width:100%;
+                    background:none;
+                    border:none;
+                    color:white;
+                    text-align:left;
+                    padding:12px;
+                    font-size:16px;
+                    border-radius:5px;
+                    cursor:pointer;
+                "
+                onmouseover="this.style.background='var(--gradient-aqua-blue)'"
+                onmouseout="this.style.background='none'">
+            Logout
+        </button>
+    </form>
     </div>
 
     <!-- MAIN CONTENT -->

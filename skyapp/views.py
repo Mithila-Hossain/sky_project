@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test, login_required
 from teams.models import Team
 
@@ -6,6 +6,19 @@ from teams.models import Team
 # Homepage (keep this)
 def home(request):
     return render(request, 'home.html')
+
+# User Dashboard
+@login_required
+def dashboard(request):
+    return render(request, "home.html")
+
+
+# Redirect After Login
+@login_required
+def redirect_after_login(request):
+    if request.user.is_staff or request.user.is_superuser:
+        return redirect('admin_dashboard')
+    return redirect('dashboard')
 
 
 # Helper: check if user is admin/staff
