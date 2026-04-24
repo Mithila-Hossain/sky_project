@@ -1,42 +1,18 @@
-<!DOCTYPE html>
-<html>
 
-<head>
+{% extends 'base.html' %}
+{% block content %}
 
-    <title>Sky Project Messaging</title>
+
+
+
 
     <style>
-        body {
-            display: flex;
-            font-family: Arial, sans-serif;
-            margin: 0;
+       
 
-        }
+        
 
-        .sidebar {
-            width: 200px;
-            background-color: #f2f2f2;
-            height: 100vh;
-            padding: 10px;
-            min-width: 30px;
-            /* allows shrinking */
+        
 
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            padding: 10px;
-            margin-bottom: 5px;
-            cursor: pointer;
-        }
-
-        .sidebar ul li:hover {
-            background-color: #ddd;
-        }
 
         .main-content {
             flex: 1;
@@ -49,13 +25,15 @@
             width: 100%;
             padding: 8px;
             border-radius: 10px;
-            height: 20px;
+            height: 35px;
             background: rgba(248, 240, 248, 0.25);
+
 
         }
 
         .search-form {
             flex: 1;
+
 
             /* THIS makes it stretch nicely */
         }
@@ -103,10 +81,10 @@
 
         /* Top bar */
         .topbar {
-            background: linear-gradient(150deg, #0199f7, #f8354b);
+            background: linear-gradient(135deg, #00AEEF, #b347fb);
             padding: 15px;
             border-radius: 10px;
-            height: 40px;
+            height: 60px;
             display: flex;
             align-items: center;
             gap: 10px
@@ -190,28 +168,13 @@
     </style>
 
 
-</head>
 
 
 
 
 
-<body>
 
-    <div class="sidebar">
-        <ul>
-
-            <li>Dashboard</li>
-            <li>Team Management</li>
-            <li>Organisation</li>
-            <li>Messages</li>
-            <li>Schedule</li>
-            <li>Reports</li>
-            <li>Visualisation</li>
-
-        </ul>
-
-    </div>
+    
     <div class="main-content">
 
         <div class="topbar">
@@ -238,164 +201,13 @@
             </div>
         </div>
 
-
-
-
-
-
-        <!-- Main content area -->
-
-        {% if view_type == 'inbox' %}
-        <h2>Inbox</h2>
-
-        {% if messages %}
-        {% for msg in messages %}
-        <div class="message-card" onclick="showMessage(this)">
-
-
-            <div class="message-header">
-                <div>
-                    <strong>{{ msg.subject }}</strong><br>
-                    From: {{ msg.sender.username }}
-                </div>
-                <span class="date">{{ msg.timeStamp }}</span>
-            </div>
-
-            <p class="message-preview">
-                {{ msg.body|truncatechars:50 }}
-            </p>
-
-            <p class="message-full" style="display:none;">
-                {{ msg.body }}
-
-            </p>
-
-        </div>
-        {% endfor %}
-        {% else %}
-        <p>No messages yet</p>
-        {% endif %}
-
-
-
-        {% elif view_type == 'send' %}
-        <h2>Send Message</h2>
-
-        <div class="message-card">
-            <form method="post">{% csrf_token %}
-
-                <input type="text" name="subject" placeholder="Subject" required
-                    style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-
-                <textarea name="body" placeholder="Write your message..." required
-                    style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-
-                <label>Send To:</label><br>
-                <select name="receiver" required
-                    style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-                    {% for user in users %}
-                    <option value="{{ user.id }}">
-                        {{ user.username }} {% if user == request.user %}(You){% endif %}
-                    </option>
-                    {% endfor %}
-                </select>
-
-
-                <button type="submit" name="action" value="send"> Send Message </button>
-                <button type="submit" name="action" value="draft"> Save as Draft </button>
-
-            </form>
-        </div>
-
-
-
-        {% elif view_type == 'sent' %}
-        <h2>Sent Messages</h2>
-
-        {% if sent_messages %}
-        {% for msg in sent_messages %}
-        <div class="message-card" onclick="showMessage(this)">
-
-
-            <div class="message-header">
-                <div>
-                    <strong>{{ msg.subject }}</strong><br>
-                    To: {{ msg.receiver.username }}
-                </div>
-                <div>
-                    <span class="star" onclick="starMessage(event, this)">☆</span>
-                    <span class="date">{{ msg.timeStamp }}</span>
-                </div>
-            </div>
-
-
-
-
-
-            <p class="message-preview">
-                {{ msg.body|truncatechars:50 }}
-            </p>
-
-            <p class="message-full" style="display:none;">
-                {{ msg.body }}
-            </p>
-
-
-
-
-        </div>
-        {% endfor %}
-        {% else %}
-        <p>No sent messages</p>
-        {% endif %}
-
-
-
-
-
-        {% elif view_type == 'draft' %}
-        <h2>Drafts</h2>
-
-        {% if draft_messages %}
-        {% for msg in draft_messages %}
-        <div class="message-card" onclick="showMessage(this)">
-
-            <div class="messaeg-header">
-                <div>
-
-                    <strong>{{ msg.subject }}</strong><br>
-                    To: {{ msg.receiver.username }}
-                </div>
-
-                <div>
-
-                    <a href="?view=send&edit={{ msg.id }}">
-                        <button style="height:25px; font-size:12px;">Edit</button>
-                    </a>
-
-                    <span class="date">{{ msg.timeStamp }}</span>
-                </div>
-            </div>
-
-            </p>
-
-            <p class="message-full" style="display:none;">
-                {{ msg.body }}
-            </p>
-        </div>
-        {% endfor %}
-        {% else %}
-        <p>No drafts yet</p>
-        {% endif %}
-
-        {% endif %}
-
-
-
+        {% include template_name %}
 
     </div>
 
-</body>
+
+
+
 
 
 
@@ -440,4 +252,5 @@
     }
 </script>
 
-</html>
+{% endblock %}
+

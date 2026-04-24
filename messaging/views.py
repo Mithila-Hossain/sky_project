@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from .models import Message
+from organisation.models import Department
 
 
 def messaging_main(request):
@@ -32,9 +33,10 @@ def messaging_main(request):
     context = {
         'view_type': view,
         'users': User.objects.all(),
+        'teams': Department.objects.all(),
         'query': query 
     }
-
+    
 
     page_templates = {
 

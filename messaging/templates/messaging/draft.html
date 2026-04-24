@@ -1,39 +1,65 @@
 
 
-{% elif view_type == 'draft' %}
+<style>
+
+    .draft-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .edit-btn {
+        height: 25px;
+        font-size: 12px;
+        padding: 3px 8px;
+    }
+    
+    </style>
+
+
+
+
 <h2>Drafts</h2>
 
 {% if draft_messages %}
 {% for msg in draft_messages %}
 <div class="message-card" onclick="showMessage(this)">
 
-    <div class="messaeg-header">
+    <div class="message-header">
+        
+        <!-- LEFT -->
         <div>
-
             <strong>{{ msg.subject }}</strong><br>
             To: {{ msg.receiver.username }}
         </div>
 
-        <div>
+        <!-- RIGHT -->
+        <div class="draft-actions">
 
             <a href="?view=send&edit={{ msg.id }}">
-                <button style="height:25px; font-size:12px;">Edit</button>
+                <button class="edit-btn">Edit</button>
             </a>
 
             <span class="date">{{ msg.timeStamp }}</span>
         </div>
+
     </div>
 
+    <!-- PREVIEW -->
+    <p class="message-preview">
+        {{ msg.body|truncatechars:50 }}
     </p>
 
+    <!-- FULL -->
     <p class="message-full" style="display:none;">
         {{ msg.body }}
     </p>
+
+
+    
+
 </div>
 {% endfor %}
 {% else %}
 <p>No drafts yet</p>
 {% endif %}
-
-{% endif %}
-

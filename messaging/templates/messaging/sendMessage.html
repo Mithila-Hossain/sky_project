@@ -1,44 +1,115 @@
-<h2>Send Message</h2>
+<style>
 
-<form method="post">
-    {% csrf_token %}
+    .message-card{
+  justify-content: center;
+  padding: 30px;
+  margin: 0% 5%;
+        
+    }
 
-    <label>Subject:</label>
-    <br>
-    <input type="text" name="subject" required>
-    <br><br>
+    .form-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .form-group {
+        flex: 1;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 8px;
+        border: none;
+        background: white;
+    }
+
+
+    textarea.form-input {
+    height: 120px;
+}
+    
+
+    .gradient-border {
+    padding: 2px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #00AEEF, #b347fb);
+}
+
+.gradient-inner {
+    background: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+
 
     
-    <label>Message: </label>
-    <br>
-    <textarea name="body" required></textarea>
-    <br><br>
-
-
-    <label>Send to:</label>
-    <br>
-    <select  name="receiver">
-        {% for user in users %}
-            <option value="{{ user.username }}">{{ user.username }}</option>
-        {% endfor %}
-    </select>
-    <br><br>
-
-    <button type="submit">Send</button>
-</form>
+    </style>
 
 
 
 
+<h2>Send Message</h2>
 
+<div class="message-card">
+    <form method="post">{% csrf_token %}
 
+        <div class="gradient-border">
+            <div class="gradient-inner">
+                <input type="text" name="subject" placeholder="Subject" required class="form-input">
+            </div>
+        </div>
+        <br>
 
+        <div class="gradient-border">
+            <div class="gradient-inner">
+                <textarea name="body" placeholder="Write your message..." required class="form-input"></textarea>
+            </div>
+        </div>
+        <br>
 
+        <div class="form-row">
 
+            <!-- TEAM -->
+            <div class="form-group">
+                <label>Team:</label><br>
+                <div class="gradient-border">
+                    <div class="gradient-inner">
+                        <select name="team" class="form-input">
+                            <option value="">Select a team</option>
+                            {% for team in teams %}
+                                <option value="{{ team.id }}">{{ team.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
 
+            
 
-<div>
-    <a href="/messaging/inbox/">Inbox</a> |
-    <a href="/messaging/send/">Send Message</a>
+            <!-- USER -->
+            <div class="form-group">
+                <label>User:</label><br>
+                <div class="gradient-border">
+                    <div class="gradient-inner">
+                        <select name="receiver" required class="form-input">
+                            <option value="">Select a user</option>
+                            {% for user in users %}
+                                <option value="{{ user.id }}">
+                                    {{ user.username }} {% if user == request.user %}{% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button type="submit" name="action" value="send">Send Message</button>
+        <button type="submit" name="action" value="draft">Save as Draft</button>
+
+    </form>
 </div>
-<hr>

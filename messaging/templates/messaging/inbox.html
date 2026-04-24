@@ -1,29 +1,37 @@
 
-{% elif view_type == 'send' %}
-<h2>Send Message</h2>
+<h2>Inbox</h2>
 
-<div class="message-card">
-    <form method="post">{% csrf_token %}
-
-        <input type="text" name="subject" placeholder="Subject" required
-            style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-
-        <textarea name="body" placeholder="Write your message..." required
-            style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-
-        <label>Send To:</label><br>
-        <select name="receiver" required
-            style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-            {% for user in users %}
-            <option value="{{ user.id }}">
-                {{ user.username }} {% if user == request.user %}(You){% endif %}
-            </option>
-            {% endfor %}
-        </select>
+{% if messages %}
+{% for msg in messages %}
+<div class="message-card" onclick="showMessage(this)">
 
 
-        <button type="submit" name="action" value="send"> Send Message </button>
-        <button type="submit" name="action" value="draft"> Save as Draft </button>
+    <div class="message-header">
+        <div>
+            <strong>{{ msg.subject }}</strong><br>
+            From: {{ msg.sender.username }}
+        </div>
+        <span class="date">{{ msg.timeStamp }}</span>
+    </div>
 
-    </form>
+    <p class="message-preview">
+        {{ msg.body|truncatechars:50 }}
+    </p>
+
+    <p class="message-full" style="display:none;">
+        {{ msg.body }}
+
+    </p>
+
 </div>
+{% endfor %}
+{% else %}
+<p>No messages yet</p>
+{% endif %}
+
+
+
+
+
+
+
