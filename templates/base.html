@@ -73,33 +73,6 @@
 </head>
 
 <body>
-
-    <!-- TOP NAVBAR
-    <nav class="navbar navbar-expand-lg px-4" 
-         style="height:60px; background: var(--gradient-blue-purple); 
-                position:fixed; top:0; left:250px; right:0; z-index:1000;">
-        <div class="ms-auto d-flex align-items-center">
-            {% if user.is_authenticated %}
-            <div class="dropdown">
-                <a class="text-white fw-bold dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                    {{ user.first_name }} {{ user.last_name }}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">View Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li>
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <button class="dropdown-item" type="submit">Sign Out</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-            {% endif %}
-        </div>
-    </nav>
- -->
-    <!-- SIDEBAR -->
     <div class="sidebar">
         <h3>Sky Project</h3>
 
