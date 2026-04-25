@@ -1,14 +1,28 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Message
-from organisation.models import Department
+from teams.models import Team
+
 
 def messaging_main(request):
     view = request.GET.get('view', 'inbox')
+    
     query = request.GET.get('q')  # 🔥 NEW (search input)
 
     # Handle sending message
+
+    draft_to_edit = None
+    edit_id = request.GET.get('edit')
+    if edit_id:
+       draft_to_edit = Message.objects.filter(
+            id=edit_id,
+            sender=request.user,
+            is_draft=True
+        ).first()
+
+
+    
     if request.method == 'POST':
         subject = request.POST.get('subject')
         body = request.POST.get('body')
@@ -27,13 +41,30 @@ def messaging_main(request):
             receiver=receiver,
             is_draft=(action == 'draft')
         )
+        
+
         return redirect('/messaging/?view=inbox')
+
+
+    reply_to_id = request.GET.get('reply_to')  # grabs ?reply_to=ID from URL
+    pre_receiver = None
+    if reply_to_id:
+        pre_receiver = User.objects.filter(id=reply_to_id).first()
+
+    
+
+
+
+        
+
 
     context = {
         'view_type': view,
         'users': User.objects.all(),
-        'teams': Department.objects.all(),
-        'query': query 
+        'teams': Team.objects.all(),
+        'pre_receiver': pre_receiver,
+        'query': query,
+        'draft': draft_to_edit
     }
     
 

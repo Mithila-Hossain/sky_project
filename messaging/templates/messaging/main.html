@@ -3,9 +3,6 @@
 {% block content %}
 
 
-
-
-
     <style>
        
 
@@ -138,7 +135,7 @@
 
         }
 
-        .main-content h2 {
+        .main-content h1 {
             margin: 50px 20px;
             color: #0f3d65;
         }
@@ -192,16 +189,19 @@
 
                 <button>☰ </button>
                 <div class="menu-content">
-                    <a href="?view=inbox"> Inbox </a>
-                    <a href="?view=send"> New Message </a>
-                    <a href="?view=sent"> Sent </a>
-                    <a href="?view=draft"> Drafts </a>
+                    <a href="?view=inbox"> 📬 Inbox </a>
+                    <a href="?view=send"> ➤ New Message </a>
+                    <a href="?view=sent"> 📤 Sent </a>
+                    <a href="?view=draft"> 📝Drafts </a>
 
                 </div>
             </div>
         </div>
 
+        
         {% include template_name %}
+
+
 
     </div>
 

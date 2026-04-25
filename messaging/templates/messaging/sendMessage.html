@@ -51,21 +51,22 @@
 
 
 
-<h2>Send Message</h2>
+<h1>Send Message</h1>
 
 <div class="message-card">
     <form method="post">{% csrf_token %}
 
         <div class="gradient-border">
             <div class="gradient-inner">
-                <input type="text" name="subject" placeholder="Subject" required class="form-input">
+                <input type="text" name="subject" placeholder="Subject" required class="form-input"value="{% if draft %}{{ draft.subject }}{% endif %}">
+                
             </div>
         </div>
         <br>
 
         <div class="gradient-border">
             <div class="gradient-inner">
-                <textarea name="body" placeholder="Write your message..." required class="form-input"></textarea>
+                <textarea name="body" placeholder="Write your message..." required class="form-input">{% if draft %}{{ draft.body }}{% endif %}</textarea>
             </div>
         </div>
         <br>
@@ -86,7 +87,6 @@
                     </div>
                 </div>
             </div>
-
             
 
             <!-- USER -->
@@ -97,8 +97,9 @@
                         <select name="receiver" required class="form-input">
                             <option value="">Select a user</option>
                             {% for user in users %}
-                                <option value="{{ user.id }}">
-                                    {{ user.username }} {% if user == request.user %}{% endif %}
+                                <option value="{{ user.id }}"
+                                    {% if pre_receiver and user.id == pre_receiver.id %} selected {% endif %}>
+                                    {{ user.username }} {% if user == request.user %}(You){% endif %}
                                 </option>
                             {% endfor %}
                         </select>
@@ -112,4 +113,9 @@
         <button type="submit" name="action" value="draft">Save as Draft</button>
 
     </form>
+
+
+
+    
 </div>
+
