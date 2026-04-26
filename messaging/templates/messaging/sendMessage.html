@@ -56,6 +56,10 @@
 <div class="message-card">
     <form method="post">{% csrf_token %}
 
+        {% if draft %}
+        <input type="hidden" name="draft_id" value="{{ draft.id}}">
+        {% endif %}
+
         <div class="gradient-border">
             <div class="gradient-inner">
                 <input type="text" name="subject" placeholder="Subject" required class="form-input"value="{% if draft %}{{ draft.subject }}{% endif %}">
@@ -111,7 +115,7 @@
 
         <button type="submit" name="action" value="send">Send Message</button>
         <button type="submit" name="action" value="draft">Save as Draft</button>
-
+        <button type="button" onclick="window.history.back()">Cancel</button>
     </form>
 
 

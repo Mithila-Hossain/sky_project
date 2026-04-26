@@ -51,9 +51,9 @@
             display: none;
             background: #fff;
             border: 1px solid #ccc;
-            min-width: 120px;
+            min-width: 150px;
             position: absolute;
-            top: 100%;
+            margin-top: 3px;
             right: 0;
 
 
@@ -78,7 +78,7 @@
 
         /* Top bar */
         .topbar {
-            background: linear-gradient(135deg, #00AEEF, #b347fb);
+            background: linear-gradient(135deg, #057bdd, #b347fb);
             padding: 15px;
             border-radius: 10px;
             height: 60px;
@@ -128,8 +128,6 @@
 
 
 
-
-
         button:hover {
             background: #afd2f5;
 
@@ -162,6 +160,16 @@
         .star:hover {
             color: gold;
         }
+
+
+        .alert {
+    background: #2296ee;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 7px;
+    font-size: 12px;
+    margin-left: 5px;
+}
     </style>
 
 
@@ -189,10 +197,20 @@
 
                 <button>☰ </button>
                 <div class="menu-content">
-                    <a href="?view=inbox"> 📬 Inbox </a>
+                    <a href="?view=inbox">
+                         📬 Inbox
+                        {% if new_inbox_count > 0 %}
+                            <span class="alert">{{new_inbox_count}}</span>
+                        {% endif %}
+                     </a>
                     <a href="?view=send"> ➤ New Message </a>
                     <a href="?view=sent"> 📤 Sent </a>
-                    <a href="?view=draft"> 📝Drafts </a>
+                    <a href="?view=draft">
+                        📝Drafts
+                        {% if new_inbox_count > 0  %}
+                            <span class="alert">{{new_draft_count}}</span>
+                        {% endif %}
+                    </a>
 
                 </div>
             </div>

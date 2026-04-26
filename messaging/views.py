@@ -6,7 +6,7 @@ from teams.models import Team
 
 
 def messaging_main(request):
-    view = request.GET.get('view', 'inbox')
+    view = request.GET.get('view', 'send')
     
     query = request.GET.get('q')  # 🔥 NEW (search input)
 
@@ -34,12 +34,24 @@ def messaging_main(request):
             
  
         action = request.POST.get('action', 'send')
-        Message.objects.create(
-            subject=subject,
-            body=body,
-            sender=request.user,
-            receiver=receiver,
-            is_draft=(action == 'draft')
+
+        draft_id = request.POST.get('draft_id')
+        if draft_id:
+            msg = Message.objects.get(id=draft_id, sender=request.user)
+            msg.subject = subject
+            msg.body = body
+            msg.receiver = receiver
+            msg.is_draft = (action == 'draft')
+            msg.save()
+            
+        else:
+            
+            Message.objects.create(
+                subject=subject,
+                body=body,
+                sender=request.user,
+                receiver=receiver,
+                is_draft=(action == 'draft')
         )
         
 
@@ -52,6 +64,15 @@ def messaging_main(request):
         pre_receiver = User.objects.filter(id=reply_to_id).first()
 
     
+    new_inbox_count = Message.objects.filter(
+        receiver=request.user,
+        is_draft=False
+    ).count()
+    
+    new_draft_count = Message.objects.filter(
+        sender=request.user,
+        is_draft=True
+    ).count()
 
 
 
@@ -64,7 +85,9 @@ def messaging_main(request):
         'teams': Team.objects.all(),
         'pre_receiver': pre_receiver,
         'query': query,
-        'draft': draft_to_edit
+        'draft': draft_to_edit,
+        'new_inbox_count': new_inbox_count,
+        'new_draft_count': new_draft_count,
     }
     
 
