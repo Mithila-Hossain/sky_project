@@ -35,7 +35,6 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("redirect-after-login/", views.redirect_after_login, name="redirect_after_login"),
 
-
     # App URLs
     path("teams/", include("teams.urls")),
     path("organisation/", include("organisation.urls")),
