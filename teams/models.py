@@ -6,11 +6,9 @@ from reports.models import Project
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
-    members = models.ManyToManyField(User)
+    #members = models.ManyToManyField(User)
     
 
-
-    
     team_type = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     status = models.CharField(max_length=50, default="Active")
@@ -30,7 +28,10 @@ class Team(models.Model):
 
 class TeamMember(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.ForeignKey(
+    Team,
+    on_delete=models.CASCADE,
+    related_name="members")
     role_in_team = models.CharField(max_length=100, default="Engineer")
     skills = models.TextField(blank=True)
     hire_date = models.DateField(null=True, blank=True)

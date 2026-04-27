@@ -67,6 +67,11 @@
         margin-bottom: 10px;
     }
 
+    .member-images {
+        display: flex;
+        align-items: center;
+    }
+
     .member-images img {
         width: 32px;
         height: 32px;
@@ -74,6 +79,22 @@
         border: 2px solid white;
         margin-left: -8px;
     }
+    .more-members {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: #3b4cca;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-left: -8px;
+    font-size: 14px;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
 
     .btn-contact {
         background: var(--gradient-sky);
@@ -155,6 +176,16 @@
         pointer-events: none;
         opacity: 0.7;
     }
+    .member-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+        margin-left: -8px;
+    }
+
 
 
 </style>
@@ -238,7 +269,8 @@
                 <!-- Leader -->
                 <div class="team-info">
                     <strong>Team Lead:</strong>
-                    {{ team.team_leader.username|default:"Not assigned" }}
+                    {{ team.team_leader.get_full_name|default:"Not assigned" }}
+
                 </div>
 
                 <!-- Department -->
@@ -259,9 +291,13 @@
                 <!-- Member Images -->
                 <div class="member-images mt-2 mb-3">
                     {% for member in team.members.all|slice:":4" %}
-                        <img src="{% static 'images/default_user.png' %}">
+                        <img src="{% static 'images/default_avatar.png' %}" class="member-avatar">
                     {% endfor %}
-                </div>
+                
+                    {% if team.members.count > 4 %}
+                        <div class="more-members">+{{ team.members.count|add:"-4" }}</div>
+                    {% endif %}
+                </div>                
 
                 <!-- Contact Button -->
                 <a href="{% url 'team_detail' team.id %}" class="btn-contact">

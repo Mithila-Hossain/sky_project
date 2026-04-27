@@ -48,12 +48,16 @@ def team_detail(request, team_id):
     downstream = Dependency.objects.filter(upstream_team=team)
     channels = ContactChannel.objects.filter(team=team)
 
+       
+    tab = request.GET.get("tab", "overview")
+
     return render(request, 'teams/team_detail.html', {
         'team': team,
         'members': members,
         'upstream': upstream,
         'downstream': downstream,
         'channels': channels,
+        'tab': tab,  
     })
 
 
