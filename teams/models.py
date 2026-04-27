@@ -22,6 +22,9 @@ class Team(models.Model):
 
     is_visible = models.BooleanField(default=True)
 
+    github_repo = models.URLField(max_length=300, blank=True, null=True)
+
+
     def __str__(self):
         return self.name
 
@@ -70,3 +73,5 @@ class Meeting(models.Model):
 
     def __str__(self):
         return f"Meeting for {self.team.name} on {self.date_time}"
+    
+

@@ -285,7 +285,15 @@
 
                 <!-- Repo Count (placeholder) -->
                 <div class="team-info">
-                    <strong>Repositories:</strong> 4
+                    <strong>Repository:</strong>
+                    {% if team.github_repo %}
+                        <a href="{{ team.github_repo }}" target="_blank" style="color: var(--deep-sky-blue);">
+                            {{ team.github_repo }}
+                        </a>
+                    {% else %}
+                        <span class="text-muted">Not provided</span>
+                    {% endif %}
+
                 </div>
 
                 <!-- Member Images -->
