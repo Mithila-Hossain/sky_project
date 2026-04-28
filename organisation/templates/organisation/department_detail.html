@@ -1,0 +1,44 @@
+<!-- Author: Bernard Vecino w19733959 -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+    <a href="{% url 'organisation_home' %}" class="btn btn-link text-decoration-none mb-3">
+        ← Back to Organisation
+    </a>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 p-4" style="border-top: 5px solid var(--sky-blue);">
+                <h2 class="fw-bold text-primary">{{ department.name }}</h2>
+                <p class="mb-1"><strong>Lead: </strong>{{ department.head.username|default:"Unassigned" }}</p>
+                <p class="mb-0"><strong>Contact: </strong>{{ department.head.email|default:"N/A" }}</p>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <h4 class="fw-bold mb-4"> Teams in this Department</h4>
+            <div class="row g-3">
+                {% for team in teams %}
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="fw-bold">{{ team.name }}</h5>
+                            <p class="small text-muted mb-2">{{ team.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge rounded-1 border-success text-success px-3 py-1 fw-bold" 
+                                style="background-color: #d1f7d6; border: 1px solid rgb(3, 255, 3); font-size: 12px; font-weight: bold;">● {{ team.status }}</span>
+                                <span class="small text-primary">{{ team.team_type }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

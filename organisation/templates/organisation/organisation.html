@@ -1,0 +1,178 @@
+<!-- Author: Bernard Vecino w19733959 -->
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<style>
+    .dept-card {
+        background-color: white;
+        border-left: 5px solid var(--sky-blue); /* department grouping */
+        border-radius: 12px;
+        transition: 0.3s ease;
+    }
+
+    .dept-card:hover{
+        transform: translateY(-5px); /* life effect when hovering with cursor */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .table-container {
+        background-color: white;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--soft-grey);
+    }
+
+    .mindmap-wrapper { /* mindmap container */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 60px;
+        padding: 50px;
+        background-color: whitesmoke;
+        border-radius: 15px;
+    }
+
+    .centre-team {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        min-width: 250px;
+    }
+
+    .node { /* represents each team */
+        background: white;
+        border: 2px solid var(--sky-blue);
+        border-radius: 50%;
+        width: 120px;
+        height:120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 13px;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        z-index: 10;
+        padding: 15px;
+    }
+
+    .branches-container{
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .edge { 
+        width: 2px;
+        height: 30px;
+        background: var(--sky-blue);
+        position:relative;
+    }
+
+    .edge::after{ /* pointer */
+        content: '▼';
+        position: absolute;
+        bottom: -10px;
+        left: -6px;
+        color: var(--sky-blue);
+        font-size: 12px;
+    }
+
+    .dep-pill {
+        font-size: 10px;
+        background: white;
+        border: 1px solid var(--soft-grey);
+        border-radius: 5px;
+        padding: 2px 6px;
+        white-space: nowrap; /* no line breaks */
+        margin-top: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+</style>
+
+<div class="container py-4">
+    <h2 class="fw-bold mb-4" style="color: var(--navy-blue);">Organisation</h2>
+
+    <div class="mb-5">
+        <input type="text" class="form-control form-control-lg shadow-sm" placeholder="Search Departments or managers">
+    </div>
+
+    <h4 class="fw-bold mb-3" style="color:var(--navy-blue);">Departments</h4>
+
+    <div class="row">
+        {% for dept in departments %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <a href="{% url 'department_detail' dept.id %}" class="text-decoration-none text-dark">
+                <div class="card h-100 dept-card shadow-sm border-0"> 
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h5 class="fw-bold text-primary">{{ dept.name }}</h5>
+                            <span class="badge bg-info-subtle text-primary border border-info-subtle"> {{ dept.specialisation }}</span>
+                        </div>
+                        
+                        <p class="text-muted small">{{ dept.description }}</p>
+
+                        <p class="small mb-0">
+                            <strong>Lead:</strong>
+                            <span class="text-dark">{{ dept.head.username|default:"Unassigned"}}</span>
+                        </p>
+
+                        <hr class="my-3"> <!--line across page to separate-->
+
+                        <p class="small fw-bold text-uppercase mb-2" style="font-size: 10px; color: #6c757d">Managed Teams</p>
+                        <div class="d-flex flex-wrap gap-2"> <!-- show teams on card -->
+                            {% for team in dept.team_set.all %}
+                                <span class="badge border text-dark bg-light shadow-xs">{{ team.name }}</span>
+                            {% empty %}
+                                <span class="text-muted small italic">No linked teams</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!--Dependencies-->
+    <h4 class="fw-bold mt-5 mb-3" style="color: var(--navy-blue);">Team Dependencies</h4>
+    <div class="table-container shadow-sm"></div>
+    <table class="table table-hover mb-0">
+        <!--table showing how teams rely on each other-->
+        <thead class="bg-light">
+            <tr>
+                <th class="ps-3">Providing Team</th>
+                <th class="text-center">Link</th>
+                <th>Dependent Team</th>
+                <th>Relationship Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dep in dependencies %}
+            <tr class="align-middle">
+                <td class="ps-4 fw-bold text-primary">{{ dep.upstream_team.name }}</td>
+                <td class="text-center text-muted" style="font-size: 20px;">→</td>
+                <td class="fw-bold">{{ dep.downstream_team.name }}</td>
+                <td><span class="badge rounded-pill border text-primary" style="background-color: var(--cloud-white);">
+                    {{ dep.dependency_type }}
+                </span></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center py-4 text-muted small">No Dependencies found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>    
+</div> 
+{% endblock %}
+    
+
