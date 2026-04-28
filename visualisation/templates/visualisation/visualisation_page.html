@@ -2,8 +2,9 @@
 
 {% block content %}
 
-<!-- Bokeh -->
+<!-- bokeh -->
 <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.6.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
     .page-header {
@@ -47,6 +48,14 @@
     .chart-card .bk {
         max-width: 100%;
     }
+    
+    .chart-card {
+    min-height: 500px;
+    }
+
+    .dependency-card {
+    min-height: 550px;
+    }
 
     .badge-status {
         background: linear-gradient(135deg, #4DD0E1, #00AEEF);
@@ -55,15 +64,19 @@
         border-radius: 20px;
         font-size: 12px;
     }
+
+    .employee-chart-card {
+    min-height: auto;
+    }
 </style>
 
-<!-- HEADER -->
+<!-- header -->
 <div class="page-header">
     <h1>Visualisation Dashboard</h1>
     <p>View key project insights, trends, and summary data.</p>
 </div>
 
-<!-- STATS -->
+<!-- stats -->
 <div class="row g-4 mb-4">
     <div class="col-md-4">
         <div class="stat-card">
@@ -85,45 +98,71 @@
     </div>
 </div>
 
-<!-- FILTERS -->
-<div class="filter-card">
-    <h4 class="section-title">Filters</h4>
-    <div class="row g-3">
-        <div class="col-md-4">
-            <label class="form-label">Date Range</label>
-            <select class="form-select">
-                <option>Last 7 Days</option>
-                <option>Last 30 Days</option>
-                <option>This Month</option>
-            </select>
-        </div>
-        <div class="col-md-4">
-            <label class="form-label">Category</label>
-            <select class="form-select">
-                <option>All</option>
-                <option>Reports</option>
-                <option>Schedule</option>
-                <option>Teams</option>
-            </select>
-        </div>
-    </div>
-</div>
 
-<!-- MAIN CHART -->
+<!-- main chart -->
 <div class="chart-card">
     <h4 class="section-title">Main Chart</h4>
     {{ main_div|safe }}
     {{ main_script|safe }}
 </div>
 
-<!-- CATEGORY CHART BELOW -->
+<!-- chart category -->
 <div class="chart-card">
-    <h4 class="section-title">Category Breakdown</h4>
+    <h4 class="section-title">Team Activity Status</h4>
     {{ category_div|safe }}
     {{ category_script|safe }}
 </div>
 
-<!-- TABLE -->
+<!-- employee pie chart -->
+<!-- employee pie chart -->
+<div class="chart-card employee-chart-card">
+    <h4 class="section-title">Employees by Department</h4>
+
+    <div style="max-width: 500px; margin: 0 auto;">
+        <canvas id="employeePieChart"></canvas>
+    </div>
+</div>
+
+{{ department_labels|json_script:"department-labels" }}
+{{ employee_counts|json_script:"employee-counts" }}
+
+<script>
+    const departmentLabels = JSON.parse(document.getElementById("department-labels").textContent);
+    const employeeCounts = JSON.parse(document.getElementById("employee-counts").textContent);
+
+    const ctx = document.getElementById("employeePieChart");
+
+    new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: departmentLabels,
+            datasets: [{
+                label: "Employees",
+                data: employeeCounts,
+                backgroundColor: [
+                    "#4DD0E1",
+                    "#00AEEF",
+                    "#0078D4",
+                    "#9C6ADE",
+                    "#6A4FBF",
+                    "#ff8a00",
+                    "#ff3cac"
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "right"
+                }
+            }
+        }
+    });
+</script>
+
+<!-- table -->
 <div class="table-card">
     <h4 class="section-title">Recent Data Summary</h4>
     <table class="table table-hover">
@@ -143,5 +182,7 @@
         </tbody>
     </table>
 </div>
+
+
 
 {% endblock %}
