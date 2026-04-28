@@ -13,9 +13,13 @@ body.team-page {
 
 /* Banner */
 .team-banner {
-    background: linear-gradient(135deg, #00AEEF, #0078D4);
+    background: linear-gradient(135deg,
+        #1a8cff 0%,     
+        #2b86c5 35%,    
+        #784ba0 70%,    
+        #ac2973 100%    
+    );
     color: white;
-    /*padding: 40px 30px;*/
     padding: 15px 22px;
     border-radius: 16px;
     margin-bottom: 30px;
@@ -85,6 +89,7 @@ body.team-page {
     margin: 0 auto;
 }
 
+
 /* Cards */
 .detail-card {
     background: white;
@@ -103,6 +108,94 @@ body.team-page {
 .detail-card p {
     margin-bottom: 6px;
 }
+/* Gradient top border for detail cards */
+.detail-card.gradient-top {
+    position: relative;
+    overflow: hidden;
+}
+
+.detail-card.gradient-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(135deg,
+        #ff8a00 0%,
+        #ff3cac 30%,
+        #784ba0 65%,
+        #2b86c5 100%
+    );
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+}
+/* Member Cards (match Team List card style) */
+.member-card {
+    position: relative;
+    overflow: hidden;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #E4E9F2;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    padding: 18px 20px;
+    transition: 0.2s ease;
+}
+
+.member-card:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+}
+
+/* Top gradient border */
+.member-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(135deg,
+        #ff8a00 0%,
+        #ff3cac 30%,
+        #784ba0 65%,
+        #2b86c5 100%
+    );
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+
+.btn-email {
+    background: linear-gradient(135deg, #5d38ac);
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    transition: 0.2s ease;
+    text-decoration: none !important;
+}
+
+.btn-email:hover {
+    opacity: 0.9;
+}
+
+.btn-meeting {
+    background: linear-gradient(135deg, #c91a57);
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    transition: 0.2s ease;
+    text-decoration: none !important;
+}
+
+.btn-meeting:hover {
+    opacity: 0.9;
+}
+
+
 
 </style>
 
@@ -129,8 +222,8 @@ body.team-page {
         </div>
 
         <div class="team-actions mt-3 d-flex gap-3">
-            <a href="{% url 'email_team' team.id %}" class="btn btn-light text-danger fw-bold">Email Team</a>
-            <a href="{% url 'schedule_meeting' team.id %}" class="btn btn-light text-primary fw-bold">Schedule Meeting</a>
+            <a href="{% url 'email_team' team.id %}" class="btn-email">Email Team</a>
+            <a href="{% url 'schedule_meeting' team.id %}" class="btn-meeting">Schedule Meeting</a>
         </div>
     </div>
 
@@ -181,7 +274,7 @@ body.team-page {
 
         <!-- Team Stats -->
         <div class="col-md-6">
-            <div class="detail-card text-center">
+            <div class="detail-card gradient-top text-center">
                 <h4 class="section-title">Team Stats</h4>
 
                 <div style="display:flex; justify-content:space-around; margin-top:10px;">
@@ -207,7 +300,7 @@ body.team-page {
 
         <!-- Team Details -->
         <div class="col-md-6">
-            <div class="detail-card">
+            <div class="detail-card gradient-top">
                 <h4 class="section-title">Team Details</h4>
                 <p><strong>Department:</strong> {{ team.department.name }}</p>
                 <p><strong>Team Lead:</strong> {{ team.team_leader.get_full_name|default:"Not assigned" }}</p>
@@ -228,20 +321,8 @@ body.team-page {
 
         {% for member in members %}
         <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-            <div style="
-                background:white;
-                border-radius:16px;
-                padding:18px 20px;
-                border:1px solid #E4E9F2;
-                box-shadow:0 4px 12px rgba(0,0,0,0.06);
-                display:flex;
-                gap:15px;
-                align-items:flex-start;
-                transition:0.2s ease;
-            "
-            onmouseover="this.style.boxShadow='0 6px 16px rgba(0,0,0,0.10)'"
-            onmouseout="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'">
-        
+            <div class="member-card" style="display:flex; gap:15px; align-items:flex-start;">
+
                 <!-- Avatar -->
                 <div style="
                     width:55px;

@@ -9,13 +9,14 @@
 
     <style>
         :root {
-            --sky-blue: #00AEEF;
-            --deep-purple: #6A4FBF;
-            --cloud-white: #F5F9FF;
+            --sky-orange: #ff8a00;
+            --sky-pink: #ff3cac;
+            --sky-purple: #784ba0;
+            --sky-blue: #2b86c5;
         }
 
         body {
-            background: var(--cloud-white);
+            background: url('/static/images/login_page.png') no-repeat center center/cover;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -35,14 +36,14 @@
             font-size: 28px;
             font-weight: bold;
             text-align: center;
-            background: linear-gradient(135deg, var(--sky-blue), var(--deep-purple));
+            background: linear-gradient(135deg, var(--sky-orange), var(--sky-pink), var(--sky-purple), var(--sky-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 25px;
         }
 
         .btn-sky {
-            background: linear-gradient(135deg, var(--sky-blue), var(--deep-purple));
+            background: linear-gradient(135deg, var(--sky-orange), var(--sky-pink), var(--sky-purple), var(--sky-blue));
             color: white;
             border: none;
             padding: 12px;
@@ -77,11 +78,40 @@
         a {
             text-decoration: none;
             color: var(--sky-blue);
+
         }
 
         a:hover {
             text-decoration: underline;
         }
+        .admin-link {
+            font-weight: 600;
+            color: var(--sky-blue);
+            position: relative;
+            padding-bottom: 3px;
+        }
+        .admin-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(
+                135deg,
+                var(--sky-orange) 0%,
+                var(--sky-pink) 30%,
+                var(--sky-purple) 65%,
+                var(--sky-blue) 100%
+            );
+            transition: width 0.35s ease;
+            border-radius: 2px;
+        }
+        .admin-link:hover::after {
+            width: 100%;
+        }
+
+        
     </style>
 </head>
 
@@ -89,7 +119,7 @@
 
 <div class="login-card">
 
-    <div class="brand-title">OpenSky</div>
+    <div class="brand-title">Sky Engineering Portal</div>
 
     <form method="post">
         {% csrf_token %}
@@ -102,15 +132,8 @@
         <a href="{% url 'password_reset' %}">Forgot password?</a>
     </div>
 
-    <div class="divider">Or continue with</div>
-
-    <div class="d-flex justify-content-between">
-        <button class="social-btn">Google</button>
-        <button class="social-btn">Microsoft</button>
-    </div>
-
     <div class="text-center mt-3">
-        <a href="{% url 'admin_login' %}">Admin Login</a>
+        <a href="{% url 'admin_login' %}" class="admin-link">Admin Login</a>
     </div>
 
 </div>

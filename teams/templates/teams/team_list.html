@@ -4,7 +4,6 @@
 {% block content %}
 
 <style>
-
     :root {
         --sky-blue: #00AEEF;
         --deep-sky-blue: #0078D4;
@@ -12,8 +11,16 @@
         --soft-grey: #E6ECF5;
         --cloud-white: #F5F9FF;
         --gradient-sky: linear-gradient(135deg, #00AEEF, #0078D4);
+        
+        /* match sidebar colours */
+        --sidebar-gradient: linear-gradient(135deg,
+           #ff8a00 0%,
+           #ff3cac 30%,
+           #784ba0 65%,
+           #2b86c5 100%
+           );
     }
-
+    
     .team-card {
         background: white;
         border-radius: 14px;
@@ -21,8 +28,27 @@
         padding: 20px;
         transition: 0.2s ease;
         position: relative;
-
+        overflow: hidden; /* important */
     }
+        
+        /* Top gradient border */
+    .team-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px; /* thickness of the line */
+        width: 100%;
+        background: linear-gradient(135deg,
+        #ff8a00 0%,
+        #ff3cac 30%,
+        #784ba0 65%,
+        #2b86c5 100%
+        );
+        border-top-left-radius: 14px;
+        border-top-right-radius: 14px;
+    }
+
 
     .team-card:hover {
         transform: translateY(-4px);
@@ -80,20 +106,20 @@
         margin-left: -8px;
     }
     .more-members {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: #e0e7ff;
-    color: #3b4cca;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    margin-left: -8px;
-    font-size: 14px;
-    border: 2px solid white;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-}
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #e0e7ff;
+        color: #3b4cca;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin-left: -8px;
+        font-size: 14px;
+        border: 2px solid white;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
 
 
     .btn-contact {
@@ -101,10 +127,13 @@
         color: white;
         border: none;
         border-radius: 8px;
-        padding: 6px 14px;
+        padding: 6px 12px;
         font-size: 14px;
-        position: relative;
         z-index: 10;
+        text-decoration: none;  /* remove underline */
+        line-height: 1;         /* tighter vertical spacing */
+        display: inline-block;  /* prevents weird stretching */
+
     }
 
     .btn-contact:hover {
@@ -159,11 +188,9 @@
     }
 
     /* Dropdown wrapper for icon */
-
     .dropdown-wrapper {
         position: relative;
     }
-
 
     /* Dropdown icon */
     .dropdown-icon {
@@ -185,7 +212,6 @@
         box-shadow: 0 2px 6px rgba(0,0,0,0.12);
         margin-left: -8px;
     }
-
 
 
 </style>
@@ -243,16 +269,6 @@
         <div class="col-md-4 mb-4">
             <div class="team-card">
 
-                <!-- Status -->
-                <div class="status-badge">
-                    {{ team.status }}
-                </div>
-
-                <!-- Avatar 
-                <div class="team-avatar">
-                    {{ team.name|first|upper }}
-                </div>
-                -->
 
                 <!-- Title -->
                 <div class="team-title">{{ team.name }}</div>
@@ -299,10 +315,17 @@
                     {% endif %}
                 </div>                
 
-                <!-- Contact Button -->
-                <a href="{% url 'team_detail' team.id %}" class="btn-contact">
-                    Contact
-                </a>
+                <!-- Status -->
+                <div class="d-flex align-items-center mt-2">
+                    <div class="status-badge">
+                        {{ team.status }}
+                    </div>
+                
+                    <a href="{% url 'team_detail' team.id %}" class="btn-contact ms-auto">
+                        Contact
+                    </a>
+                </div>
+                
 
             </div>
         </div>
