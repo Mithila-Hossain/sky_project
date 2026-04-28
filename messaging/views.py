@@ -1,3 +1,8 @@
+# Created by : Mithila Hossain
+# Used and written by: Ghoufran Al-Kooh
+# Feature: Messaging system views
+# Description: Handles inbox, send message, sent messages, drafts, reply, and search functionality
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required

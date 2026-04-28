@@ -1,3 +1,8 @@
+# Author: Mithila
+# Used by: Ghoufran
+# Description: Defines the Message model used for storing messages in the database
+
+
 from django.db import models
 from django.contrib.auth.models import User
 from teams.models import Team
