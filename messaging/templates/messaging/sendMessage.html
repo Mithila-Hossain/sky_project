@@ -19,7 +19,7 @@
         }
 
         .message-card:hover {
-            background:  linear-gradient(120deg, #bee2fc, #efdffa);
+            background:  linear-gradient(120deg, #fad3cf, #dcebf9, #fddafc);
         }
 
     .form-row {
@@ -49,7 +49,7 @@
     .gradient-border {
     padding: 2px;
     border-radius: 10px;
-    background: linear-gradient(135deg, #00AEEF, #b347fb);
+    background: linear-gradient(135deg, #ff8a00, #f81e99, #3bb8f7 );
 }
 
 .gradient-inner {
@@ -115,8 +115,7 @@
                         <select name="receiver" required class="form-input">
                             <option value="">Select a user</option>
                             {% for user in users %}
-                                <option value="{{ user.id }}"
-                                    {% if pre_receiver and user.id == pre_receiver.id %} selected {% endif %}>
+                                <option value="{{ user.id }}">
                                     {{ user.username }} {% if user == request.user %}(You){% endif %}
                                 </option>
                             {% endfor %}
