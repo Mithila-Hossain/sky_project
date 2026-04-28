@@ -3,56 +3,169 @@
 {% block content %}
 
 <style>
-    .stat-card {
-        background: white;
-        border-radius: 12px;
-        padding: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        text-align: center;
-        transition: 0.2s;
+    :root {
+        --sky-orange: #ff8a00;
+        --sky-pink: #ff3cac;
+        --sky-purple: #784ba0;
+        --sky-blue: #2b86c5;
     }
+
+    .stat-card {
+    background: white;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(135deg,
+        #ff8a00 0%,
+        #ff3cac 30%,
+        #784ba0 65%,
+        #2b86c5 100%
+    );
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+}
 
     .stat-card:hover {
         transform: translateY(-3px);
     }
 
     .stat-number {
-        font-size: 32px;
-        font-weight: bold;
-        background: linear-gradient(135deg, #00AEEF, #6A4FBF);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-size: 30px;
+        font-weight: 700;
+        color: #2b2b2b;
     }
 
     .stat-label {
-        font-size: 15px;
-        color: #666;
+        font-size: 14px;
+        color: #777;
     }
 
     .section-title {
-        font-size: 22px;
-        font-weight: bold;
-        margin-top: 40px;
-        margin-bottom: 15px;
-    }
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    color: #f61d4f; /* soft premium red */
+}
+
 
     .activity-box {
-        background: white;
-        padding: 18px;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        margin-bottom: 12px;
-    }
+    background: #f7faff;
+    padding: 16px 20px;
+    border-radius: 12px;
+    border-left: 4px solid #2b86c5;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.activity-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.activity-time {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280; /* nicer grey */
+}
+
 
     .table-card {
-        background: white;
-        padding: 25px;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Gradient top border */
+.table-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(135deg,
+        #ff8a00 0%,
+        #ff3cac 30%,
+        #784ba0 65%,
+        #2b86c5 100%
+    );
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+}
+
+/* Table header */
+.table-card table thead th {
+    color: #2b86c5 !important; /* sky blue */
+    font-weight: 700;
+    font-size: 15px;
+}
+
+
+
+/* Table rows */
+table tbody tr {
+    transition: 0.25s ease;
+}
+
+table tbody tr:hover {
+    background: #f7faff;
+    transform: translateX(4px);
+}
+
+/* Table cells */
+table td {
+    padding: 14px 10px;
+    font-size: 14px;
+    color: #333;
+    vertical-align: middle;
+}
+
+/* Status badge inside table */
+.table-status {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.table-status.active {
+    background: #d1f7d6;
+    color: #1b8c2f;
+}
+
+.table-status.inactive {
+    background: #ffe5e5;
+    color: #b30000;
+}
+
+
+
+
+
 </style>
 
-<h2 class="fw-bold mb-4">Welcome, {{ user.first_name }}!</h2>
+
+<h2 class="fw-bold mb-4">Welcome, {{ user.username }}!</h2>
 
 <!-- STAT CARDS -->
 <div class="row g-4">
@@ -109,7 +222,6 @@
                 <th>Team Name</th>
                 <th>Department</th>
                 <th>Lead</th>
-                <th>Members</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -119,9 +231,13 @@
             <tr>
                 <td>{{ team.name }}</td>
                 <td>{{ team.department.name }}</td>
-                <td>{{ team.team_leader.username }}</td>
-                <td>{{ team.member_count }}</td>
-                <td>{{ team.status }}</td>
+                <td>{{ team.team_leader.get_full_name|default:team.team_leader.username }}</td>
+                <td>
+                    <span class="table-status {% if team.status == 'Active' %}active{% else %}inactive{% endif %}">
+                        {{ team.status }}
+                    </span>
+                </td>
+                
             </tr>
             {% endfor %}
         </tbody>
