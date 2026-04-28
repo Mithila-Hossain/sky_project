@@ -192,7 +192,9 @@
 
 <div class="container py-4">
 
-    <h2 class="fw-bold mb-4" style="color: var(--navy-blue);">Team Directory</h2>
+    <h2 class="fw-bold" style="color: var(--navy-blue); margin-top: -10px; margin-bottom: 25px;">
+        Team Directory
+    </h2>    
 
 
     <!-- Search + Filters -->
@@ -213,7 +215,7 @@
 
         <!-- Department Filter -->
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="dropdown-wrapper">
                 <select name="department" class="form-select filter-select">
                     <option value="">All Departments</option>
@@ -229,17 +231,6 @@
                 <i class="dropdown-icon bi bi-chevron-down"></i>
             </div>
         </div>
-        
-
-        <!-- Sort By -->
-        <div class="col-md-3">
-            <select name="sort" class="form-select filter-select">
-                <option value="">Sort by</option>
-                <option value="name_asc"  {% if request.GET.sort == "name_asc" %}selected{% endif %}>Name (A → Z)</option>
-                <option value="name_desc" {% if request.GET.sort == "name_desc" %}selected{% endif %}>Name (Z → A)</option>
-            </select>
-        </div>
-
     </div>
 
 </form>
@@ -299,8 +290,9 @@
                 <!-- Member Images -->
                 <div class="member-images mt-2 mb-3">
                     {% for member in team.members.all|slice:":4" %}
-                        <img src="{% static 'images/default_avatar.png' %}" class="member-avatar">
+                        <img src="{% static 'images/avatar_' %}{{ forloop.counter }}.png" class="member-avatar">
                     {% endfor %}
+
                 
                     {% if team.members.count > 4 %}
                         <div class="more-members">+{{ team.members.count|add:"-4" }}</div>
