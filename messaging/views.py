@@ -162,37 +162,3 @@ def messaging_main(request):
 
 
 
-
-
-
-# # To send a message
-# #def send_message(request):
-    
-#     if request.method == "POST":
-#         subject = request.POST['subject']
-#         body = request.POST['body']
-#         receiver_username = request.POST['receiver']
-
-#         receiver = User.objects.get(username=receiver_username)
-
-#         msg = Message(
-
-#             subject=subject,
-#             body=body,
-#             sender=request.user,
-#             receiver=receiver
-#         )
-
-#         msg.save()
-
-
-#         return redirect('inbox')
-
-#     users = User.objects.all()
-#     return render(request, 'messaging/send_message.html', {'users': users})
-
-
-
-# #def inbox(request):
-#     messages = Message.objects.filter(receiver=request.user).order_by('-timeStamp')
-#     return render(request, 'messaging/inbox.html', {'messages': messages})
