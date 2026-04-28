@@ -71,6 +71,11 @@
                 <div>
                     <strong>{{ msg.subject }}</strong><br>
                     From: {{ msg.sender.username }}
+
+                    {% if msg.team %}
+                    <br>Team: {{ msg.team.name }}
+                    {% endif %}
+
                 </div>
                 <span class="date">{{ msg.timeStamp }}</span>
             </div>

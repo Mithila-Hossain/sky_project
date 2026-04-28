@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Message
 from teams.models import Team
+from django.db.models import Q
 
 
 def messaging_main(request):
@@ -32,6 +33,13 @@ def messaging_main(request):
         if not receiver:
             receiver = request.user   # fallback → send to yourself
             
+
+
+        team_id = request.POST.get('team')
+        team = None
+
+        if team_id:
+            team = Team.objects.filter(id=team_id).first()
  
         action = request.POST.get('action', 'send')
 
@@ -51,6 +59,7 @@ def messaging_main(request):
                 body=body,
                 sender=request.user,
                 receiver=receiver,
+                team=team,
                 is_draft=(action == 'draft')
         )
         
@@ -109,11 +118,12 @@ def messaging_main(request):
             )
 
         if query:
-            messages = messages.filter(
-                subject__icontains=query
-            ) | messages.filter(
-                body__icontains=query
-            )
+           messages = messages.filter(
+            Q(subject__icontains=query) |
+            Q(body__icontains=query) |
+            Q(sender__username__icontains=query) |
+            Q(team__name__icontains=query)   # added team
+        )
 
         context['messages'] = messages.order_by('-timeStamp')
 
@@ -125,10 +135,11 @@ def messaging_main(request):
 
         if query:
             sent = sent.filter(
-                subject__icontains=query
-            ) | sent.filter(
-                body__icontains=query
-            )
+            Q(subject__icontains=query) |
+            Q(body__icontains=query) |
+            Q(receiver__username__icontains=query) |
+            Q(team__name__icontains=query)   # added team
+        )
 
         context['sent_messages'] = sent.order_by('-timeStamp')
 

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from teams.models import Team
 
 class Message(models.Model):
     subject = models.CharField(max_length=255)
@@ -8,6 +9,7 @@ class Message(models.Model):
     receiver = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
     timeStamp = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, default="Sent")
+    team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.SET_NULL)
 
     is_draft = models.BooleanField(default=False)
 

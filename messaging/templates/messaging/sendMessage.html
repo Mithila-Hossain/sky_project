@@ -1,11 +1,20 @@
 <style>
 
-    .message-card{
-  justify-content: center;
-  padding: 30px;
-  margin: 0% 5%;
-        
-    }
+
+     .message-card {
+            background: white;
+            padding: 30px;
+            margin: 0% 5%;
+            border-radius: 10px;
+            box-shadow: 0 8px 6px rgba(4, 121, 154, 0.2);
+            transition: .4s;
+            justify-content: center;
+
+        }
+
+        .message-card:hover {
+            background:  linear-gradient(120deg, #bee2fc, #efdffa);
+        }
 
     .form-row {
         display: flex;
@@ -42,7 +51,6 @@
   padding: 10px;
   border-radius: 8px;
 }
-
 
 
     
@@ -113,9 +121,9 @@
 
         </div>
 
-        <button type="submit" name="action" value="send">Send Message</button>
-        <button type="submit" name="action" value="draft">Save as Draft</button>
-        <button type="button" onclick="window.history.back()">Cancel</button>
+        <button type="submit" name="action" value="send">Send ➤</button>
+        <button type="submit" name="action" value="draft">Draft ✎</button>
+        <button type="button" onclick="window.history.back()">Cancel 🗑</button>
     </form>
 
 

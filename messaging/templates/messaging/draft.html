@@ -1,20 +1,46 @@
-
-
 <style>
 
+
+
+.message-card {
+        padding: 10px;
+        margin: 20px;
+        border-radius: 10px;
+        box-shadow: 0 8px 6px rgba(22, 137, 190, 0.2);
+        transition: 0.4s;
+        cursor: pointer;
+    }
+    
+    .message-card:hover {
+        background: #e9f1fb;
+    }
     .draft-actions {
         display: flex;
         align-items: center;
         gap: 10px;
     }
-    
+
     .edit-btn {
-        height: 25px;
-        font-size: 12px;
-        padding: 3px 8px;
+       border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            background: rgba(11, 170, 249, 0.25);
+            margin: 10px;
+            box-shadow: 0 5px 6px rgba(2, 25, 44, 0.2);
+            font-size: 12px;
+            
     }
-    
-    </style>
+
+        .edit-btn:hover{
+
+            background: rgb(124, 193, 254);
+        }
+
+
+
+   
+</style>
 
 
 
@@ -26,7 +52,7 @@
 <div class="message-card" onclick="showMessage(this)">
 
     <div class="message-header">
-        
+
         <!-- LEFT -->
         <div>
             <strong>{{ msg.subject }}</strong><br>
@@ -36,7 +62,7 @@
         <!-- RIGHT -->
         <div class="draft-actions">
 
-            <a href="?view=send&edit={{ msg.id }}">
+            <a href="?view=send&edit={{ msg.id }}" onclick="event.stopPropagation()">
                 <button class="edit-btn">Edit</button>
             </a>
 
@@ -56,7 +82,7 @@
     </p>
 
 
-    
+
 
 </div>
 {% endfor %}
