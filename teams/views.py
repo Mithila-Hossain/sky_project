@@ -1,23 +1,23 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Count
 from .models import Team, TeamMember, Dependency, ContactChannel, Meeting
 from messaging.models import Message
 from django.utils import timezone
 from organisation.models import Department 
 
 
+
 def team_list(request):
-    teams = Team.objects.filter(
-        upstream_dependencies__isnull=False,
-        downstream_dependencies__isnull=False
-    ).distinct()
+    teams = Team.objects.annotate(
+        member_count=Count("members")
+    ).filter(member_count__gt=0)
 
     departments = Department.objects.all()
 
     search = request.GET.get("search", "")
     department = request.GET.get("department")
-    sort = request.GET.get("sort")
 
     if search:
         teams = teams.filter(name__icontains=search)
@@ -25,17 +25,11 @@ def team_list(request):
     if department:
         teams = teams.filter(department_id=department)
 
-    if sort == "name_asc":
-        teams = teams.order_by("name")
-    elif sort == "name_desc":
-        teams = teams.order_by("-name")
-
     return render(request, "teams/team_list.html", {
         "teams": teams,
         "departments": departments,
         "search_query": search,
-        "selected_department_id": department,  # 👈 add this
-        "selected_sort": sort,                 # 👈 and this (optional)
+        "selected_department_id": department,                
     })
 
 

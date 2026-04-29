@@ -8,12 +8,12 @@
     <!-- Page header -->
     <div class="d-flex align-items-center justify-content-between mb-4">
 
-        <!-- Page title showing team name -->
+        <!-- page tile showing team name -->
         <h1 style="font-weight:700; font-size:28px; color:#003B70; margin:0;">
             Email {{ team.name }}
         </h1>
 
-        <!-- Back link to team page -->
+        <!-- Back to link to team page -->
         <a href="{% url 'team_detail' team.id %}"
            style="text-decoration:none; font-size:14px; color:#0078D4; font-weight:600;">
             ← Back to Team
@@ -33,7 +33,7 @@
         <form method="POST">
             {% csrf_token %}
 
-            <!-- Subject input field -->
+            <!-- subject input field -->
             <div class="mb-4">
                 <label class="form-label" style="font-weight:700; color:#003B70;">Subject</label>
                 <input type="text" name="subject" class="form-control"
@@ -52,7 +52,7 @@
             <!-- Submit button section -->
             <div class="d-flex justify-content-end">
 
-                <!-- Send email button -->
+                <!-- send email button -->
                 <button class="btn"
                         style="
                             background:#0078D4;
