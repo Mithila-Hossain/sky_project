@@ -14,7 +14,7 @@ class Team(models.Model):
     status = models.CharField(max_length=50, default="Active")
     created_at = models.DateTimeField(auto_now_add=True)
 
-    team_leader = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="leading_teams")
+    team_leader = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="leading_teams")
     project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
@@ -46,7 +46,6 @@ class TeamMember(models.Model):
 class Dependency(models.Model):
     dependency_type = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
-
     upstream_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="upstream_dependencies")
     downstream_team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="downstream_dependencies")
 
