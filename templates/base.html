@@ -1,53 +1,69 @@
+<!-- Author: Mithila Hossain | ID: w1970613 -->
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sky Project</title>
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap for layout and styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+
+        /* Colour palette for the whole project */
         :root {
             --aqua: #4DD0E1;
             --sky-blue: #00AEEF;
             --deep-blue: #0078D4;
             --soft-purple: #9C6ADE;
             --deep-purple: #6A4FBF;
-            
+
             --cloud-white: #F5F9FF;
             --soft-grey: #E6ECF5;
-    
+
+            /* Gradient styles used across UI */
             --gradient-aqua-blue: linear-gradient(135deg, #4DD0E1, #00AEEF);
             --gradient-blue-purple: linear-gradient(135deg, #00AEEF, #9C6ADE);
             --gradient-aqua-purple: linear-gradient(135deg, #4DD0E1, #6A4FBF);
         }
-    
+
+        /* Page layout setup */
         body {
             display: flex;
             min-height: 100vh;
             margin: 0;
             background-color: var(--cloud-white);
         }
-    
-        /* Sidebar */
+
+        /* Sidebar navigation */
         .sidebar {
             width: 250px;
-            background: var(--gradient-blue-purple); /* Updated */
+            background: linear-gradient(135deg,
+                #ff8a00 0%,
+                #ff3cac 30%,
+                #784ba0 65%,
+                #2b86c5 100%
+            );
             color: white;
             padding: 20px 15px;
             position: fixed;
             top: 0;
             bottom: 0;
+            box-shadow: 0 0 25px rgba(255, 60, 172, 0.25);
+            border-right: 1px solid rgba(255, 255, 255, 0.25);
         }
-    
+
+        /* Sidebar title */
         .sidebar h3 {
             font-weight: bold;
             margin-bottom: 30px;
             color: white;
         }
-    
+
+        /* Sidebar links */
         .sidebar a {
             display: block;
             padding: 12px;
@@ -56,69 +72,79 @@
             border-radius: 5px;
             margin-bottom: 10px;
             font-size: 16px;
+            transition: 0.25s ease;
         }
-    
+
+        /* Hover effect for sidebar links */
         .sidebar a:hover {
-            background: var(--gradient-aqua-blue); /* Aqua hover */
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.35);
         }
-    
-        /* Main content */
+
+        /* Main page content area */
         .content {
             margin-left: 260px;
             padding: 30px;
             width: 100%;
         }
+
+        /* Logout button styling */
+        .logout-btn {
+            width: 100%;
+            background: none;
+            border: none;
+            color: white;
+            text-align: left;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Logout hover effect */
+        .logout-btn:hover {
+            background: var(--gradient-aqua-blue);
+        }
+
     </style>
-    
+
 </head>
 
 <body>
 
-    <!-- TOP NAVBAR
-    <nav class="navbar navbar-expand-lg px-4" 
-         style="height:60px; background: var(--gradient-blue-purple); 
-                position:fixed; top:0; left:250px; right:0; z-index:1000;">
-        <div class="ms-auto d-flex align-items-center">
-            {% if user.is_authenticated %}
-            <div class="dropdown">
-                <a class="text-white fw-bold dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                    {{ user.first_name }} {{ user.last_name }}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">View Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li>
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <button class="dropdown-item" type="submit">Sign Out</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-            {% endif %}
-        </div>
-    </nav>
- -->
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <h3>Sky Project</h3>
+<!-- Sidebar navigation menu -->
+<div class="sidebar">
 
-        <a href="/">Dashboard</a>
-        <a href="/teams/">Team Management</a>
-        <a href="/organisation/">Organisation</a>
-        <a href="/messaging/">Messages</a>
-        <a href="/schedule/">Schedule</a>
-        <a href="/reports/">Reports</a>
-        <a href="/visualisation/">Visualisation</a>
-    </div>
+    <!-- Project title -->
+    <h3>Sky Project</h3>
 
-    <!-- MAIN CONTENT -->
-    <div class="content">
-        {% block content %}
-        {% endblock %}
-    </div>
+    <!-- Navigation links -->
+    <a href="/">Dashboard</a>
+    <a href="/teams/">Team Management</a>
+    <a href="/organisation/">Organisation</a>
+    <a href="/messaging/">Messages</a>
+    <a href="/schedule/">Schedule</a>
+    <a href="/reports/">Reports</a>
+    <a href="/visualisation/">Visualisation</a>
+
+    <!-- Logout form (POST required for Django logout) -->
+    <form action="{% url 'logout' %}" method="post" style="margin-top:20px;">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">
+            Logout
+        </button>
+    </form>
+
+</div>
+
+<!-- Main content area -->
+<div class="content">
+
+    {% block content %}
+    {% endblock %}
+
+</div>
 
 </body>
 
 </html>
-

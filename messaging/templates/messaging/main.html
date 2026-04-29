@@ -1,401 +1,261 @@
-<!DOCTYPE html>
-<html>
-
-<head>
+<!-- 
+Author: Ghoufran 
+Description: Main messaging page with navigation to inbox, send message, sent, and drafts
+ -->
+
+{% extends 'base.html' %}
+{% block content %}
+
+
+<style>
+    .main-content {
+        flex: 1;
+        padding: 20px;
+        min-width: 0px;
+
+    }
+
+    .search-box {
+        width: 100%;
+        padding: 8px;
+        border-radius: 10px;
+        height: 35px;
+        background: rgba(248, 240, 248, 0.25);
+
+
+    }
+
+    .search-form {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex: 1;
+
+
+        /* THIS makes it stretch nicely */
+    }
 
-    <title>Sky Project Messaging</title>
-
-    <style>
-        body {
-            display: flex;
-            font-family: Arial, sans-serif;
-            margin: 0;
-
-        }
-
-        .sidebar {
-            width: 200px;
-            background-color: #f2f2f2;
-            height: 100vh;
-            padding: 10px;
-            min-width: 30px;
-            /* allows shrinking */
-
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            padding: 10px;
-            margin-bottom: 5px;
-            cursor: pointer;
-        }
-
-        .sidebar ul li:hover {
-            background-color: #ddd;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            min-width: 0px;
-
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 8px;
-            border-radius: 10px;
-            height: 20px;
-            background: rgba(248, 240, 248, 0.25);
-
-        }
+    .search-box::placeholder {
+        color: rgb(252, 252, 252);
+    }
+
+
+    /* Dropdown menu for messages */
+    .menu {
+        display: inline-block;
+        position: relative;
+        padding: 3%;
+    }
 
-        .search-form {
-            flex: 1;
+    .menu-content {
+        display: none;
+        background: #fff;
+        border: 1px solid #ccc;
+        min-width: 150px;
+        position: absolute;
+        margin-top: 3px;
+        right: 0;
 
-            /* THIS makes it stretch nicely */
-        }
 
-        .search-box::placeholder {
-            color: rgb(252, 252, 252);
-        }
+    }
 
+    .menu-content a {
+        display: block;
+        padding: 7px;
+        text-decoration: none;
+        color: rgb(3, 25, 74);
+        background-color: #afd2f5;
 
-        /* Dropdown menu for messages */
-        .menu {
-            display: inline-block;
-            position: relative;
-            padding: 3%;
-        }
+    }
 
-        .menu-content {
-            display: none;
-            background: #fff;
-            border: 1px solid #ccc;
-            min-width: 120px;
-            position: absolute;
-            top: 100%;
-            right: 0;
+    .menu-content a:hover {
+        background-color: #eba7fc;
+    }
+
+    .menu:hover .menu-content {
+        display: block;
+    }
+
+    /* Top bar */
+    .topbar {
+        background: linear-gradient(135deg,
+                #ff8a00 0%,
+                /* Orange */
+                #ff3cac 30%,
+                /* Pink */
+                #784ba0 65%,
+                /* Purple */
+                #2b86c5 100%
+                /* Blue */
+            );
+        padding: 15px;
+        border-radius: 10px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        gap: 10px
+    }
+
+
+    .topbar input {
+        padding: 8px;
+        border-radius: 10px;
+        border: none;
+        width: 95%;
 
+    }
 
-        }
 
-        .menu-content a {
-            display: block;
-            padding: 7px;
-            text-decoration: none;
-            color: rgb(3, 25, 74);
-            background-color: #afd2f5;
 
-        }
+    /* Buttons */
+    button {
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        height: 35px;
+        background: rgba(197, 215, 248, 0.25);
+        margin: 10px;
+        box-shadow: 0 3px 6px rgba(0, 117, 149, 0.2);
 
-        .menu-content a:hover {
-            background-color: #eee;
-        }
+    }
 
-        .menu:hover .menu-content {
-            display: block;
-        }
 
-        /* Top bar */
-        .topbar {
-            background: linear-gradient(150deg, #0199f7, #f8354b);
-            padding: 15px;
-            border-radius: 10px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            gap: 10px
-        }
+    button:hover {
+        background: #afd2f5;
 
+    }
 
-        .topbar input {
-            padding: 8px;
-            border-radius: 10px;
-            border: none;
-            width: 95%;
+    .main-content h1 {
+        margin: 50px 20px;
+        color: #0f3d65;
+    }
 
-        }
 
-        /* Message cards */
-        .message-card {
-            background: white;
-            padding: 10px;
-            margin: 20px;
-            border-radius: 10px;
-            box-shadow: 0 3px 6px rgba(0, 117, 149, 0.2);
-            transition: .4s;
-        }
+    .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+
+
+
+    .alert {
+        background: #2296ee;
+        color: white;
+        border-radius: 50%;
+        padding: 3px 7px;
+        font-size: 12px;
+        margin-left: 5px;
+    }
+
+
+
+
+
+
+.empty-box {
+    border-radius: 12px;
+    padding: 90px;
+    margin: 70px;
+    text-align: center;
+    background: linear-gradient(135deg,
+                #fbd2a3 ,
+                /* Orange */
+                #fa9ad1 ,
+                /* Pink */
+                #d0a1fa ,
+                /* Purple */
+                #a8dafd 
+                /* Blue */
+            );
+            
+ 
+}
+
+.empty-box:hover {
+    background: linear-gradient(135deg,
+                #fde7cc ,
+                /* Orange */
+                #ffcbe8 ,
+                /* Pink */
+                #e5c8ff ,
+                /* Purple */
+                #d0ebfe 
+                /* Blue */
+            );
+
+    transform: scale(1.1);
+
+}
+
+
+.empty-icon {
+    font-size: 75px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.empty-text {
+    font-size: 24px;
+}
+</style>
+
+
+<!-- Main container for messaging -->
+<div class="main-content">
+
+    <!-- Top search bar and menu -->
+    <div class="topbar">
+
+        <!-- Search form -->
+        <form method="GET" class="search-form">
+            <input type="hidden" name="view" value="{{ view_type }}">
+            <input type="text" name="q" placeholder=" 🔍Search..." class="search-box">
+            <button type="submit"> Submit </button>
+
+        </form>
+
+
+        <!-- Dropdown menu for tabs -->
+        <div class="menu">
+
+            <button>☰ </button>
+            <div class="menu-content">
+                <!-- Inbox link: shows all received messages and displays a notification count if there are new messages -->
+                <a href="?view=inbox">
+                    📬 Inbox
+                    {% if new_inbox_count > 0 %}
+                    <span class="alert">{{new_inbox_count}}</span>
+                    {% endif %}
+                </a>
+            
+                <!--link takes you to either to , send message form, sent page, or draft page -->
+                <a href="?view=send"> ➤ New Message </a>
+                <a href="?view=sent"> 📤 Sent </a>
+                <a href="?view=draft">
+                    📝Drafts
+                    {% if new_draft_count > 0 %}
+                    <span class="alert">{{new_draft_count}}</span>
+                    {% endif %}
+                </a>
 
-        .message-card:hover {
-            background: #eef8fc;
-        }
-
-
-
-        /* Buttons */
-        button {
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            height: 35px;
-            background: rgba(197, 215, 248, 0.25);
-            margin: 10px;
-            box-shadow: 0 3px 6px rgba(0, 117, 149, 0.2);
-
-        }
-
-
-
-
-
-
-        button:hover {
-            background: #afd2f5;
-
-        }
-
-        .main-content h2 {
-            margin: 50px 20px;
-            color: #0f3d65;
-        }
-
-
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .date {
-            font-size: 12px;
-            color: gray;
-        }
-
-
-        .star {
-            font-size: 18px;
-            color: goldenrod;
-            cursor: pointer;
-        }
-
-        .star:hover {
-            color: gold;
-        }
-    </style>
-
-
-</head>
-
-
-
-
-
-<body>
-
-    <div class="sidebar">
-        <ul>
-
-            <li>Dashboard</li>
-            <li>Team Management</li>
-            <li>Organisation</li>
-            <li>Messages</li>
-            <li>Schedule</li>
-            <li>Reports</li>
-            <li>Visualisation</li>
-
-        </ul>
-
-    </div>
-    <div class="main-content">
-
-        <div class="topbar">
-
-            <form method="GET" class="search-form">
-                <input type="hidden" name="view" value="{{ view_type }}">
-                <input type="text" name="q" placeholder=" 🔍Search..." class="search-box">
-            </form>
-
-            <a href="?view=send">
-                <button> Send </button>
-            </a>
-
-            <div class="menu">
-
-                <button>☰ </button>
-                <div class="menu-content">
-                    <a href="?view=inbox"> Inbox </a>
-                    <a href="?view=send"> New Message </a>
-                    <a href="?view=sent"> Sent </a>
-                    <a href="?view=draft"> Drafts </a>
-
-                </div>
             </div>
         </div>
-
-
-
-
-
-
-        <!-- Main content area -->
-
-        {% if view_type == 'inbox' %}
-        <h2>Inbox</h2>
-
-        {% if messages %}
-        {% for msg in messages %}
-        <div class="message-card" onclick="showMessage(this)">
-
-
-            <div class="message-header">
-                <div>
-                    <strong>{{ msg.subject }}</strong><br>
-                    From: {{ msg.sender.username }}
-                </div>
-                <span class="date">{{ msg.timeStamp }}</span>
-            </div>
-
-            <p class="message-preview">
-                {{ msg.body|truncatechars:50 }}
-            </p>
-
-            <p class="message-full" style="display:none;">
-                {{ msg.body }}
-
-            </p>
-
-        </div>
-        {% endfor %}
-        {% else %}
-        <p>No messages yet</p>
-        {% endif %}
-
-
-
-        {% elif view_type == 'send' %}
-        <h2>Send Message</h2>
-
-        <div class="message-card">
-            <form method="post">{% csrf_token %}
-
-                <input type="text" name="subject" placeholder="Subject" required
-                    style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-
-                <textarea name="body" placeholder="Write your message..." required
-                    style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
-
-                <label>Send To:</label><br>
-                <select name="receiver" required
-                    style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
-                    {% for user in users %}
-                    <option value="{{ user.id }}">
-                        {{ user.username }} {% if user == request.user %}(You){% endif %}
-                    </option>
-                    {% endfor %}
-                </select>
-
-
-                <button type="submit" name="action" value="send"> Send Message </button>
-                <button type="submit" name="action" value="draft"> Save as Draft </button>
-
-            </form>
-        </div>
-
-
-
-        {% elif view_type == 'sent' %}
-        <h2>Sent Messages</h2>
-
-        {% if sent_messages %}
-        {% for msg in sent_messages %}
-        <div class="message-card" onclick="showMessage(this)">
-
-
-            <div class="message-header">
-                <div>
-                    <strong>{{ msg.subject }}</strong><br>
-                    To: {{ msg.receiver.username }}
-                </div>
-                <div>
-                    <span class="star" onclick="starMessage(event, this)">☆</span>
-                    <span class="date">{{ msg.timeStamp }}</span>
-                </div>
-            </div>
-
-
-
-
-
-            <p class="message-preview">
-                {{ msg.body|truncatechars:50 }}
-            </p>
-
-            <p class="message-full" style="display:none;">
-                {{ msg.body }}
-            </p>
-
-
-
-
-        </div>
-        {% endfor %}
-        {% else %}
-        <p>No sent messages</p>
-        {% endif %}
-
-
-
-
-
-        {% elif view_type == 'draft' %}
-        <h2>Drafts</h2>
-
-        {% if draft_messages %}
-        {% for msg in draft_messages %}
-        <div class="message-card" onclick="showMessage(this)">
-
-            <div class="messaeg-header">
-                <div>
-
-                    <strong>{{ msg.subject }}</strong><br>
-                    To: {{ msg.receiver.username }}
-                </div>
-
-                <div>
-
-                    <a href="?view=send&edit={{ msg.id }}">
-                        <button style="height:25px; font-size:12px;">Edit</button>
-                    </a>
-
-                    <span class="date">{{ msg.timeStamp }}</span>
-                </div>
-            </div>
-
-            </p>
-
-            <p class="message-full" style="display:none;">
-                {{ msg.body }}
-            </p>
-        </div>
-        {% endfor %}
-        {% else %}
-        <p>No drafts yet</p>
-        {% endif %}
-
-        {% endif %}
-
-
-
-
     </div>
 
-</body>
+
+    <!-- Include the selected page template (inbox, send, sent, draft) -->
+    {% include template_name %}
+
+
+
+</div>
+
+
+
+
 
 
 
@@ -404,6 +264,7 @@
 
 <script>
 
+    // Toggle full message view
     function showMessage(box) {
         var preview = box.querySelector(".message-preview");
         var fullText = box.querySelector(".message-full");
@@ -426,7 +287,7 @@
         }
     }
 
-
+    // Toggle star for important message
     function starMessage(event, el) {
         event.stopPropagation(); // don't open message
 
@@ -438,6 +299,25 @@
             el.textContent = "☆";
         }
     }
+
+
+    // Highlight search results in purple
+    function highlightSearch() {
+        let query = "{{ query|escapejs }}";  // gets the search input safely
+        if (!query) return; // do nothing if no search
+
+        // Select all messages (preview, full body, and header)
+        let elements = document.querySelectorAll(".message-card .message-preview, .message-card .message-full, .message-card .message-header");
+
+        elements.forEach(el => {
+            let html = el.innerHTML;
+            let regex = new RegExp("(" + query + ")", "gi");  // case-insensitive
+            el.innerHTML = html.replace(regex, '<span style="background: #ea9bfe;">$1</span>');
+        });
+    }
+
+    // Run search highlight after page loads
+    window.onload = highlightSearch;
 </script>
 
-</html>
+{% endblock %}

@@ -6,11 +6,9 @@ from reports.models import Project
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
-    members = models.ManyToManyField(User)
+    #members = models.ManyToManyField(User)
     
 
-
-    
     team_type = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     status = models.CharField(max_length=50, default="Active")
@@ -24,13 +22,19 @@ class Team(models.Model):
 
     is_visible = models.BooleanField(default=True)
 
+    github_repo = models.URLField(max_length=300, blank=True, null=True)
+
+
     def __str__(self):
         return self.name
 
 
 class TeamMember(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.ForeignKey(
+    Team,
+    on_delete=models.CASCADE,
+    related_name="members")
     role_in_team = models.CharField(max_length=100, default="Engineer")
     skills = models.TextField(blank=True)
     hire_date = models.DateField(null=True, blank=True)
@@ -69,3 +73,5 @@ class Meeting(models.Model):
 
     def __str__(self):
         return f"Meeting for {self.team.name} on {self.date_time}"
+    
+

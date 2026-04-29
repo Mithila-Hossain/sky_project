@@ -1,44 +1,146 @@
-<h2>Send Message</h2>
+<!-- 
+ Author: Ghoufran
+ Feature: Send Message page
+ Description: Form page for composing and sending messages to users and teams 
+ -->
 
-<form method="post">
-    {% csrf_token %}
+<style>
 
-    <label>Subject:</label>
-    <br>
-    <input type="text" name="subject" required>
-    <br><br>
+
+     .message-card {
+            background: white;
+            padding: 30px;
+            margin: 0% 5%;
+            border-radius: 10px;
+            box-shadow: 0 8px 6px rgba(4, 121, 154, 0.2);
+            transition: .4s;
+            justify-content: center;
+
+        }
+
+        .message-card:hover {
+            background:  linear-gradient(120deg, #fad3cf, #dcebf9, #fddafc);
+        }
+
+    .form-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .form-group {
+        flex: 1;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 8px;
+        border: none;
+        background: white;
+    }
+
+
+    textarea.form-input {
+    height: 120px;
+}
+    
+
+    .gradient-border {
+    padding: 2px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ff8a00, #f81e99, #3bb8f7 );
+}
+
+.gradient-inner {
+    background: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
 
     
-    <label>Message: </label>
-    <br>
-    <textarea name="body" required></textarea>
-    <br><br>
-
-
-    <label>Send to:</label>
-    <br>
-    <select  name="receiver">
-        {% for user in users %}
-            <option value="{{ user.username }}">{{ user.username }}</option>
-        {% endfor %}
-    </select>
-    <br><br>
-
-    <button type="submit">Send</button>
-</form>
+    </style>
 
 
 
 
+<h1>Send Message</h1>
+
+<div class="message-card">
+
+    <!-- the main form for sending or saving messages -->
+
+    <form method="post">{% csrf_token %}
+
+        {% if draft %}
+        <input type="hidden" name="draft_id" value="{{ draft.id}}">
+        {% endif %}
+
+        <div class="gradient-border">
+            <div class="gradient-inner">
+
+                <!-- subject input (auto-filled if editing draft) -->
+                <input type="text" name="subject" placeholder="Subject" required class="form-input"value="{% if draft %}{{ draft.subject }}{% endif %}">
+                
+            </div>
+        </div>
+        <br>
+
+        <div class="gradient-border">
+            <div class="gradient-inner">
+
+                <!-- message body textarea (auto-filled when editing draft) -->
+                <textarea name="body" placeholder="Write your message..." required class="form-input">{% if draft %}{{ draft.body }}{% endif %}</textarea>
+            </div>
+        </div>
+        <br>
+
+        <div class="form-row">
+
+            <!-- optional team selection -->
+            <div class="form-group">
+                <label>Team:</label><br>
+                <div class="gradient-border">
+                    <div class="gradient-inner">
+                        <select name="team" class="form-input">
+                            <option value="">Select a team</option>
+                            {% for team in teams %}
+                                <option value="{{ team.id }}">{{ team.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- required user selection  -->
+            <div class="form-group">
+                <label>User:</label><br>
+                <div class="gradient-border">
+                    <div class="gradient-inner">
+                        <select name="receiver" required class="form-input">
+                            <option value="">Select a user</option>
+                            {% for user in users %}
+                                <option value="{{ user.id }}">
+                                    {{ user.username }} {% if user == request.user %}(You){% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- send, draft, and cancel buttons-->
+        <button type="submit" name="action" value="send">Send ➤</button>
+        <button type="submit" name="action" value="draft">Draft ✎</button>
+        <button type="button" onclick="window.history.back()">Cancel 🗑</button>
+    </form>
 
 
 
-
-
-
-
-<div>
-    <a href="/messaging/inbox/">Inbox</a> |
-    <a href="/messaging/send/">Send Message</a>
+    
 </div>
-<hr>
+

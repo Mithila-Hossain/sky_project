@@ -1,198 +1,365 @@
-{% extends 'base.html' %}
+<!-- Author: Mithila Hossain | ID: w1970613 -->
 
+{% extends 'base.html' %}
 {% block content %}
 
 <style>
-    :root {
-    --sky-blue: #00AEEF;          /* Primary Sky Blue */
-    --deep-sky-blue: #0078D4;     /* Deep Sky Blue */
-    --navy-blue: #003B70;         /* Headings */
-    --cloud-white: #F5F9FF;       /* Soft background */
-    --soft-grey: #E6ECF5;         /* Light grey */
-    --gradient-sky: linear-gradient(135deg, #00AEEF, #0078D4);
-    }
 
+:root {
+    /* Main project colour palette */
+    --sky-blue: #00AEEF;
+    --deep-sky-blue: #0078D4;
+    --navy-blue: #003B70;
+    --soft-grey: #E6ECF5;
+    --cloud-white: #F5F9FF;
+}
 
-    /* Sky Gradient Quick Action Cards */
-    .quick-card {
-        /*background: linear-gradient(135deg, #0d6efd, #4da3ff);*/
-        background: var(--gradient-sky);
-        color: white;
-        border-radius: 12px;
-        transition: 0.2s ease;
-    }
+/* ===== FEATURE GRID CARDS ===== */
+.feature-card{
+    position:relative;
+    overflow:hidden;
+    height:165px;
+    padding:18px;
+    border-radius:20px;
+    text-align:left;
+    border:1px solid rgba(255,255,255,.18);
 
-    .quick-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-        cursor: pointer;
-    }
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
 
-    .quick-card p {
-        color: rgba(255,255,255,0.9);
-    }
+    transition:all .28s ease;
+}
 
-    /* Clickable Cards */
-    .clickable-card {
-        background-color: var(--cloud-white);
-        border: 1px solid var(--sky-blue);
-        transition: 0.2s ease;
-        border-radius: 12px;
-    }
+/* Glass-style overlay effect */
+.feature-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        145deg,
+        rgba(255,255,255,.22),
+        rgba(255,255,255,.06) 35%,
+        rgba(255,255,255,.02) 100%
+    );
+}
 
-    .clickable-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-        cursor: pointer;
-    }
+/* Subtle inner border shine */
+.feature-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:26px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);
+}
 
-    /* Recent Activities */
-    .activity-row {
-        padding: 8px 0;
-        border-bottom: 1px solid #eee;
-        font-size: 15px;
-    }
+/* Hover lift effect */
+.feature-card:hover{
+    transform:translateY(-8px) scale(1.02);
+}
 
-    .activity-row {
-         padding: 8px 0;
-         border-bottom: 1px solid var(--soft-grey);
-    }
+/* Feature text styling */
+.feature-card h5,
+.feature-card p{
+    color:#fff !important;
+    position:relative;
+    z-index:2;
+}
 
-    .activity-time {
-        font-size: 13px;
-        color: #6c757d;
-        margin-top: 2px;
-    }
+.feature-card h5{
+    margin:0 0 8px;
+    font-size:1.15rem;
+    font-weight:800;
+}
 
-    h2, h4, h5 {
-    color: var(--navy-blue);
-    }
+.feature-desc{
+    margin:0;
+    font-size:13px;
+    line-height:1.5;
+    color:rgba(255,255,255,.9) !important;
+}
 
-    .form-control-lg {
-        border: 2px solid var(--deep-sky-blue);
-    }
+/* Spacing between grid items */
+.row.g-4{
+    --bs-gutter-x:2.8rem;
+    --bs-gutter-y:2.8rem;
+}
 
-    .form-control-lg:focus {
-        border-color: var(--sky-blue);
-        box-shadow: 0 0 0 0.2rem rgba(0, 174, 239, 0.25);
-    }
+/* ===== RIGHT SIDE PANELS ===== */
+.right-section{
+    background:#ffffff;
+    border-radius:24px;
+    padding:24px;
+    box-shadow:0 10px 28px rgba(0,0,0,.06);
+    border:1px solid #eef2f7;
+    height:100%;
+}
 
+/* Section headings */
+.section-title{
+    font-size:1.1rem;
+    font-weight:800;
+    color:#0f172a;
+    margin-bottom:18px;
+    padding-bottom:10px;
+    border-bottom:1px solid #eef2f7;
+}
+
+/* ===== TEAM CARDS ===== */
+.team-card{
+    background:#f8fafc;
+    border:1px solid #edf2f7;
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:14px;
+    position:relative;
+    transition:.25s ease;
+}
+
+/* Right-side accent bar */
+.team-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    right:0;
+    width:8px;
+    height:100%;
+    background:linear-gradient(180deg,#7a88ff,#4f43ff,transparent 90%);
+    border-radius:0 18px 18px 0;
+}
+
+/* Hover effect for team cards */
+.team-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 18px rgba(0,0,0,.06);
+}
+
+/* Team text styling */
+.team-card h6{
+    margin:0 0 6px;
+    font-size:1rem;
+    font-weight:700;
+    color:#111827;
+}
+
+.team-card p{
+    margin:0;
+    font-size:14px;
+    color:#64748b;
+}
+
+/* ===== ACTIVITY CARDS ===== */
+.activity-item{
+    background:#f8fafc;
+    border:1px solid #edf2f7;
+    border-radius:18px;
+    padding:14px 16px;
+    margin-bottom:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    position:relative;
+    transition:.25s ease;
+}
+
+/* Accent strip for activity items */
+.activity-item::before{
+    content:"";
+    position:absolute;
+    top:0;
+    right:0;
+    width:8px;
+    height:100%;
+    background:linear-gradient(180deg,#f7608d,#f82061,transparent 90%);
+    border-radius:0 18px 18px 0;
+}
+
+/* Hover effect for activity cards */
+.activity-item:hover{
+    transform:translateY(-4px) scale(1.02);
+    box-shadow:0 8px 18px rgba(0,0,0,.12);
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(6px);
+}
+
+/* Activity timestamp */
+.activity-time{
+    font-size:12px;
+    font-weight:600;
+    color:#94a3b8;
+    white-space:nowrap;
+}
+
+/* ===== FEATURE CARD BACKGROUNDS ===== */
+.card-teams{background:linear-gradient(135deg,#ffbe45,#ff7a2f);}
+.card-map{background:linear-gradient(135deg,#ff5db1,#ff2e8d);}
+.card-messages{background:linear-gradient(135deg,#bb72ff,#7f49ff);}
+.card-schedule{background:linear-gradient(135deg,#3bc8ff,#1678ff);}
+.card-reports{background:linear-gradient(135deg,#ff9465,#ff5c5c);}
+.card-visual{background:linear-gradient(135deg,#7b72ff,#4f43ff);}
+
+/* ===== DASHBOARD HEADER ===== */
+.dashboard-header h2{
+    font-size:1.9rem;
+    font-weight:800;
+    color:var(--navy-blue);
+}
+
+/* ===== SEARCH BAR ===== */
+.search-wrapper input{
+    padding-left:48px;
+    height:54px;
+    border-radius:16px;
+    border:1px solid #dce3ee;
+    background:#f8fafc;
+    transition:.25s ease;
+}
+
+/* Focus effect for search input */
+.search-wrapper input:focus{
+    border-color:var(--deep-sky-blue);
+    box-shadow:0 0 0 4px rgba(0,120,212,.15);
+    background:#fff;
+}
+
+/* Search icon placement */
+.search-wrapper i{
+    position:absolute;
+    top:50%;
+    left:16px;
+    transform:translateY(-50%);
+    color:#64748b;
+}
 
 </style>
 
-<div class="container py-5" style="background-color: var(--cloud-white); border-radius: 12px;">
+<!-- MAIN DASHBOARD CONTAINER -->
+<div class="container py-4">
 
+    <!-- Top header section -->
+    <div class="d-flex justify-content-between align-items-center mb-4 dashboard-header">
+        <h2>Welcome, {{ user.first_name|default:user.username }}!</h2>
 
-    <!-- Welcome Header -->
-    <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 24px; border-bottom: none !important;">
-        <h2 class="fw-bold mb-0" style="color: var(--navy-blue);">Welcome, {{ user.first_name|default:user.username }}!</h2>
-    
-        <a href="/profile/" class="btn btn-outline-primary btn-sm" style="border-radius: 20px;">
+        <a href="/profile/" class="btn btn-outline-primary btn-sm">
             My Profile
         </a>
     </div>
-    
-    
 
-    <!-- Search Bar -->
-    <div class="mb-4">
-        <input type="text" class="form-control form-control-lg" placeholder="Search teams, departments, or managers...">
+    <!-- Search bar for quick navigation -->
+    <div class="mb-4 search-wrapper position-relative">
+        <i class="bi bi-search"></i>
+        <input type="text" class="form-control"
+               placeholder="Search teams, departments, or managers...">
     </div>
 
-    <!-- Quick Actions -->
-    <div class="row mb-4">
+    <!-- Feature shortcut cards -->
+    <div class="row g-3 mb-4">
 
-        <div class="col-md-4 mb-3">
-            <a href="/teams/" class="text-decoration-none text-white">
-                <div class="card quick-card h-100 clickable-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Find a Team</h5>
-                        <p class="card-text">Search and filter through all the teams.</p>
-                    </div>
+        <div class="col-md-4">
+            <a href="/teams/" class="text-decoration-none">
+                <div class="feature-card card-teams">
+                    <h5>Explore Teams</h5>
+                    <p class="feature-desc">See every team in one place</p>
                 </div>
             </a>
         </div>
 
-        <div class="col-md-4 mb-3">
-            <a href="/organisation/" class="text-decoration-none text-white">
-                <div class="card quick-card h-100 clickable-card">
-                    <div class="card-body">
-                        <h5 class="card-title">View Map</h5>
-                        <p class="card-text">Explore hierarchies and dependencies.</p>
-                    </div>
+        <div class="col-md-4">
+            <a href="/organisation/" class="text-decoration-none">
+                <div class="feature-card card-map">
+                    <h5>Navigate the Map</h5>
+                    <p class="feature-desc">Understand how everything connects</p>
                 </div>
             </a>
         </div>
 
-        <div class="col-md-4 mb-3">
-            <a href="/messaging/" class="text-decoration-none text-white">
-                <div class="card quick-card h-100 clickable-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Contact Teams</h5>
-                        <p class="card-text">Quick access to team communication.</p>
-                    </div>
+        <div class="col-md-4">
+            <a href="/messaging/" class="text-decoration-none">
+                <div class="feature-card card-messages">
+                    <h5>Send a Message</h5>
+                    <p class="feature-desc">Reach out to any team instantly</p>
                 </div>
             </a>
         </div>
 
-    </div>
-
-    <!-- Recently Visited Teams -->
-    <h4 class="fw-bold mb-3">Recently Visited Teams</h4>
-
-    <div class="row mb-4">
-
-        <div class="col-md-4 mb-3">
-            <a href="/teams/" class="text-decoration-none text-dark">
-                <div class="card shadow-sm h-100 clickable-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Frontend Development</h5>
-                        <p class="card-text text-muted">Manager: Alex Thompson</p>
-                    </div>
+        <div class="col-md-4">
+            <a href="/schedule/" class="text-decoration-none">
+                <div class="feature-card card-schedule">
+                    <h5>View Schedule</h5>
+                    <p class="feature-desc">Check meetings and timelines</p>
                 </div>
             </a>
         </div>
 
-        <div class="col-md-4 mb-3">
-            <a href="/teams/" class="text-decoration-none text-dark">
-                <div class="card shadow-sm h-100 clickable-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Backend Services</h5>
-                        <p class="card-text text-muted">Manager: Emily Chen</p>
-                    </div>
+        <div class="col-md-4">
+            <a href="/reports/" class="text-decoration-none">
+                <div class="feature-card card-reports">
+                    <h5>Generate Reports</h5>
+                    <p class="feature-desc">Review summaries and insights</p>
                 </div>
             </a>
         </div>
 
-        <div class="col-md-4 mb-3">
-            <a href="/teams/" class="text-decoration-none text-dark">
-                <div class="card shadow-sm h-100 clickable-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Security Team</h5>
-                        <p class="card-text text-muted">Manager: David Park</p>
-                    </div>
+        <div class="col-md-4">
+            <a href="/visualisation/" class="text-decoration-none">
+                <div class="feature-card card-visual">
+                    <h5>View Analytics</h5>
+                    <p class="feature-desc">Explore charts and visual data</p>
                 </div>
             </a>
         </div>
 
     </div>
 
-    <!-- Recent Activities -->
-    <h4 class="fw-bold mb-3">Recent Activities</h4>
+    <!-- Right side information panels -->
+    <div class="row g-4 mt-2">
 
-    <div class="activity-row">
-        <div><strong>New team created:</strong> Cloud Infrastructure</div>
-        <div class="activity-time">2 hours ago</div>
-    </div>
+        <!-- Recently viewed teams -->
+        <div class="col-md-6">
+            <div class="right-section">
+                <div class="section-title">Teams You Checked Out</div>
 
-    <div class="activity-row">
-        <div><strong>Frontend Development</strong> updated their dependencies</div>
-        <div class="activity-time">5 hours ago</div>
-    </div>
+                <div class="team-card">
+                    <h6>The Cloud Architects</h6>
+                    <p>You viewed this team recently • Lead: Ava Sullivan</p>
+                </div>
 
-    <div class="activity-row">
-        <div><strong>New member added</strong> to Backend Services</div>
-        <div class="activity-time">1 day ago</div>
+                <div class="team-card">
+                    <h6>Byte Force</h6>
+                    <p>Previously opened • Lead: Elijah</p>
+                </div>
+
+                <div class="team-card">
+                    <h6>Data Wranglers</h6>
+                    <p>Recently accessed • Lead: Alexander Perry</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent system activity -->
+        <div class="col-md-6">
+            <div class="right-section">
+                <div class="section-title">Recent Activities</div>
+
+                <div class="activity-item">
+                    <div><strong>Template updated:</strong> Admin panel layout improved</div>
+                    <div class="activity-time">2 hours ago</div>
+                </div>
+
+                <div class="activity-item">
+                    <div><strong>Database synced:</strong> Models updated successfully</div>
+                    <div class="activity-time">5 hours ago</div>
+                </div>
+
+                <div class="activity-item">
+                    <div><strong>Test completed:</strong> Core pages validated</div>
+                    <div class="activity-time">1 day ago</div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 
 </div>

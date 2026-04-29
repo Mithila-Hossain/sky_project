@@ -1,126 +1,601 @@
+<!-- Author: Mithila Hossain | ID: w1970613 -->
+
 {% extends 'base.html' %}
 {% load static %}
-
+{% load skill_tags %}
+{% block body_class %}team-page{% endblock %}
 {% block content %}
 
-<div class="container py-5">
+<style>
+/* Page background */
+body.team-page {
+    background: linear-gradient(180deg, #F8FBFF 0%, #EEF5FF 100%);
+    min-height: 100vh;
+}
 
-    <h1 class="text-primary fw-bold mb-4">{{ team.name }}</h1>
+/* Banner */
+.team-banner {
+    background: linear-gradient(135deg,
+        #1a8cff 0%,     
+        #2b86c5 35%,    
+        #784ba0 70%,    
+        #ac2973 100%   
+    );
+    color: white;
+    padding: 15px 22px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+}
 
-    <div class="mb-4">
-        <a href="{% url 'team_list' %}" class="btn btn-outline-secondary btn-sm">← Back to Teams</a>
-    </div>
+.team-banner h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
 
-    <!-- Team Description -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h4 class="fw-semibold">Description</h4>
-            <p>{{ team.description }}</p>
+
+/* Manager section */
+.team-manager {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 4px;
+}
+
+.manager-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: white;
+    color: #0078D4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+/* Action buttons */
+.team-actions a {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* Tabs */
+.team-tabs {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #E6ECF5;
+    padding-bottom: 10px;
+}
+
+.team-tab {
+    font-weight: 600;
+    color: #003B70;
+    padding-bottom: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.team-tab.active {
+    border-bottom: 3px solid #0078D4;
+    color: #0078D4;
+}
+
+/* Content wrapper */
+.team-detail-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+
+/* Cards */
+.detail-card {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #E6ECF5;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #003B70;
+    margin-bottom: 12px;
+}
+.detail-card p {
+    margin-bottom: 6px;
+}
+/* Gradient top border for detail cards */
+.detail-card.gradient-top {
+    position: relative;
+    overflow: hidden;
+}
+
+.detail-card.gradient-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(135deg,
+        #ff8a00 0%,
+        #ff3cac 30%,
+        #784ba0 65%,
+        #2b86c5 100%
+    );
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+}
+/* Member Cards (match Team List card style) */
+.member-card {
+    position: relative;
+    overflow: hidden;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #E4E9F2;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    padding: 18px 20px;
+    transition: 0.2s ease;
+}
+
+.member-card:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+}
+
+/* Top gradient border */
+.member-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(135deg,
+        #ff8a00 0%,
+        #ff3cac 30%,
+        #784ba0 65%,
+        #2b86c5 100%
+    );
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+
+.btn-email {
+    background: linear-gradient(135deg, #5d38ac);
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    transition: 0.2s ease;
+    text-decoration: none !important;
+}
+
+.btn-email:hover {
+    opacity: 0.9;
+}
+
+.btn-meeting {
+    background: linear-gradient(135deg, #c91a57);
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    transition: 0.2s ease;
+    text-decoration: none !important;
+}
+
+.btn-meeting:hover {
+    opacity: 0.9;
+}
+
+
+
+</style>
+
+<div class="container py-4 team-detail-wrapper">
+
+    <!-- Banner -->
+    <div class="team-banner">
+        <a href="{% url 'team_list' %}" class="text-white" style="opacity:0.8; font-size:14px; text-decoration:none;">
+            ← Back to Teams
+        </a>
+
+        <h1>{{ team.name }}</h1>
+
+        <div class="team-manager">
+            <div class="manager-avatar">
+                {{ team.team_leader.username|first|upper }}
+            </div>
+
+            <div>
+                <div class="fw-bold">{{ team.team_leader.get_full_name|default:"No Leader Assigned" }}
+                </div>
+                <div style="opacity: 0.9;">Team Lead</div>
+            </div>
+        </div>
+
+        <div class="team-actions mt-3 d-flex gap-3">
+            <a href="{% url 'email_team' team.id %}" class="btn-email">Email Team</a>
+            <a href="{% url 'schedule_meeting' team.id %}" class="btn-meeting">Schedule Meeting</a>
         </div>
     </div>
 
-    <!-- Skills -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h4 class="fw-semibold">Key Skills & Technologies</h4>
-            
-            {% if team.skills %}
-                <p>{{ team.skills }}</p>
-            {% else %}
-                <p class="text-muted">No skills listed.</p>
-            {% endif %}
-        </div>
+    <!-- Tabs -->
+    <div class="team-tabs">
+        <a href="?tab=overview" class="team-tab {% if tab == 'overview' %}active{% endif %}">Overview</a>
+        <a href="?tab=members" class="team-tab {% if tab == 'members' %}active{% endif %}">Members</a>
+        <a href="?tab=repos" class="team-tab {% if tab == 'repos' %}active{% endif %}">Repositories</a>
+        <a href="?tab=deps" class="team-tab {% if tab == 'deps' %}active{% endif %}">Dependencies</a>
     </div>
 
+    <!-- OVERVIEW TAB -->
+    {% if tab == "overview" %}
 
-    <!-- Members -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h4 class="fw-semibold">Team Members</h4>
-
-            {% if members %}
-                <ul class="list-group">
-                    {% for member in members %}
-                        <li class="list-group-item">
-                            {{ member.user.first_name }} {{ member.user.last_name }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-muted">No members listed.</p>
-            {% endif %}
-        </div>
+    <!-- About the Team (full width) -->
+    <div class="detail-card">
+        <h4 class="section-title">About the Team</h4>
+        <p style="font-size: 15px; line-height: 1.6; color: #444;">
+            {{ team.description }}
+        </p>
     </div>
+    <!-- Skills (full width) -->
+    <div class="detail-card">
+        <h4 class="section-title">Key Skills & Technologies</h4>
+    
+        {% if team.skills %}
+            {% for skill in team.skills|split:"," %}
+                <span style="
+                    display:inline-block;
+                    background:#E8F1FF;
+                    color:#0056B3;
+                    padding:6px 12px;
+                    border-radius:20px;
+                    margin:4px 6px 0 0;
+                    font-size:14px;
+                    font-weight:600;">
+                    {{ skill }}
+                </span>
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No skills listed.</p>
+        {% endif %}
+    </div>
+    
 
-    <!-- Dependencies -->
+    <!-- Two-column layout -->
     <div class="row">
 
+        <!-- Team Stats -->
         <div class="col-md-6">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h4 class="fw-semibold">Upstream Dependencies</h4>
+            <div class="detail-card gradient-top text-center">
+                <h4 class="section-title">Team Stats</h4>
 
+                <div style="display:flex; justify-content:space-around; margin-top:10px;">
+                    <div>
+                        <h3 style="color:#0078D4; font-weight:800;">{{ members.count }}</h3>
+                        <p class="text-muted">Members</p>
+                    </div>
+
+                    <div>
+                        <h3 style="color:#0078D4; font-weight:800;">1</h3>
+                        <p class="text-muted">Repositories</p>
+                    </div>
+
+                    <div>
+                        <h3 style="color:#0078D4; font-weight:800;">
+                            {{ upstream.count|add:downstream.count }}
+                        </h3>
+                        <p class="text-muted">Dependencies</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Details -->
+        <div class="col-md-6">
+            <div class="detail-card gradient-top">
+                <h4 class="section-title">Team Details</h4>
+                <p><strong>Department:</strong> {{ team.department.name }}</p>
+                <p><strong>Team Lead:</strong> {{ team.team_leader.get_full_name|default:"Not assigned" }}</p>
+                <p><strong>Location:</strong> London, UK</p>
+            </div>
+        </div>
+
+    </div>
+    
+    {% endif %}
+    
+    <!---member-->
+
+    {% if tab == "members" %}
+
+    <!-- Member Cards -->
+    <div class="row">
+
+        {% for member in members %}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+            <div class="member-card" style="display:flex; gap:15px; align-items:flex-start;">
+
+                <!-- Avatar -->
+                <div style="
+                    width:55px;
+                    height:55px;
+                    border-radius:50%;
+                    background:linear-gradient(135deg,#E8F1FF,#D7E7FF);
+                    color:#0056B3;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-weight:700;
+                    font-size:22px;
+                    flex-shrink:0;
+                ">
+                    {{ member.user.first_name|first|upper }}
+                </div>
+        
+                <!-- Info -->
+                <div style="flex:1;">
+                    <div style="font-weight:700; font-size:17px; color:#003B70;">
+                        {{ member.user.first_name }} {{ member.user.last_name }}
+                    </div>
+        
+                    <div style="
+                        background:#E8F1FF;
+                        color:#0056B3;
+                        padding:4px 10px;
+                        border-radius:12px;
+                        font-size:12px;
+                        font-weight:600;
+                        display:inline-block;
+                        margin:6px 0 8px 0;
+                    ">
+                        {{ member.role_in_team }}
+                    </div>
+        
+                    <div style="font-size:13px; color:#0078D4; margin-bottom:6px;">
+                        {{ member.user.email }}
+                    </div>
+        
+                    {% if member.skills %}
+                    <div style="
+                        background:#F4F8FF;
+                        border-left:3px solid #0078D4;
+                        padding:6px 10px;
+                        border-radius:6px;
+                        font-size:13px;
+                        color:#003B70;
+                        margin-top:8px;">
+                    <strong style="color:#0056B3;">Skills:</strong> {{ member.skills }}
+                    </div>
+                    {% endif %}
+
+
+                </div>
+        
+            </div>
+        </div>
+        
+        {% endfor %}
+
+    </div>
+    {% endif %}
+      
+    <!----REPO-->
+    {% if tab == "repos" %}
+    <div class="detail-card">
+        <h4 class="section-title">Repositories</h4>
+    
+        {% if team.github_repo %}
+        <div style="
+            background:white;
+            border-radius:16px;
+            padding:20px;
+            border:1px solid #E4E9F2;
+            box-shadow:0 4px 12px rgba(0,0,0,0.06);
+            margin-bottom:15px;
+            transition:0.2s ease;
+        "
+        onmouseover="this.style.boxShadow='0 6px 16px rgba(0,0,0,0.10)'"
+        onmouseout="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'">
+    
+            <!-- Repo Title -->
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h5 style="font-weight:700; color:#003B70; margin:0;">
+                    {{ team.name }} Repository
+                </h5>
+    
+                <a href="{{ team.github_repo }}" target="_blank"
+                   style="background:#0078D4; color:white; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:600; text-decoration:none;">
+                    View Repo
+                </a>
+            </div>
+    
+            <!-- Description -->
+            <p style="font-size:14px; color:#555; margin-top:8px;">
+                Main GitHub repository for this team.
+            </p>
+    
+            <!-- Tags -->
+            <div style="margin-top:10px;">
+                <span style="
+                    background:#E8F1FF;
+                    color:#0056B3;
+                    padding:5px 10px;
+                    border-radius:12px;
+                    font-size:12px;
+                    font-weight:600;
+                    margin-right:6px;
+                ">GitHub</span>
+    
+                <span style="
+                    background:#FFF4E5;
+                    color:#C47F00;
+                    padding:5px 10px;
+                    border-radius:12px;
+                    font-size:12px;
+                    font-weight:600;
+                    margin-right:6px;
+                ">Code</span>
+    
+                <span style="
+                    background:#EAFBF1;
+                    color:#0A8A4E;
+                    padding:5px 10px;
+                    border-radius:12px;
+                    font-size:12px;
+                    font-weight:600;
+                ">Active</span>
+            </div>
+    
+            <!-- Stats Row -->
+            <div style="display:flex; gap:25px; margin-top:15px; color:#444; font-size:13px;">
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <i class="bi bi-star-fill" style="color:#F4C542;"></i> 124
+                </div>
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <i class="bi bi-git" style="color:#0078D4;"></i> 45 forks
+                </div>
+                <div style="display:flex; align-items:center; gap:6px;">
+                    <i class="bi bi-clock-history" style="color:#555;"></i> Updated recently
+                </div>
+            </div>
+    
+        </div>
+    
+        {% else %}
+            <p class="text-muted">No repositories linked for this team.</p>
+        {% endif %}
+    </div>
+    
+    {% endif %}
+
+
+    <!-- DEPENDENCIES TAB -->
+    {% if tab == "deps" %}
+
+    <div class="detail-card">
+        <h4 class="section-title">Dependencies</h4>
+    
+    
+        <div class="row">
+    
+            <!-- Upstream -->
+            <div class="col-md-6 mb-3">
+                <div style="
+                    background:white;
+                    border-radius:16px;
+                    padding:18px;
+                    border:1px solid #E4E9F2;
+                    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+                ">
+                    <h5 style="font-weight:700; color:#003B70; margin-bottom:12px;">
+                        Upstream Dependencies
+                    </h5>
+    
                     {% if upstream %}
-                        <ul class="list-group">
-                            {% for dep in upstream %}
-                                <li class="list-group-item">
+                        {% for dep in upstream %}
+                        <div style="
+                            background:#F4F8FF;
+                            border-left:4px solid #0078D4;
+                            padding:10px 14px;
+                            border-radius:10px;
+                            margin-bottom:10px;
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                        ">
+                            <div>
+                                <div style="font-weight:600; color:#003B70;">
                                     {{ dep.upstream_team.name }}
-                                </li>
-                            {% endfor %}
-                        </ul>
+                                </div>
+                                <div style="font-size:12px; color:#555;">
+                                    Provides support to this team
+                                </div>
+                            </div>
+    
+                            <span style="
+                                background:#E8F1FF;
+                                color:#0056B3;
+                                padding:4px 10px;
+                                border-radius:12px;
+                                font-size:12px;
+                                font-weight:600;
+                            ">Upstream</span>
+                        </div>
+                        {% endfor %}
                     {% else %}
                         <p class="text-muted">No upstream dependencies.</p>
                     {% endif %}
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h4 class="fw-semibold">Downstream Dependencies</h4>
-
+    
+            <!-- Downstream -->
+            <div class="col-md-6 mb-3">
+                <div style="
+                    background:white;
+                    border-radius:16px;
+                    padding:18px;
+                    border:1px solid #E4E9F2;
+                    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+                ">
+                    <h5 style="font-weight:700; color:#003B70; margin-bottom:12px;">
+                        Downstream Dependencies
+                    </h5>
+    
                     {% if downstream %}
-                        <ul class="list-group">
-                            {% for dep in downstream %}
-                                <li class="list-group-item">
-                                    {{ dep.downstream_team.name }}
-                                </li>
-                            {% endfor %}
-                        </ul>
+                        {% for dep in downstream %}
+                        <div style="
+                            background:#FFF1F1;
+                            border-left:4px solid #E57373;
+                            padding:12px 14px;
+                            border-radius:12px;
+                            margin-bottom:12px;
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                        ">
+                        <div>
+                            <div style="font-weight:600; color:#B71C1C;">
+                                {{ dep.downstream_team.name }}
+                            </div>
+                            <div style="font-size:12px; color:#B71C1C;">
+                                Depends on this team
+                            </div>
+                        </div>
+                
+                        <span style="
+                            background:#FFE5E5;
+                            color:#C62828;
+                            padding:4px 10px;
+                            border-radius:12px;
+                            font-size:12px;
+                            font-weight:600;
+                        ">Downstream</span>
+                    </div>
+                             
+
+                        {% endfor %}
+                          
                     {% else %}
+
                         <p class="text-muted">No downstream dependencies.</p>
                     {% endif %}
                 </div>
             </div>
-        </div>
-
-    </div>
-
-    <!-- Contact Channels -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h4 class="fw-semibold">Contact Channels</h4>
-
-            {% if channels %}
-                <ul class="list-group">
-                    {% for channel in channels %}
-                        <li class="list-group-item">
-                            {{ channel.channel_type }} — {{ channel.value }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-muted">No contact channels available.</p>
-            {% endif %}
+    
         </div>
     </div>
-
-    <!-- Actions -->
-    <div class="d-flex gap-3 mt-4">
-        <a href="{% url 'email_team' team.id %}" class="btn btn-primary">Email Team</a>
-        <a href="{% url 'schedule_meeting' team.id %}" class="btn btn-success">Schedule Meeting</a>
-    </div>
+    
+    {% endif %}
 
 </div>
 

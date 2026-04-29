@@ -1,39 +1,110 @@
+<!--
+Author: Ghoufran Al-Kooh
+Feature: Draft Messages page
+Description: Displays saved draft messages with edit functionality which redirects to Send Message page
+-->
+
+<style>
 
 
-{% elif view_type == 'draft' %}
-<h2>Drafts</h2>
+
+.message-card {
+    background: white;
+        padding: 10px;
+        margin: 20px;
+        border-radius: 10px;
+        box-shadow: 0 3px 6px rgba(190, 56, 22, 0.2);
+        transition: 0.4s;
+        cursor: pointer;
+        
+    }
+    
+    .message-card:hover {
+        background: #fae8e8;
+    }
+    .draft-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .edit-btn {
+        background: rgb(255, 187, 160);
+       border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 5px 3px rgba(241, 62, 30, 0.2);
+            font-size: 12px;
+            
+    }
+
+        .edit-btn:hover{
+
+            background: rgb(254, 152, 124);
+        }
+
+
+
+   
+</style>
+
+
+
+
+<h1>Drafts</h1>
 
 {% if draft_messages %}
+
+<!-- loop through all draft messages -->
 {% for msg in draft_messages %}
+
+<!-- draft message card (click to expand full message) -->
 <div class="message-card" onclick="showMessage(this)">
 
-    <div class="messaeg-header">
+    <div class="message-header">
+
         <div>
 
+            <!-- shows subject and receiver -->
             <strong>{{ msg.subject }}</strong><br>
             To: {{ msg.receiver.username }}
         </div>
 
-        <div>
+        <div class="draft-actions">
 
-            <a href="?view=send&edit={{ msg.id }}">
-                <button style="height:25px; font-size:12px;">Edit</button>
+            <!-- edit button which takes user to send page with draft data loaded -->
+            <a href="?view=send&edit={{ msg.id }}" onclick="event.stopPropagation()">
+                <button class="edit-btn">Edit</button>
             </a>
 
             <span class="date">{{ msg.timeStamp }}</span>
         </div>
+
     </div>
 
+    <!-- short preview of message (first 50 characters only) -->
+    <p class="message-preview">
+        {{ msg.body|truncatechars:50 }}
     </p>
 
+    <!-- showa full message when clicked on -->
     <p class="message-full" style="display:none;">
         {{ msg.body }}
     </p>
+
+
+
+
 </div>
 {% endfor %}
+
 {% else %}
-<p>No drafts yet</p>
-{% endif %}
 
+<!-- shown when no draft messages exist -->
+<div class="empty-box">
+    <span class="empty-icon">📝</span>
+    <div class="empty-text">No draftmessages yet</div>
+</div>
 {% endif %}
-
