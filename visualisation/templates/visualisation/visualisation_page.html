@@ -98,22 +98,20 @@
     </div>
 </div>
 
-
 <!-- main chart -->
 <div class="chart-card">
-    <h4 class="section-title">Main Chart</h4>
+    <h4 class="section-title">Department Chart</h4>
     {{ main_div|safe }}
     {{ main_script|safe }}
 </div>
 
 <!-- chart category -->
 <div class="chart-card">
-    <h4 class="section-title">Team Activity Status</h4>
+    <h4 class="section-title">Team Size Chart</h4>
     {{ category_div|safe }}
     {{ category_script|safe }}
 </div>
 
-<!-- employee pie chart -->
 <!-- employee pie chart -->
 <div class="chart-card employee-chart-card">
     <h4 class="section-title">Employees by Department</h4>
@@ -121,6 +119,12 @@
     <div style="max-width: 500px; margin: 0 auto;">
         <canvas id="employeePieChart"></canvas>
     </div>
+</div>
+
+<div class="chart-card">
+    <h4 class="section-title">Teams Created Over Time</h4>
+    {{ time_div|safe }}
+    {{ time_script|safe }}
 </div>
 
 {{ department_labels|json_script:"department-labels" }}
@@ -164,21 +168,35 @@
 
 <!-- table -->
 <div class="table-card">
-    <h4 class="section-title">Recent Data Summary</h4>
+    <h4 class="section-title">Recently Created Teams</h4>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Item</th>
-                <th>Category</th>
+                <th>Team</th>
+                <th>Department</th>
+                <th>Team Leader</th>
                 <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Weekly Report</td>
-                <td>Reports</td>
-                <td><span class="badge-status">Done</span></td>
-            </tr>
+            {% for team in recent_teams %}
+                <tr>
+                    <td>{{ team.name }}</td>
+                    <td>{{ team.department.name }}</td>
+                    <td>
+                        {% if team.team_leader %}
+                            {{ team.team_leader.username }}
+                        {% else %}
+                            No leader assigned
+                        {% endif %}
+                    </td>
+                    <td><span class="badge-status">{{ team.status }}</span></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No recent team data available.</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
