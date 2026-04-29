@@ -32,7 +32,7 @@
     <h2 class="fw-bold mb-4" style="color: var(--navy-blue);">Organisation</h2>
 
     <div class="mb-5">
-        <input type="text" class="form-control form-control-lg shadow-sm" placeholder="Search Departments or managers">
+        <input type="text" id="deptSearch" class="form-control form-control-lg shadow-sm" placeholder="Search Departments, Teams or managers">
     </div>
 
     <h4 class="fw-bold mb-3" style="color:var(--navy-blue);">Departments</h4>
@@ -75,7 +75,7 @@
 
     <!---------------------------------------Dependencies------------------------------------------->
     <h4 class="fw-bold mt-5 mb-3" style="color: var(--navy-blue);">Team Dependencies</h4>
-    <div class="table-container shadow-sm"></div>
+    <div class="table-container shadow-sm">
     <table class="table table-hover mb-0">
         <!--table showing how teams rely on each other-->
         <thead class="bg-light">
@@ -105,8 +105,39 @@
             </tr>
             {% endfor %}
         </tbody>
-    </table>    
+    </table></div>       
 </div> 
+
+<!-- Search Field Functionality  Taken from https://www.w3schools.com/howto/howto_js_filter_lists.asp-->
+<script>
+    document.getElementById('deptSearch').addEventListener('keyup', function() {
+        let filter = this.value.toLowerCase();
+        let cards = document.querySelectorAll('.dept-card');
+        let dependencyRows = document.querySelectorAll('tbody tr');
+
+        // filter department cards
+        cards.forEach(card => {
+            // search text inside the title, lead name, and description
+            let text = card.innerText.toLowerCase();
+            if (text.includes(filter)) {
+                card.closest('.col-md-6').style.display = "";
+            } else {
+                card.closest('.col-md-6').style.display = "none";
+            }
+        });
+
+        // filter dependency table rows
+        dependencyRows.forEach(row => {
+            let text = row.innerText.toLowerCase();
+            if (text.includes(filter)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+</script>
+
 {% endblock %}
     
 
