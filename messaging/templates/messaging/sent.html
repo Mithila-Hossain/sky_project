@@ -57,10 +57,16 @@ Description: Displays messages sent by the user including star feature and searc
 <h1>Sent Messages</h1>
 
 {% if sent_messages %}
+
+    <!-- loop through all sent messages -->
     {% for msg in sent_messages %}
+
+    <!-- showa full message when clicked on -->
     <div class="message-card" onclick="showMessage(this)">
         <div class="message-header">
             <div>
+
+                <!-- header shows subject, receiver, and team if available -->
                 <strong>{{ msg.subject }}</strong><br>
                 To: {{ msg.receiver.username }}
 
@@ -69,20 +75,30 @@ Description: Displays messages sent by the user including star feature and searc
                 {% endif %}
             </div>
             <div>
+
+                <!-- star icon allows user to mark message as important -->
                 <span class="star" onclick="starMessage(event, this)">☆</span>
                 <span class="date">{{ msg.timeStamp }}</span>
             </div>
         </div>
 
+        <!-- short preview of message (first 50 characters only) -->
         <p class="message-preview">
             {{ msg.body|truncatechars:50 }}
         </p>
 
+        <!-- showa full message when clicked on -->
         <p class="message-full">
             {{ msg.body }}
         </p>
     </div>
     {% endfor %}
+
 {% else %}
-    <p>No sent messages</p>
+
+<!-- shown when no sent messages exist -->
+<div class="empty-box">
+    <span class="empty-icon">📤</span>
+    <div class="empty-text">No sent messages yet</div>
+</div>
 {% endif %}

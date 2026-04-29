@@ -68,6 +68,9 @@
 <h1>Send Message</h1>
 
 <div class="message-card">
+
+    <!-- the main form for sending or saving messages -->
+
     <form method="post">{% csrf_token %}
 
         {% if draft %}
@@ -76,6 +79,8 @@
 
         <div class="gradient-border">
             <div class="gradient-inner">
+
+                <!-- subject input (auto-filled if editing draft) -->
                 <input type="text" name="subject" placeholder="Subject" required class="form-input"value="{% if draft %}{{ draft.subject }}{% endif %}">
                 
             </div>
@@ -84,6 +89,8 @@
 
         <div class="gradient-border">
             <div class="gradient-inner">
+
+                <!-- message body textarea (auto-filled when editing draft) -->
                 <textarea name="body" placeholder="Write your message..." required class="form-input">{% if draft %}{{ draft.body }}{% endif %}</textarea>
             </div>
         </div>
@@ -91,7 +98,7 @@
 
         <div class="form-row">
 
-            <!-- TEAM -->
+            <!-- optional team selection -->
             <div class="form-group">
                 <label>Team:</label><br>
                 <div class="gradient-border">
@@ -107,7 +114,7 @@
             </div>
             
 
-            <!-- USER -->
+            <!-- required user selection  -->
             <div class="form-group">
                 <label>User:</label><br>
                 <div class="gradient-border">
@@ -126,6 +133,7 @@
 
         </div>
 
+        <!-- send, draft, and cancel buttons-->
         <button type="submit" name="action" value="send">Send ➤</button>
         <button type="submit" name="action" value="draft">Draft ✎</button>
         <button type="button" onclick="window.history.back()">Cancel 🗑</button>

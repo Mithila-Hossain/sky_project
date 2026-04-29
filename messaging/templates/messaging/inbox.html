@@ -40,13 +40,6 @@ Description: Displays received messages, reply buttons, and search highlight
     }
 
 
-
-
-
-
-
-
-
     .reply-btn {
     display: inline-block;
     margin-top: 10px;
@@ -69,8 +62,14 @@ Description: Displays received messages, reply buttons, and search highlight
     <h1>Inbox</h1>
     
     {% if messages %}
+
+      <!-- loop through all received messages -->
       {% for msg in messages %}
+
+      <!-- message box/card (click to expand full message) -->
         <div class="message-card" onclick="showMessage(this)">
+
+            <!-- header to show subject, sender, team, and date -->
             <div class="message-header">
                 <div>
                     <strong>{{ msg.subject }}</strong><br>
@@ -84,17 +83,18 @@ Description: Displays received messages, reply buttons, and search highlight
                 <span class="date">{{ msg.timeStamp }}</span>
             </div>
     
+            <!-- short preview of message (first 50 characters only) -->
             <p class="message-preview">
                 {{ msg.body|truncatechars:50 }}
             </p>
     
+            <!-- showa full message when clicked on -->
             <p class="message-full">
                 {{ msg.body }}
             </p>
 
 
-
-
+            <!-- reply button → redirects to send message page with receiver pre-filled -->
             <a href="?view=send&reply_to={{ msg.sender.id }}" class="reply-btn">Reply</a>
 
 
@@ -102,11 +102,14 @@ Description: Displays received messages, reply buttons, and search highlight
         </div>
       {% endfor %}
 
-      
     {% else %}
-      <p>No messages yet</p>
+
+    <!-- shown when no received messages exist -->
+    <div class="empty-box">
+        <span class="empty-icon">📬</span>
+        <div class="empty-text">No received messages yet</div>
+    </div>
     {% endif %}
-    
 
 
 

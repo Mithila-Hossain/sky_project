@@ -56,20 +56,25 @@ Description: Displays saved draft messages with edit functionality which redirec
 <h1>Drafts</h1>
 
 {% if draft_messages %}
+
+<!-- loop through all draft messages -->
 {% for msg in draft_messages %}
+
+<!-- draft message card (click to expand full message) -->
 <div class="message-card" onclick="showMessage(this)">
 
     <div class="message-header">
 
-        <!-- LEFT -->
         <div>
+
+            <!-- shows subject and receiver -->
             <strong>{{ msg.subject }}</strong><br>
             To: {{ msg.receiver.username }}
         </div>
 
-        <!-- RIGHT -->
         <div class="draft-actions">
 
+            <!-- edit button which takes user to send page with draft data loaded -->
             <a href="?view=send&edit={{ msg.id }}" onclick="event.stopPropagation()">
                 <button class="edit-btn">Edit</button>
             </a>
@@ -79,12 +84,12 @@ Description: Displays saved draft messages with edit functionality which redirec
 
     </div>
 
-    <!-- PREVIEW -->
+    <!-- short preview of message (first 50 characters only) -->
     <p class="message-preview">
         {{ msg.body|truncatechars:50 }}
     </p>
 
-    <!-- FULL -->
+    <!-- showa full message when clicked on -->
     <p class="message-full" style="display:none;">
         {{ msg.body }}
     </p>
@@ -94,6 +99,12 @@ Description: Displays saved draft messages with edit functionality which redirec
 
 </div>
 {% endfor %}
+
 {% else %}
-<p>No drafts yet</p>
+
+<!-- shown when no draft messages exist -->
+<div class="empty-box">
+    <span class="empty-icon">📝</span>
+    <div class="empty-text">No draftmessages yet</div>
+</div>
 {% endif %}
