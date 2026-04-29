@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.contrib.auth.models import User
 from organisation.models import Department
@@ -6,9 +7,7 @@ from reports.models import Project
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
-    #members = models.ManyToManyField(User)
     
-
     team_type = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     status = models.CharField(max_length=50, default="Active")

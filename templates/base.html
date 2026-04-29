@@ -32,8 +32,6 @@
 
         /* Page layout setup */
         body {
-            display: flex;
-            min-height: 100vh;
             margin: 0;
             background-color: var(--cloud-white);
         }
@@ -58,6 +56,7 @@
             align-items: center;
             box-shadow: 0 0 25px rgba(255, 60, 172, 0.25);
             border-right: 1px solid rgba(255,255,255,0.25);
+
         }
 
         /* Sidebar title */
@@ -85,12 +84,6 @@
             box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.35);
         }
 
-        /* Main page content area */
-        .content {
-            margin-left: 260px;
-            padding: 30px;
-            width: 100%;
-        }
 
         /* Logout button styling */
         .logout-btn {
@@ -123,6 +116,48 @@
             width: 250px;
             height: auto;
         }
+        /* content */
+        .content {
+            margin-left: 250px; /* must match sidebar width */
+            width: calc(100% - 250px);
+            padding: 30px;
+            padding-bottom: 30px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+        .sky-footer {
+            background: transparent; 
+            color: #0078D4;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; 
+            border-radius: 0;
+            margin-top: auto; 
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        .sky-footer .footer-left {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .sky-footer .footer-right a {
+            color: #0078D4; 
+            margin-left: 18px;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.9;
+            transition: 0.2s ease;
+        }
+        .sky-footer .footer-right a:hover {
+            opacity: 1;
+        }
+
+
+
 
     </style>
 
@@ -140,7 +175,7 @@
 
     <!-- Navigation links -->
     <a href="/">Dashboard</a>
-    <a href="/teams/">Team Management</a>
+    <a href="/teams/">Teams</a>
     <a href="/organisation/">Organisation</a>
     <a href="/messaging/">Messages</a>
     <a href="/schedule/">Schedule</a>
@@ -163,7 +198,20 @@
     {% block content %}
     {% endblock %}
 
+    <footer class="sky-footer">
+        <div class="footer-left">
+            © 2026 Sky Engineering Portal
+        </div>
+
+        <div class="footer-right">
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Contact</a>
+        </div>
+    </footer>
+
 </div>
+
 
 </body>
 
