@@ -5,19 +5,23 @@
 
 <div class="container py-5" style="max-width: 720px;">
 
-    <!-- Header -->
+    <!-- Page header -->
     <div class="d-flex align-items-center justify-content-between mb-4">
-        <h1 style="font-weight:800; color:#003B70; margin:0;">
+
+        <!-- Page title showing team name -->
+        <h1 style="font-weight:700; font-size:28px; color:#003B70; margin:0;">
             Email {{ team.name }}
         </h1>
 
+        <!-- Back link to team page -->
         <a href="{% url 'team_detail' team.id %}"
            style="text-decoration:none; font-size:14px; color:#0078D4; font-weight:600;">
             ← Back to Team
         </a>
+
     </div>
 
-    <!-- Card -->
+    <!-- Main form container -->
     <div style="
         background:white;
         border-radius:18px;
@@ -29,7 +33,7 @@
         <form method="POST">
             {% csrf_token %}
 
-            <!-- Subject -->
+            <!-- Subject input field -->
             <div class="mb-4">
                 <label class="form-label" style="font-weight:700; color:#003B70;">Subject</label>
                 <input type="text" name="subject" class="form-control"
@@ -37,7 +41,7 @@
                        placeholder="Enter subject..." required>
             </div>
 
-            <!-- Message -->
+            <!-- Message input field -->
             <div class="mb-4">
                 <label class="form-label" style="font-weight:700; color:#003B70;">Message</label>
                 <textarea name="body" class="form-control" rows="7"
@@ -45,8 +49,10 @@
                           placeholder="Write your message..." required></textarea>
             </div>
 
-            <!-- Footer -->
+            <!-- Submit button section -->
             <div class="d-flex justify-content-end">
+
+                <!-- Send email button -->
                 <button class="btn"
                         style="
                             background:#0078D4;
@@ -58,6 +64,7 @@
                         ">
                     Send Email
                 </button>
+
             </div>
 
         </form>

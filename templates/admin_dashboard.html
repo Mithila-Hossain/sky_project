@@ -1,16 +1,26 @@
-{% extends 'base.html' %}
+<!-- Author: Mithila Hossain | ID: w1970613 -->
 
+{% extends 'base.html' %}
 {% block content %}
 
 <style>
-    :root {
-        --sky-orange: #ff8a00;
-        --sky-pink: #ff3cac;
-        --sky-purple: #784ba0;
-        --sky-blue: #2b86c5;
-    }
 
-    .stat-card {
+:root {
+    --sky-orange: #ff8a00;
+    --sky-pink: #ff3cac;
+    --sky-purple: #784ba0;
+    --sky-blue: #2b86c5;
+}
+
+/* Page heading styling */
+h2 {
+    font-weight: 800;
+    margin-bottom: 25px;
+    color: #1f2937;
+}
+
+/* Small stat cards at the top of dashboard */
+.stat-card {
     background: white;
     border-radius: 14px;
     padding: 28px;
@@ -21,6 +31,7 @@
     overflow: hidden;
 }
 
+/* Decorative gradient bar on top of each card */
 .stat-card::before {
     content: "";
     position: absolute;
@@ -34,35 +45,37 @@
         #784ba0 65%,
         #2b86c5 100%
     );
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
 }
 
-    .stat-card:hover {
-        transform: translateY(-3px);
-    }
+/* Slight lift effect when hovering over cards */
+.stat-card:hover {
+    transform: translateY(-3px);
+}
 
-    .stat-number {
-        font-size: 30px;
-        font-weight: 700;
-        color: #2b2b2b;
-    }
+/* Numbers inside stat cards */
+.stat-number {
+    font-size: 30px;
+    font-weight: 700;
+    color: #2b2b2b;
+}
 
-    .stat-label {
-        font-size: 14px;
-        color: #777;
-    }
+/* Labels under stat numbers */
+.stat-label {
+    font-size: 14px;
+    color: #777;
+}
 
-    .section-title {
+/* Section headings (like "Recent Activities") */
+.section-title {
     font-size: 20px;
     font-weight: 700;
     margin-top: 40px;
     margin-bottom: 15px;
-    color: #f61d4f; /* soft premium red */
+    color: #f61d4f;
 }
 
-
-    .activity-box {
+/* Each activity row in recent activity section */
+.activity-box {
     background: #f7faff;
     padding: 16px 20px;
     border-radius: 12px;
@@ -73,19 +86,21 @@
     align-items: center;
 }
 
+/* Activity text styling */
 .activity-title {
     font-size: 15px;
     font-weight: 600;
 }
 
+/* Timestamp for each activity */
 .activity-time {
     font-size: 13px;
     font-weight: 500;
-    color: #6b7280; /* nicer grey */
+    color: #6b7280;
 }
 
-
-    .table-card {
+/* Container for the team table */
+.table-card {
     background: white;
     padding: 22px;
     border-radius: 14px;
@@ -94,7 +109,7 @@
     overflow: hidden;
 }
 
-/* Gradient top border */
+/* Gradient strip at the top of table card */
 .table-card::before {
     content: "";
     position: absolute;
@@ -108,20 +123,16 @@
         #784ba0 65%,
         #2b86c5 100%
     );
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
 }
 
-/* Table header */
+/* Table header styling */
 .table-card table thead th {
-    color: #2b86c5 !important; /* sky blue */
+    color: #2b86c5 !important;
     font-weight: 700;
     font-size: 15px;
 }
 
-
-
-/* Table rows */
+/* Table row hover effect */
 table tbody tr {
     transition: 0.25s ease;
 }
@@ -131,43 +142,39 @@ table tbody tr:hover {
     transform: translateX(4px);
 }
 
-/* Table cells */
+/* Table cell styling */
 table td {
     padding: 14px 10px;
     font-size: 14px;
     color: #333;
-    vertical-align: middle;
 }
 
-/* Status badge inside table */
+/* Status badges (Active / Inactive) */
 .table-status {
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
-    display: inline-block;
 }
 
+/* Active status style */
 .table-status.active {
     background: #d1f7d6;
     color: #1b8c2f;
 }
 
+/* Inactive status style */
 .table-status.inactive {
     background: #ffe5e5;
     color: #b30000;
 }
 
-
-
-
-
 </style>
 
+<!-- Page title -->
+<h2>Welcome, {{ user.username }}!</h2>
 
-<h2 class="fw-bold mb-4">Welcome, {{ user.username }}!</h2>
-
-<!-- STAT CARDS -->
+<!-- Top stats overview cards -->
 <div class="row g-4">
 
     <div class="col-md-3">
@@ -200,23 +207,27 @@ table td {
 
 </div>
 
-<!-- RECENT ACTIVITIES -->
+<!-- Recent activity feed -->
 <div class="section-title">Recent Activities</div>
 
 {% for activity in recent_activities %}
 <div class="activity-box">
-    <strong>{{ activity.title }}</strong><br>
-    <span class="text-muted">{{ activity.time }}</span>
+    <div>
+        <strong>{{ activity.title }}</strong>
+    </div>
+    <div class="activity-time">{{ activity.time }}</div>
 </div>
 {% empty %}
 <p class="text-muted">No recent activities.</p>
 {% endfor %}
 
-<!-- TEAM MANAGEMENT TABLE -->
+<!-- Team management table -->
 <div class="section-title">Team Management</div>
 
 <div class="table-card">
+
     <table class="table table-hover">
+
         <thead>
             <tr>
                 <th>Team Name</th>
@@ -237,11 +248,12 @@ table td {
                         {{ team.status }}
                     </span>
                 </td>
-                
             </tr>
             {% endfor %}
         </tbody>
+
     </table>
+
 </div>
 
 {% endblock %}

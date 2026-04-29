@@ -1,9 +1,13 @@
+<!-- Author: Mithila Hossain | ID: w1970613 -->
+
 {% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 
 <style>
+
+    /* Basic theme colours used across the page */
     :root {
         --sky-blue: #00AEEF;
         --deep-sky-blue: #0078D4;
@@ -11,16 +15,17 @@
         --soft-grey: #E6ECF5;
         --cloud-white: #F5F9FF;
         --gradient-sky: linear-gradient(135deg, #00AEEF, #0078D4);
-        
-        /* match sidebar colours */
+
+        /* Matches sidebar gradient for visual consistency */
         --sidebar-gradient: linear-gradient(135deg,
            #ff8a00 0%,
            #ff3cac 30%,
            #784ba0 65%,
            #2b86c5 100%
-           );
+        );
     }
-    
+
+    /* Main container for each team card */
     .team-card {
         background: white;
         border-radius: 14px;
@@ -28,34 +33,30 @@
         padding: 20px;
         transition: 0.2s ease;
         position: relative;
-        overflow: hidden; /* important */
+        overflow: hidden;
     }
-        
-        /* Top gradient border */
+
+    /* Decorative top bar on each card */
     .team-card::before {
         content: "";
         position: absolute;
         top: 0;
         left: 0;
-        height: 4px; /* thickness of the line */
+        height: 4px;
         width: 100%;
-        background: linear-gradient(135deg,
-        #ff8a00 0%,
-        #ff3cac 30%,
-        #784ba0 65%,
-        #2b86c5 100%
-        );
+        background: var(--sidebar-gradient);
         border-top-left-radius: 14px;
         border-top-right-radius: 14px;
     }
 
-
+    /* Small lift effect when hovering a card */
     .team-card:hover {
         transform: translateY(-4px);
         box-shadow: 0 6px 18px rgba(0,0,0,0.12);
         cursor: pointer;
     }
 
+    /* Circle avatar used for team initials */
     .team-avatar {
         width: 60px;
         height: 60px;
@@ -70,18 +71,21 @@
         margin-bottom: 12px;
     }
 
+    /* Team name styling */
     .team-title {
         font-size: 20px;
         font-weight: 700;
         color: var(--navy-blue);
     }
 
+    /* Small text used for team details */
     .team-info {
         font-size: 14px;
         color: #555;
         margin-bottom: 4px;
     }
 
+    /* Status label (Active / Inactive) */
     .status-badge {
         background: #d1f7d6;
         color: #1b8c2f;
@@ -93,11 +97,13 @@
         margin-bottom: 10px;
     }
 
+    /* Container for overlapping member avatars */
     .member-images {
         display: flex;
         align-items: center;
     }
 
+    /* Individual member avatar styling */
     .member-images img {
         width: 32px;
         height: 32px;
@@ -105,6 +111,8 @@
         border: 2px solid white;
         margin-left: -8px;
     }
+
+    /* Shows extra members count when more than 4 exist */
     .more-members {
         width: 36px;
         height: 36px;
@@ -121,7 +129,7 @@
         box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     }
 
-
+    /* Contact button for each team */
     .btn-contact {
         background: var(--gradient-sky);
         color: white;
@@ -129,21 +137,21 @@
         border-radius: 8px;
         padding: 6px 12px;
         font-size: 14px;
-        z-index: 10;
-        text-decoration: none;  /* remove underline */
-        line-height: 1;         /* tighter vertical spacing */
-        display: inline-block;  /* prevents weird stretching */
-
+        text-decoration: none;
+        display: inline-block;
     }
 
     .btn-contact:hover {
         opacity: 0.9;
         color: white;
     }
-    /* Modern Search Bar */
+
+    /* Wrapper for search input so icon can be positioned */
     .search-wrapper {
         position: relative;
     }
+
+    /* Search input field styling */
     .search-input {
         height: 58px;
         padding-left: 55px;
@@ -154,13 +162,15 @@
         transition: 0.25s ease;
         box-shadow: 0 3px 10px rgba(0,0,0,0.05);
     }
+
+    /* Focus state for better UX */
     .search-input:focus {
         border-color: var(--sky-blue);
         box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.18);
         outline: none;
     }
-    
-    /* Search Icon */
+
+    /* Search icon inside input */
     .search-icon {
         position: absolute;
         top: 50%;
@@ -170,7 +180,8 @@
         color: var(--deep-sky-blue);
         opacity: 0.8;
     }
-    /* Filter + Sort Dropdowns */
+
+    /* Dropdown filter styling */
     .filter-select {
         height: 58px;
         font-size: 17px;
@@ -181,18 +192,20 @@
         transition: 0.25s ease;
         box-shadow: 0 3px 10px rgba(0,0,0,0.05);
     }
+
+    /* Focus effect for dropdown */
     .filter-select:focus {
         border-color: var(--sky-blue);
         box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.18);
         outline: none;
     }
 
-    /* Dropdown wrapper for icon */
+    /* Wrapper for dropdown icon positioning */
     .dropdown-wrapper {
         position: relative;
     }
 
-    /* Dropdown icon */
+    /* Dropdown arrow icon */
     .dropdown-icon {
         position: absolute;
         right: 18px;
@@ -203,6 +216,8 @@
         pointer-events: none;
         opacity: 0.7;
     }
+
+    /* Avatar image styling for team members */
     .member-avatar {
         width: 36px;
         height: 36px;
@@ -213,86 +228,85 @@
         margin-left: -8px;
     }
 
-
 </style>
 
+<!-- Page wrapper -->
 <div class="container py-4">
 
-    <h2 class="fw-bold" style="color: var(--navy-blue); margin-top: -10px; margin-bottom: 25px;">
+    <!-- Page heading -->
+    <h2 class="fw-bold" style="color: var(--navy-blue); margin-bottom: 25px;">
         Team Directory
-    </h2>    
+    </h2>
 
+    <!-- Search and filter form -->
+    <form method="GET" class="mb-4">
 
-    <!-- Search + Filters -->
-<form method="GET" class="mb-4">
+        <div class="row g-3">
 
-    <div class="row g-3">
-
-        <!-- Search Bar -->
-        <div class="col-md-6">
-            <div class="search-wrapper">
-                <i class="search-icon bi bi-search"></i>
-                <input type="text" name="search"
-                       class="form-control search-input"
-                       placeholder="Search teams"
-                       value="{{ search_query }}">
+            <!-- Search teams -->
+            <div class="col-md-6">
+                <div class="search-wrapper">
+                    <i class="search-icon bi bi-search"></i>
+                    <input type="text" name="search"
+                           class="form-control search-input"
+                           placeholder="Search teams"
+                           value="{{ search_query }}">
+                </div>
             </div>
-        </div>
 
-        <!-- Department Filter -->
+            <!-- Filter by department -->
+            <div class="col-md-6">
+                <div class="dropdown-wrapper">
+                    <select name="department" class="form-select filter-select">
+                        <option value="">All Departments</option>
 
-        <div class="col-md-6">
-            <div class="dropdown-wrapper">
-                <select name="department" class="form-select filter-select">
-                    <option value="">All Departments</option>
-        
-                    {% for dept in departments %}
-                        <option value="{{ dept.id }}"
-                            {% if request.GET.department == dept.id|stringformat:'s' %}selected{% endif %}>
-                            {{ dept.name }}
-                        </option>
-                    {% endfor %}
-                </select>
-        
-                <i class="dropdown-icon bi bi-chevron-down"></i>
+                        {% for dept in departments %}
+                            <option value="{{ dept.id }}"
+                                {% if request.GET.department == dept.id|stringformat:'s' %}selected{% endif %}>
+                                {{ dept.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <i class="dropdown-icon bi bi-chevron-down"></i>
+                </div>
             </div>
+
         </div>
-    </div>
+    </form>
 
-</form>
-
-
-    <!-- Team Grid -->
+    <!-- Team cards grid -->
     <div class="row">
 
         {% for team in teams %}
         <div class="col-md-4 mb-4">
+
+            <!-- Single team card -->
             <div class="team-card">
 
-
-                <!-- Title -->
+                <!-- Team name -->
                 <div class="team-title">{{ team.name }}</div>
 
-                <!-- Leader -->
+                <!-- Team lead info -->
                 <div class="team-info">
                     <strong>Team Lead:</strong>
                     {{ team.team_leader.get_full_name|default:"Not assigned" }}
-
                 </div>
 
-                <!-- Department -->
+                <!-- Department info -->
                 <div class="team-info">
                     <strong>Department:</strong> {{ team.department.name }}
                 </div>
 
-                <!-- Member Count -->
+                <!-- Member count -->
                 <div class="team-info">
                     <strong>Members:</strong> {{ team.members.count }}
                 </div>
 
-                <!-- Repo Count (placeholder) -->
+                <!-- GitHub repository link -->
                 <div class="team-info">
                     <strong>Repository:</strong>
+
                     {% if team.github_repo %}
                         <a href="{{ team.github_repo }}" target="_blank" style="color: var(--deep-sky-blue);">
                             {{ team.github_repo }}
@@ -300,32 +314,35 @@
                     {% else %}
                         <span class="text-muted">Not provided</span>
                     {% endif %}
-
                 </div>
 
-                <!-- Member Images -->
+                <!-- Member avatars -->
                 <div class="member-images mt-2 mb-3">
+
                     {% for member in team.members.all|slice:":4" %}
-                        <img src="{% static 'images/avatar_' %}{{ forloop.counter }}.png" class="member-avatar">
+                        <img src="{% static 'images/avatar_' %}{{ forloop.counter }}.png"
+                             class="member-avatar">
                     {% endfor %}
 
-                
+                    <!-- Extra members indicator -->
                     {% if team.members.count > 4 %}
                         <div class="more-members">+{{ team.members.count|add:"-4" }}</div>
                     {% endif %}
-                </div>                
 
-                <!-- Status -->
+                </div>
+
+                <!-- Status + contact button -->
                 <div class="d-flex align-items-center mt-2">
+
                     <div class="status-badge">
                         {{ team.status }}
                     </div>
-                
+
                     <a href="{% url 'team_detail' team.id %}" class="btn-contact ms-auto">
                         Contact
                     </a>
+
                 </div>
-                
 
             </div>
         </div>
