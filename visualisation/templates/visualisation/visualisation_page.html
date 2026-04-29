@@ -1,3 +1,5 @@
+<!-- Author: Shayon Vincent | ID: w2090829 -->
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -7,18 +9,31 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+    
     .page-header {
-        background: white;
         border-radius: 16px;
-        padding: 25px;
+        padding: 30px;
         margin-bottom: 25px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        background: linear-gradient(135deg,
+            #ff8a00 0%,
+            #ff3cac 30%,
+            #784ba0 65%,
+            #2b86c5 100%
+        );
+        color: white;
+        box-shadow: 0 8px 20px rgba(120, 75, 160, 0.25);
+        text-align: center;
     }
 
     .page-header h1 {
-        color: #0078D4;
+        color: white;
         font-weight: bold;
     }
+
+    .page-header p {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
 
     .stat-card,
     .chart-card,
@@ -26,9 +41,34 @@
     .filter-card {
         background: white;
         border-radius: 16px;
-        padding: 20px;
+        padding: 24px;
         margin-bottom: 25px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 6px 18px rgba(0, 120, 212, 0.12);
+        border: 1px solid #E6ECF5;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card::before,
+    .chart-card::before,
+    .table-card::before,
+    .filter-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 5px;
+        width: 100%;
+        background: linear-gradient(90deg, #ff8a00, #ff3cac, #784ba0, #2b86c5);
+    }
+
+    .stat-card:hover,
+    .chart-card:hover,
+    .table-card:hover,
+    .filter-card:hover {
+        transform: translateY(-3px);
+        transition: 0.25s ease;
+        box-shadow: 0 10px 24px rgba(0, 120, 212, 0.18);
     }
 
     .section-title {

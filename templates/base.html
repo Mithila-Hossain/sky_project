@@ -1,5 +1,5 @@
 <!-- Author: Mithila Hossain | ID: w1970613 -->
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -106,6 +106,20 @@
             background: var(--gradient-aqua-blue);
         }
 
+        /* Style for the logo in the sidebar */
+       .logo-container {
+            display: flex;
+            justify-content: center;   /* horizontal center */
+            align-items: center;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            width: 250px;
+            height: auto;
+        }
+
     </style>
 
 </head>
@@ -115,8 +129,10 @@
 <!-- Sidebar navigation menu -->
 <div class="sidebar">
 
-    <!-- Project title -->
-    <h3>Sky Project</h3>
+    <!-- Project logo -->
+    <div class="logo-container">
+    <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">
+    </div>
 
     <!-- Navigation links -->
     <a href="/">Dashboard</a>
