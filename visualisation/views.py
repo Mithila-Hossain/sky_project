@@ -12,7 +12,7 @@ from teams.models import Team, TeamMember, Dependency, Meeting
 def visualisation_home(request):
     teams_queryset = Team.objects.all()
 
-    # first chart: department vs teams
+    # first chart: teams per department (bokeh)
     department_data = (
         Department.objects
         .annotate(team_count=Count("team"))
@@ -44,39 +44,57 @@ def visualisation_home(request):
 
     main_chart.xaxis.major_label_orientation = 0.8
 
-    # second chart: team size breakdown
+    # second chart: team size distribution (bokeh)
+
     team_data = (
         Team.objects
-        .annotate(member_count=Count("members"))
-        .order_by("name")
-    )
+            .annotate(member_count=Count("members"))
+            .order_by("-member_count")
+        )
 
-    team_names = [team.name for team in team_data]
-    member_counts = [team.member_count for team in team_data]
+    teams_with_members = [team for team in team_data if team.member_count > 0]
+    empty_teams = [team for team in team_data if team.member_count == 0]
+
+    selected_teams = teams_with_members[:8] + empty_teams[:2]
+
+    team_names = [
+        f"{team.name} (0)" if team.member_count == 0 else team.name
+        for team in selected_teams
+    ]
+
+
+    member_counts = [team.member_count for team in selected_teams]
 
     if not team_names:
         team_names = ["No data"]
         member_counts = [0]
 
+    colors = [
+        "#d3d3d3" if count == 0 else "#0078D4"
+        for count in member_counts
+
+    ]
+
     category_chart = figure(
         title="Team Size (Members per Team)",
-        x_range=team_names,
-        x_axis_label="Team",
-        y_axis_label="Number of Members",
+        y_range=team_names,   # ⭐ changed from x_range
+        x_axis_label="Number of Members",
+        y_axis_label="Team",
         height=350,
         sizing_mode="stretch_width",
         toolbar_location=None
     )
 
-    category_chart.vbar(
-        x=team_names,
-        top=member_counts,
-        width=0.6
+    category_chart.hbar(   # ⭐ changed from vbar
+        y=team_names,
+        right=member_counts,
+        height=0.6,
+        color=colors
     )
 
-    category_chart.xaxis.major_label_orientation = 0.8
+    category_chart.yaxis.major_label_text_font_size = "10pt"
 
-    # third chart: employee distribution by department
+    # third chart: employee count per department (chart.js)
     employee_data = (
         Department.objects
         .annotate(employee_count=Count("team__members"))
@@ -95,12 +113,13 @@ def visualisation_home(request):
         department_labels = ["No Data"]
         employee_counts = [1]
 
+    # fourth chart: teams created over time (bokeh)
     created_data = (
-    Team.objects
-    .annotate(created_date=TruncDate("created_at"))
-    .values("created_date")
-    .annotate(team_count=Count("id"))
-    .order_by("created_date")
+        Team.objects
+        .annotate(created_date=TruncDate("created_at"))
+        .values("created_date")
+        .annotate(team_count=Count("id"))
+        .order_by("created_date")
     )
 
     created_dates = [str(item["created_date"]) for item in created_data]
@@ -120,14 +139,12 @@ def visualisation_home(request):
         toolbar_location=None
     )
 
-    # line
     time_chart.line(
         x=created_dates,
         y=created_counts,
         line_width=3
     )
 
-    # points
     time_chart.circle(
         x=created_dates,
         y=created_counts,
@@ -136,24 +153,29 @@ def visualisation_home(request):
 
     time_chart.xaxis.major_label_orientation = 0.8
 
-    # recent data summary table
+    # recent teams data
     recent_teams = (
         teams_queryset
         .select_related("department", "team_leader", "project")
         .order_by("-created_at")[:5]
     )
 
-    # bokeh components for chart 1, 2 and 4
+    # bokeh components
     main_script, main_div = components(main_chart)
     category_script, category_div = components(category_chart)
     time_script, time_div = components(time_chart)
 
+    # context
+    
     context = {
         "main_script": main_script,
         "main_div": main_div,
 
         "category_script": category_script,
         "category_div": category_div,
+
+        "time_script": time_script,
+        "time_div": time_div,
 
         "department_labels": department_labels,
         "employee_counts": employee_counts,
@@ -165,8 +187,6 @@ def visualisation_home(request):
         "total_meetings": Meeting.objects.count(),
 
         "recent_teams": recent_teams,
-        "time_script": time_script,
-        "time_div": time_div,
     }
 
     return render(request, "visualisation/visualisation_page.html", context)
