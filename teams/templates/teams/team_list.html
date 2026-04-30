@@ -7,7 +7,7 @@
 
 <style>
 
-    /* Basic theme colours used across the page */
+    /* theme colors ussed across the page */
     :root {
         --sky-blue: #00AEEF;
         --deep-sky-blue: #0078D4;
@@ -16,7 +16,6 @@
         --cloud-white: #F5F9FF;
         --gradient-sky: linear-gradient(135deg, #00AEEF, #0078D4);
 
-        /* Matches sidebar gradient for visual consistency */
         --sidebar-gradient: linear-gradient(135deg,
            #ff8a00 0%,
            #ff3cac 30%,
@@ -25,7 +24,7 @@
         );
     }
 
-    /* Main container for each team card */
+    /* container for each team card */
     .team-card {
         background: white;
         border-radius: 14px;
@@ -36,7 +35,6 @@
         overflow: hidden;
     }
 
-    /* Decorative top bar on each card */
     .team-card::before {
         content: "";
         position: absolute;
@@ -49,14 +47,13 @@
         border-top-right-radius: 14px;
     }
 
-    /* Small lift effect when hovering a card */
     .team-card:hover {
         transform: translateY(-4px);
         box-shadow: 0 6px 18px rgba(0,0,0,0.12);
         cursor: pointer;
     }
 
-    /* Circle avatar used for team initials */
+    /* avatarr used for team initials */
     .team-avatar {
         width: 60px;
         height: 60px;
@@ -71,14 +68,12 @@
         margin-bottom: 12px;
     }
 
-    /* Team name styling */
     .team-title {
         font-size: 20px;
         font-weight: 700;
         color: var(--navy-blue);
     }
 
-    /* Small text used for team details */
     .team-info {
         font-size: 14px;
         color: #555;
@@ -97,7 +92,6 @@
         margin-bottom: 10px;
     }
 
-    /* Container for overlapping member avatars */
     .member-images {
         display: flex;
         align-items: center;
@@ -112,7 +106,7 @@
         margin-left: -8px;
     }
 
-    /* Shows extra members count when more than 4 exist */
+    /* shows extraa members count when more than 4 exist */
     .more-members {
         width: 36px;
         height: 36px;
@@ -129,7 +123,6 @@
         box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     }
 
-    /* Contact button for each team */
     .btn-contact {
         background: var(--gradient-sky);
         color: white;
@@ -146,12 +139,11 @@
         color: white;
     }
 
-    /* Wrapper for search input so icon can be positioned */
     .search-wrapper {
         position: relative;
     }
 
-    /* Search input field styling */
+    /* search input field styyling */
     .search-input {
         height: 58px;
         padding-left: 55px;
@@ -163,14 +155,13 @@
         box-shadow: 0 3px 10px rgba(0,0,0,0.05);
     }
 
-    /* Focus state for better UX */
+
     .search-input:focus {
         border-color: var(--sky-blue);
         box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.18);
         outline: none;
     }
 
-    /* Search icon inside input */
     .search-icon {
         position: absolute;
         top: 50%;
@@ -193,19 +184,18 @@
         box-shadow: 0 3px 10px rgba(0,0,0,0.05);
     }
 
-    /* Focus effect for dropdown */
     .filter-select:focus {
         border-color: var(--sky-blue);
         box-shadow: 0 0 0 4px rgba(0, 174, 239, 0.18);
         outline: none;
     }
 
-    /* Wrapper for dropdown icon positioning */
+ 
     .dropdown-wrapper {
         position: relative;
     }
 
-    /* Dropdown arrow icon */
+ 
     .dropdown-icon {
         position: absolute;
         right: 18px;
@@ -217,7 +207,7 @@
         opacity: 0.7;
     }
 
-    /* Avatar image styling for team members */
+    /* avatar image stylingg for team members */
     .member-avatar {
         width: 36px;
         height: 36px;
@@ -230,7 +220,7 @@
 
 </style>
 
-<!-- Page wrapper -->
+
 <div class="container py-4">
 
     <!-- Page heading -->
@@ -281,29 +271,23 @@
         {% for team in teams %}
         <div class="col-md-4 mb-4">
 
-            <!-- Single team card -->
             <div class="team-card">
 
-                <!-- Team name -->
                 <div class="team-title">{{ team.name }}</div>
 
-                <!-- Team lead info -->
                 <div class="team-info">
                     <strong>Team Lead:</strong>
                     {{ team.team_leader.get_full_name|default:"Not assigned" }}
                 </div>
 
-                <!-- Department info -->
                 <div class="team-info">
                     <strong>Department:</strong> {{ team.department.name }}
                 </div>
 
-                <!-- Member count -->
                 <div class="team-info">
                     <strong>Members:</strong> {{ team.members.count }}
                 </div>
 
-                <!-- GitHub repository link -->
                 <div class="team-info">
                     <strong>Repository:</strong>
 
@@ -324,7 +308,7 @@
                              class="member-avatar">
                     {% endfor %}
 
-                    <!-- Extra members indicator -->
+                    <!-- extra members indicator -->
                     {% if team.members.count > 4 %}
                         <div class="more-members">+{{ team.members.count|add:"-4" }}</div>
                     {% endif %}

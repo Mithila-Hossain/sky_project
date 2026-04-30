@@ -23,7 +23,7 @@ def team_list(request):
         teams = teams.filter(name__icontains=search)
 
     if department:
-        teams = teams.filter(department_id=department)
+        teams = teams.filter(department__id=department)
 
     return render(request, "teams/team_list.html", {
         "teams": teams,

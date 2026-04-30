@@ -12,14 +12,12 @@
 
     <style>
 
-        /* Colour variables used across the page */
         :root {
             --sky-blue: #00AEEF;
             --deep-purple: #6A4FBF;
             --cloud-white: #F5F9FF;
         }
 
-        /* Page background and centering */
         body {
             background: var(--cloud-white);
             height: 100vh;
@@ -29,7 +27,7 @@
             font-family: Arial, sans-serif;
         }
 
-        /* Main logout message card */
+        /* main logout message card */
         .logout-card {
             width: 420px;
             background: white;
@@ -39,7 +37,6 @@
             text-align: center;
         }
 
-        /* Page title styling */
         .title {
             font-size: 26px;
             font-weight: bold;
@@ -49,7 +46,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Primary action button */
         .btn-sky {
             background: linear-gradient(135deg, var(--sky-blue), var(--deep-purple));
             color: white;
@@ -61,12 +57,10 @@
             margin-top: 20px;
         }
 
-        /* Button hover effect */
         .btn-sky:hover {
             opacity: 0.9;
         }
 
-        /* Secondary text styling */
         .text-muted {
             color: #666;
         }
@@ -79,15 +73,14 @@
 <!-- Logout message container -->
 <div class="logout-card">
 
-    <!-- Page heading -->
     <div class="title">You've been signed out.</div>
 
-    <!-- Explanation message -->
+    <!-- exxplanation message -->
     <p class="text-muted">
         Your session has ended for security reasons.
     </p>
 
-    <!-- Redirect back to login -->
+    <!-- redirect back to login -->
     <a href="{% url 'login' %}">
         <button class="btn-sky">
             Log back in
