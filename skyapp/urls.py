@@ -42,5 +42,7 @@ urlpatterns = [
     path("schedule/", include("schedule.urls")),
     path("reports/", include("reports.urls")),
     path("visualisation/", include("visualisation.urls")),
+    path('reports/', include('reports.urls')),
 
 ]
+
