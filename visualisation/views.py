@@ -1,4 +1,5 @@
-<!-- Author: Shayon Vincent | ID: w2090829 -->
+
+# Author: Shayon Vincent | ID: w2090829
 
 from django.shortcuts import render
 from django.db.models import Count
