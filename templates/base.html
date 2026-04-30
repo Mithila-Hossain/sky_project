@@ -13,7 +13,7 @@
 
     <style>
 
-        /* Colour palette for the whole project */
+        /* colour palette for thee whole project */
         :root {
             --aqua: #4DD0E1;
             --sky-blue: #00AEEF;
@@ -24,13 +24,13 @@
             --cloud-white: #F5F9FF;
             --soft-grey: #E6ECF5;
 
-            /* Gradient styles used across UI */
+            /* Gradient styless used across UI */
             --gradient-aqua-blue: linear-gradient(135deg, #4DD0E1, #00AEEF);
             --gradient-blue-purple: linear-gradient(135deg, #00AEEF, #9C6ADE);
             --gradient-aqua-purple: linear-gradient(135deg, #4DD0E1, #6A4FBF);
         }
 
-        /* Page layout setup */
+        /* Page layout setups */
         body {
             margin: 0;
             background-color: var(--cloud-white);
@@ -106,7 +106,7 @@
         /* Style for the logo in the sidebar */
        .logo-container {
             display: flex;
-            justify-content: center;   /* horizontal center */
+            justify-content: center;   
             align-items: center;
             width: 100%;
             margin-bottom: 25px;
@@ -118,7 +118,7 @@
         }
         /* content */
         .content {
-            margin-left: 250px; /* must match sidebar width */
+            margin-left: 250px; 
             width: calc(100% - 250px);
             padding: 30px;
             padding-bottom: 30px;
@@ -182,7 +182,7 @@
     <a href="/reports/">Reports</a>
     <a href="/visualisation/">Visualisation</a>
 
-    <!-- Logout form (POST required for Django logout) -->
+    <!-- Logout form -->
     <form action="{% url 'logout' %}" method="post" style="margin-top:20px;">
         {% csrf_token %}
         <button type="submit" class="logout-btn">

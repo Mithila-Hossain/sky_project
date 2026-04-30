@@ -7,195 +7,191 @@
 {% block content %}
 
 <style>
-/* Page background */
-body.team-page {
-    background: linear-gradient(180deg, #F8FBFF 0%, #EEF5FF 100%);
-    min-height: 100vh;
-}
+    body.team-page {
+        background: linear-gradient(180deg, #F8FBFF 0%, #EEF5FF 100%);
+        min-height: 100vh;
+    }
 
-/* Banner */
-.team-banner {
-    background: linear-gradient(135deg,
-        #ff8a00 0%,
-        #ff3cac 30%,
-        #784ba0 65%,
-        #2b86c5 100%
-    );
-    color: white;
-    padding: 15px 22px;
-    border-radius: 16px;
-    margin-bottom: 30px;
-}
+    .team-banner {
+        background: linear-gradient(135deg,
+            #ff8a00 0%,
+            #ff3cac 30%,
+            #784ba0 65%,
+            #2b86c5 100%
+        );
+        color: white;
+        padding: 15px 22px;
+        border-radius: 16px;
+        margin-bottom: 30px;
+    }
 
-.team-banner h1 {
-    font-size: 28px;
-    font-weight: 800;
-    margin-bottom: 4px;
-}
+    .team-banner h1 {
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 4px;
+    }
 
 
-/* Manager section */
-.team-manager {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-top: 4px;
-}
+    /* manager section */
+    .team-manager {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 4px;
+    }
 
-.manager-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: white;
-    color: #0078D4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    font-weight: 700;
-}
+    .manager-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: white;
+        color: #0078D4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        font-weight: 700;
+    }
 
-/* Action buttons */
-.team-actions a {
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
-}
+    /* action buttons */
+    .team-actions a {
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 600;
+    }
 
-/* Tabs */
-.team-tabs {
-    display: flex;
-    gap: 25px;
-    margin-bottom: 25px;
-    border-bottom: 2px solid #E6ECF5;
-    padding-bottom: 10px;
-}
+    /* taabs */
+    .team-tabs {
+        display: flex;
+        gap: 25px;
+        margin-bottom: 25px;
+        border-bottom: 2px solid #E6ECF5;
+        padding-bottom: 10px;
+    }
 
-.team-tab {
-    font-weight: 600;
-    color: #003B70;
-    padding-bottom: 6px;
-    cursor: pointer;
-    text-decoration: none;
-}
+    .team-tab {
+        font-weight: 600;
+        color: #003B70;
+        padding-bottom: 6px;
+        cursor: pointer;
+        text-decoration: none;
+    }
 
-.team-tab.active {
-    border-bottom: 3px solid #0078D4;
-    color: #0078D4;
-}
+    .team-tab.active {
+        border-bottom: 3px solid #0078D4;
+        color: #0078D4;
+    }
 
-/* Content wrapper */
-.team-detail-wrapper {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-
-/* Cards */
-.detail-card {
-    background: white;
-    border-radius: 14px;
-    border: 1px solid #E6ECF5;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-.section-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #003B70;
-    margin-bottom: 12px;
-}
-.detail-card p {
-    margin-bottom: 6px;
-}
-/* Gradient top border for detail cards */
-.detail-card.gradient-top {
-    position: relative;
-    overflow: hidden;
-}
-
-.detail-card.gradient-top::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 4px;
-    width: 100%;
-    background: linear-gradient(135deg,
-        #ff8a00 0%,
-        #ff3cac 30%,
-        #784ba0 65%,
-        #2b86c5 100%
-    );
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
-}
-/* Member Cards (match Team List card style) */
-.member-card {
-    position: relative;
-    overflow: hidden;
-    background: white;
-    border-radius: 16px;
-    border: 1px solid #E4E9F2;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    padding: 18px 20px;
-    transition: 0.2s ease;
-}
-
-.member-card:hover {
-    box-shadow: 0 6px 16px rgba(0,0,0,0.10);
-}
-
-/* Top gradient border */
-.member-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 4px;
-    width: 100%;
-    background: linear-gradient(135deg,
-        #ff8a00 0%,
-        #ff3cac 30%,
-        #784ba0 65%,
-        #2b86c5 100%
-    );
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-}
+    .team-detail-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
 
 
-.btn-email {
-    background: linear-gradient(135deg, #8760dd);
-    color: white !important;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: 600;
-    border: none;
-    transition: 0.2s ease;
-    text-decoration: none !important;
-}
+    /* cards */
+    .detail-card {
+        background: white;
+        border-radius: 14px;
+        border: 1px solid #E6ECF5;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
 
-.btn-email:hover {
-    opacity: 0.9;
-}
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #003B70;
+        margin-bottom: 12px;
+    }
+    .detail-card p {
+        margin-bottom: 6px;
+    }
+    /* gradient top border */
+    .detail-card.gradient-top {
+        position: relative;
+        overflow: hidden;
+    }
 
-.btn-meeting {
-    background: linear-gradient(135deg, #c91a57);
-    color: white !important;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: 600;
-    border: none;
-    transition: 0.2s ease;
-    text-decoration: none !important;
-}
+    .detail-card.gradient-top::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(135deg,
+            #ff8a00 0%,
+            #ff3cac 30%,
+            #784ba0 65%,
+            #2b86c5 100%
+        );
+        border-top-left-radius: 14px;
+        border-top-right-radius: 14px;
+    }
+    /* member Cards */
+    .member-card {
+        position: relative;
+        overflow: hidden;
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #E4E9F2;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        padding: 18px 20px;
+        transition: 0.2s ease;
+    }
 
-.btn-meeting:hover {
-    opacity: 0.9;
-}
+    .member-card:hover {
+        box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+    }
+
+    .member-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(135deg,
+            #ff8a00 0%,
+            #ff3cac 30%,
+            #784ba0 65%,
+            #2b86c5 100%
+        );
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+    }
+
+
+    .btn-email {
+        background: linear-gradient(135deg, #8760dd);
+        color: white !important;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        border: none;
+        transition: 0.2s ease;
+        text-decoration: none !important;
+    }
+
+    .btn-email:hover {
+        opacity: 0.9;
+    }
+
+    .btn-meeting {
+        background: linear-gradient(135deg, #c91a57);
+        color: white !important;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        border: none;
+        transition: 0.2s ease;
+        text-decoration: none !important;
+    }
+
+    .btn-meeting:hover {
+        opacity: 0.9;
+    }
 
 
 
@@ -237,7 +233,7 @@ body.team-page {
         <a href="?tab=deps" class="team-tab {% if tab == 'deps' %}active{% endif %}">Dependencies</a>
     </div>
 
-    <!-- OVERVIEW TAB -->
+    <!-- Overview Tab -->
     {% if tab == "overview" %}
 
     <!-- About the Team (full width) -->
@@ -247,7 +243,7 @@ body.team-page {
             {{ team.description }}
         </p>
     </div>
-    <!-- Skills (full width) -->
+    <!-- Skills-->
     <div class="detail-card">
         <h4 class="section-title">Key Skills & Technologies</h4>
     
@@ -389,7 +385,7 @@ body.team-page {
     </div>
     {% endif %}
       
-    <!----REPO-->
+    <!----Rrpo-->
     {% if tab == "repos" %}
     <div class="detail-card">
         <h4 class="section-title">Repositories</h4>
@@ -407,7 +403,7 @@ body.team-page {
         onmouseover="this.style.boxShadow='0 6px 16px rgba(0,0,0,0.10)'"
         onmouseout="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)'">
     
-            <!-- Repo Title -->
+            <!-- repo title -->
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h5 style="font-weight:700; color:#003B70; margin:0;">
                     {{ team.name }} Repository
@@ -424,7 +420,7 @@ body.team-page {
                 Main GitHub repository for this team.
             </p>
     
-            <!-- Tags -->
+            <!-- tags -->
             <div style="margin-top:10px;">
                 <span style="
                     background:#E8F1FF;
@@ -456,7 +452,7 @@ body.team-page {
                 ">Active</span>
             </div>
     
-            <!-- Stats Row -->
+            <!-- stats row -->
             <div style="display:flex; gap:25px; margin-top:15px; color:#444; font-size:13px;">
                 <div style="display:flex; align-items:center; gap:6px;">
                     <i class="bi bi-star-fill" style="color:#F4C542;"></i> 124
@@ -479,7 +475,7 @@ body.team-page {
     {% endif %}
 
 
-    <!-- DEPENDENCIES TAB -->
+    <!-- dependenciess tab -->
     {% if tab == "deps" %}
 
     <div class="detail-card">

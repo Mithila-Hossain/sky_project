@@ -5,169 +5,159 @@
 
 <style>
 
-:root {
-    --sky-orange: #ff8a00;
-    --sky-pink: #ff3cac;
-    --sky-purple: #784ba0;
-    --sky-blue: #2b86c5;
-}
+    :root {
+        --sky-orange: #ff8a00;
+        --sky-pink: #ff3cac;
+        --sky-purple: #784ba0;
+        --sky-blue: #2b86c5;
+    }
 
-/* Page heading styling */
-h2 {
-    font-weight: 800;
-    margin-bottom: 25px;
-    color: #1f2937;
-}
+    h2 {
+        font-weight: 800;
+        margin-bottom: 25px;
+        color: #1f2937;
+    }
 
-/* Small stat cards at the top of dashboard */
-.stat-card {
-    background: white;
-    border-radius: 14px;
-    padding: 28px;
-    box-shadow: 0 6px 25px rgba(0,0,0,0.08);
-    text-align: center;
-    transition: 0.25s ease;
-    position: relative;
-    overflow: hidden;
-}
+    /* stat cards at the top of dashboard */
+    .stat-card {
+        background: white;
+        border-radius: 14px;
+        padding: 28px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+        text-align: center;
+        transition: 0.25s ease;
+        position: relative;
+        overflow: hidden;
+    }
 
-/* Decorative gradient bar on top of each card */
-.stat-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 4px;
-    width: 100%;
-    background: linear-gradient(135deg,
-        #ff8a00 0%,
-        #ff3cac 30%,
-        #784ba0 65%,
-        #2b86c5 100%
-    );
-}
+    .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(135deg,
+            #ff8a00 0%,
+            #ff3cac 30%,
+            #784ba0 65%,
+            #2b86c5 100%
+        );
+    }
 
-/* Slight lift effect when hovering over cards */
-.stat-card:hover {
-    transform: translateY(-3px);
-}
+    .stat-card:hover {
+        transform: translateY(-3px);
+    }
 
-/* Numbers inside stat cards */
-.stat-number {
-    font-size: 30px;
-    font-weight: 700;
-    color: #2b2b2b;
-}
+    .stat-number {
+        font-size: 30px;
+        font-weight: 700;
+        color: #2b2b2b;
+    }
 
-/* Labels under stat numbers */
-.stat-label {
-    font-size: 14px;
-    color: #777;
-}
+    .stat-label {
+        font-size: 14px;
+        color: #777;
+    }
 
-/* Section headings (like "Recent Activities") */
-.section-title {
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 40px;
-    margin-bottom: 15px;
-    color: #f61d4f;
-}
+    /* Section headings */
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        color: #f61d4f;
+    }
 
-/* Each activity row in recent activity section */
-.activity-box {
-    background: #f7faff;
-    padding: 16px 20px;
-    border-radius: 12px;
-    border-left: 4px solid #2b86c5;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    /* Each activity row in recent activity section */
+    .activity-box {
+        background: #f7faff;
+        padding: 16px 20px;
+        border-radius: 12px;
+        border-left: 4px solid #2b86c5;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-/* Activity text styling */
-.activity-title {
-    font-size: 15px;
-    font-weight: 600;
-}
+    .activity-title {
+        font-size: 15px;
+        font-weight: 600;
+    }
 
-/* Timestamp for each activity */
-.activity-time {
-    font-size: 13px;
-    font-weight: 500;
-    color: #6b7280;
-}
+    .activity-time {
+        font-size: 13px;
+        font-weight: 500;
+        color: #6b7280;
+    }
 
-/* Container for the team table */
-.table-card {
-    background: white;
-    padding: 22px;
-    border-radius: 14px;
-    box-shadow: 0 6px 25px rgba(0,0,0,0.08);
-    position: relative;
-    overflow: hidden;
-}
+    /* Container for the team table */
+    .table-card {
+        background: white;
+        padding: 22px;
+        border-radius: 14px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+    }
 
-/* Gradient strip at the top of table card */
-.table-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 4px;
-    width: 100%;
-    background: linear-gradient(135deg,
-        #ff8a00 0%,
-        #ff3cac 30%,
-        #784ba0 65%,
-        #2b86c5 100%
-    );
-}
+    .table-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(135deg,
+            #ff8a00 0%,
+            #ff3cac 30%,
+            #784ba0 65%,
+            #2b86c5 100%
+        );
+    }
 
-/* Table header styling */
-.table-card table thead th {
-    color: #2b86c5 !important;
-    font-weight: 700;
-    font-size: 15px;
-}
+    /* table header styling */
+    .table-card table thead th {
+        color: #2b86c5 !important;
+        font-weight: 700;
+        font-size: 15px;
+    }
 
-/* Table row hover effect */
-table tbody tr {
-    transition: 0.25s ease;
-}
+    table tbody tr {
+        transition: 0.25s ease;
+    }
 
-table tbody tr:hover {
-    background: #f7faff;
-    transform: translateX(4px);
-}
+    table tbody tr:hover {
+        background: #f7faff;
+        transform: translateX(4px);
+    }
 
-/* Table cell styling */
-table td {
-    padding: 14px 10px;
-    font-size: 14px;
-    color: #333;
-}
+    table td {
+        padding: 14px 10px;
+        font-size: 14px;
+        color: #333;
+    }
 
-/* Status badges (Active / Inactive) */
-.table-status {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-}
+    /* Status badges */
+    .table-status {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
 
-/* Active status style */
-.table-status.active {
-    background: #d1f7d6;
-    color: #1b8c2f;
-}
 
-/* Inactive status style */
-.table-status.inactive {
-    background: #ffe5e5;
-    color: #b30000;
-}
+    .table-status.active {
+        background: #d1f7d6;
+        color: #1b8c2f;
+    }
+
+
+    .table-status.inactive {
+        background: #ffe5e5;
+        color: #b30000;
+    }
 
 </style>
 

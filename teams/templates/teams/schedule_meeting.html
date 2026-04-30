@@ -7,65 +7,63 @@
 
 <style>
 
-/* Professional page background */
-body {
-    background: linear-gradient(180deg, #F8FBFF 0%, #EEF4FA 100%);
-}
+    body {
+        background: linear-gradient(180deg, #F8FBFF 0%, #EEF4FA 100%);
+    }
 
-/* Soft floating card */
-.schedule-card {
-    background: white;
-    border-radius: 18px;
-    padding: 28px;
-    border: 1px solid #E4E9F2;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-    position: relative;
-    overflow: hidden;
-}
+    .schedule-card {
+        background: white;
+        border-radius: 18px;
+        padding: 28px;
+        border: 1px solid #E4E9F2;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        position: relative;
+        overflow: hidden;
+    }
 
-/* Top accent bar (modern touch) */
-.schedule-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 4px;
-    width: 100%;
-    background: linear-gradient(135deg,
-        #0078D4 0%,
-        #00AEEF 50%,
-        #6A4FBF 100%
-    );
-}
+    /* Top accent bar */
+    .schedule-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(135deg,
+            #0078D4 0%,
+            #00AEEF 50%,
+            #6A4FBF 100%
+        );
+    }
 
-/* Inputs (cleaner focus style) */
-.form-control,
-.form-select {
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #D6DCE5;
-    transition: 0.2s ease;
-}
+    /* Inputs */
+    .form-control,
+    .form-select {
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #D6DCE5;
+        transition: 0.2s ease;
+    }
 
-.form-control:focus,
-.form-select:focus {
-    border-color: #0078D4;
-    box-shadow: 0 0 0 4px rgba(0,120,212,0.12);
-}
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #0078D4;
+        box-shadow: 0 0 0 4px rgba(0,120,212,0.12);
+    }
 
-/* Button styling */
-.btn-schedule {
-    background: #0078D4;
-    color: white;
-    padding: 10px 22px;
-    font-weight: 600;
-    border-radius: 10px;
-    border: none;
-}
+    /* Button styling */
+    .btn-schedule {
+        background: #0078D4;
+        color: white;
+        padding: 10px 22px;
+        font-weight: 600;
+        border-radius: 10px;
+        border: none;
+    }
 
-.btn-schedule:hover {
-    background: #0067b8;
-}
+    .btn-schedule:hover {
+        background: #0067b8;
+    }
 
 </style>
 
