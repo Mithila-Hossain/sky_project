@@ -25,4 +25,4 @@ def reports_view(request):
         "teams_no_manager": teams_no_manager,
     }
 
-    return render(request, "report_page.html", context)
+    return render(request, "reports/report_page.html", context)
