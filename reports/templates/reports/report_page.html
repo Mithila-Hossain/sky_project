@@ -1,20 +1,66 @@
 {% extends "base.html" %}
-
 {% block content %}
-<div class="container mt-5">
-    <div class="card shadow">
-        <div class="card-header bg-dark text-white">
-            <h2>{{ title }}</h2>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Sky Project Analytics</h1>
+        <button onclick="window.print()" class="btn btn-success shadow-sm">
+            <i class="fas fa-file-pdf"></i> Download Report (PDF)
+        </button>
+    </div>
+
+    <div class="row mb-4 text-center">
+        <div class="col-md-4">
+            <div class="card p-3 border-0 shadow-sm bg-light">
+                <h6 class="text-uppercase text-muted">Total Teams</h6>
+                <h2 class="display-6 fw-bold text-primary">{{ total_teams }}</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 border-0 shadow-sm bg-light">
+                <h6 class="text-uppercase text-muted">Total Members</h6>
+                <h2 class="display-6 fw-bold text-success">{{ total_members }}</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 border-0 shadow-sm bg-light">
+                <h6 class="text-uppercase text-muted">Departments</h6>
+                <h2 class="display-6 fw-bold text-info">{{ total_depts }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-danger text-white py-3">
+            <h5 class="mb-0">Action Required: Teams Without Managers</h5>
         </div>
         <div class="card-body">
-            <p class="lead">{{ description }}</p>
-            <hr>
-            <h4>Current Statistics</h4>
-            <div class="alert alert-info">
-                This section will soon display team data and registry summaries.
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Team Name</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for team in teams_no_manager %}
+                        <tr>
+                            <td><strong>{{ team.name }}</strong></td>
+                            <td>{{ team.department }}</td>
+                            <td><span class="badge bg-danger">No Manager Assigned</span></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center py-4 text-muted">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                All teams currently have assigned managers.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            
-            <button class="btn btn-primary" onclick="window.print()">Download Report (PDF)</button>
         </div>
     </div>
 </div>
